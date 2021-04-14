@@ -1,0 +1,17 @@
+import os
+
+os.environ['SECRETY_KEY']="open sessame"
+os.environ['MYSQl_HOST']="localhost"
+os.environ['MYSQL_DATABASE']="JKAS_TEST"
+os.environ['SQL_SERVER']="127.0.0.1"
+os.environ['SQL_PORT']="1433"
+os.environ['SQL_DATABASE']="JKAS_TEST"
+os.environ['SQL_UID']="sa"
+os.environ['SQL_PASSWORD']="Centroxy@123"
+os.environ['SMTP_MAIL']="jkas.ppks@gmail.com"
+os.environ['SMTP_PASSWORD']="Jkas@123"
+os.environ['FROM_TITLE']="JKAS OTP"
+os.environ['FROM_EMAIL']="jkas.ppks@gmail.com"
+os.environ['UPLOAD_FOLDER']="/jkas_resourses/public/"
+os.environ['PHOTO_FOLDER']="C:\\Test\\"
+os.environ['DOC_FOLDER']="C:\\Test\\"
