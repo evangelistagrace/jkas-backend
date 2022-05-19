@@ -16,26 +16,29 @@ deleteAnnouncement_reqparser = RequestParser(bundle_errors=True)
 createManual_reqparser = RequestParser(bundle_errors=True)
 updateManual_reqparser = RequestParser(bundle_errors=True)
 deleteManual_reqparser = RequestParser(bundle_errors=True)
+addGalleryPhoto_reqparser = RequestParser(bundle_errors=True)
+deleteGalleryPhoto_reqparser = RequestParser(bundle_errors=True)
 public_login_reqparser = RequestParser(bundle_errors=True)
-public_edit_reqparser = RequestParser(bundle_errors=True)
+changePassword_reqparser = RequestParser(bundle_errors=True)
 forgot_reqparser = RequestParser(bundle_errors=True)
 public_register_reqparser = RequestParser(bundle_errors=True)
 public_otp_reqparser = RequestParser(bundle_errors=True)
-validateotp_reqparser = RequestParser(bundle_errors=True)
 updatePhone_reqparser = RequestParser(bundle_errors=True)
 newPassword_reqparser = RequestParser(bundle_errors=True)
 submitApplication_reqparser = RequestParser(bundle_errors=True)
+updatePublicApplicationList_reqparser = RequestParser(bundle_errors=True)
 deleteApplication_reqparser = RequestParser(bundle_errors=True)
 updatesiteVisitInformation_reqparser = RequestParser(bundle_errors=True)
 deleteSiteVisitInformation_reqparser = RequestParser(bundle_errors=True)
+deleteSitevisitPDF_reqparser = RequestParser(bundle_errors=True)
 submitRating_reqparser = RequestParser(bundle_errors=True)
 addNonComplianceForm_reqparser = RequestParser(bundle_errors=True)
 updateNonComplianceForm_reqparser = RequestParser(bundle_errors=True)
 uploadFile_reqparser = RequestParser(bundle_errors=True)
 getCoordinates_reqparser = RequestParser(bundle_errors=True)
 mapKawasanPerkhidmatan_reqparser = RequestParser(bundle_errors=True)
+updateUserInfo_reqparser = RequestParser(bundle_errors=True)
 
-deleteAgensiList_reqparser = RequestParser(bundle_errors=True)
 createFeedback_reqparser = RequestParser(bundle_errors=True)
 deleteFeedbackList_reqparser = RequestParser(bundle_errors=True)
 updateFeedback_reqparser = RequestParser(bundle_errors=True)
@@ -46,13 +49,19 @@ updateInvoice_reqparser = RequestParser(bundle_errors=True)
 dbkl_register_reqparser  = RequestParser(bundle_errors=True)
 dbkl_otp_reqparser  = RequestParser(bundle_errors=True)
 dbkl_login_reqparser  = RequestParser(bundle_errors=True)
+dbkl_forgot_reqparser  = RequestParser(bundle_errors=True)
 addComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
+updateComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
+add2ndComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
+add3rdComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
 getComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
 assignRole_reqparser = RequestParser(bundle_errors=True)
 addMeeting_reqparser = RequestParser(bundle_errors=True)
 updateMeeting_reqparser = RequestParser(bundle_errors=True)
 addDetailedMeeting_reqparser = RequestParser(bundle_errors=True)
+listDetailedMeeting_reqparser = RequestParser(bundle_errors=True)
 updateDetailedMeeting_reqparser = RequestParser(bundle_errors=True)
+updateEMeeting_reqparser = RequestParser(bundle_errors=True)
 deleteMeeting_reqparser = RequestParser(bundle_errors=True)
 updateInventoriPengguna_reqparser = RequestParser(bundle_errors=True)
 deleteInventoriPengguna_reqparser = RequestParser(bundle_errors=True)
@@ -61,17 +70,42 @@ updateSiteVisit_reqparser = RequestParser(bundle_errors=True)
 deleteSitevisitInformation_reqparser = RequestParser(bundle_errors=True)
 updateStatusSemakanDokumen_reqparser = RequestParser(bundle_errors=True)
 updateApplication_reqparser = RequestParser(bundle_errors=True)
+updateApplicationList_reqparser = RequestParser(bundle_errors=True)
 deleteApplicationList_reqparser = RequestParser(bundle_errors=True)
-updateAgencyJobPaymentClaimByInbois_reqparser = RequestParser(bundle_errors=True)
-deleteAgencyJobPaymentClaim_reqparser = RequestParser(bundle_errors=True)
+updateJobPaymentClaimByInbois_reqparser = RequestParser(bundle_errors=True)
+deleteJobPaymentClaim_reqparser = RequestParser(bundle_errors=True)
+getSapuanCucianCoordinates_reqparser = RequestParser(bundle_errors=True)
 mtbInquiry_reqparser = RequestParser(bundle_errors=True)
+getMTBOfficersTarikh_reqparser = RequestParser(bundle_errors=True)
 mtbCompoundInformation_reqparser = RequestParser(bundle_errors=True)
 mtbCompoundInfoByMTB_reqparser = RequestParser(bundle_errors=True)
 addMTBCompoundForm_reqparser = RequestParser(bundle_errors=True)
+getFilteredLokasi_reqparser = RequestParser(bundle_errors=True)
 sendNotice_reqparser = RequestParser(bundle_errors=True)
 grafPrestasiBulanan_reqparser = RequestParser(bundle_errors=True)
+getBorangParlimen_reqparser = RequestParser(bundle_errors=True)
 grafAnalisisDanStatistik_reqparser = RequestParser(bundle_errors=True)
-
+createOmpBaru_reqparser = RequestParser(bundle_errors=True)
+lapisanFitur_reqparser = RequestParser(bundle_errors=True)
+grafPerkhidmatanPusatTong_reqparser = RequestParser(bundle_errors=True)
+getKategori_reqparser = RequestParser(bundle_errors=True)
+getMonthlyPerformance_reqparser = RequestParser(bundle_errors=True)
+getNamaMTK_reqparser = RequestParser(bundle_errors=True)
+fetchMapCoordinates_reqparser = RequestParser(bundle_errors=True)
+getNamaTaman_reqparser = RequestParser(bundle_errors=True)
+getNamaKawasan_reqparser = RequestParser(bundle_errors=True)
+getMapLapisanFitur_reqparser = RequestParser(bundle_errors=True)
+getPetaKawasan_reqparser = RequestParser(bundle_errors=True)
+getJadualKutipan_reqparser = RequestParser(bundle_errors=True)
+get2ndPetaKawasan_reqparser = RequestParser(bundle_errors=True)
+getjadualPembersihan_reqparser = RequestParser(bundle_errors=True)
+randomSearch_reqparser = RequestParser(bundle_errors=True)
+getOmpBaru_reqparser = RequestParser(bundle_errors=True)
+updateOmpBaru_reqparser = RequestParser(bundle_errors=True)
+addTextInPublicApplicationList_reqparser = RequestParser(bundle_errors=True)
+getMTB_reqparser = RequestParser(bundle_errors=True)
+getMTBOfficer_reqparser = RequestParser(bundle_errors=True)
+getDailyMTBInquiryInforByMTB_reqparser = RequestParser(bundle_errors=True)
 """ ============================= PUBLIC reqparser ============================= """
 
 createAnnouncement_reqparser.add_argument(
@@ -80,8 +114,14 @@ createAnnouncement_reqparser.add_argument(
 createAnnouncement_reqparser.add_argument(
     name="announcement", type=str, location="json", required=True, nullable=False
 )
+createAnnouncement_reqparser.add_argument(
+    name="announcement_path", type=str, location="json", required=True, nullable=False
+)
+createAnnouncement_reqparser.add_argument(
+    name="language", type=str, location="json", required=True, nullable=False
+)
 deleteAnnouncement_reqparser.add_argument(
-    name="announcement_id_list", type=str, location="json", required=False, nullable=True
+    name="announcement_id", type=str, location="json", required=False, nullable=True
 )
 
 updateAnnouncement_reqparser.add_argument(
@@ -89,6 +129,9 @@ updateAnnouncement_reqparser.add_argument(
 )
 updateAnnouncement_reqparser.add_argument(
     name="announcement", type=str, location="json", required=True, nullable=False
+)
+updateAnnouncement_reqparser.add_argument(
+    name="announcement_path", type=str, location="json", required=True, nullable=False
 )
 
 createManual_reqparser.add_argument(
@@ -100,6 +143,10 @@ createManual_reqparser.add_argument(
 createManual_reqparser.add_argument(
     name="manual_path", type=str, location="json", required=True, nullable=False
 )
+createManual_reqparser.add_argument(
+    name="language", type=str, location="json", required=True, nullable=False
+)
+
 updateManual_reqparser.add_argument(
     name="manual_heading", type=str, location="json", required=True, nullable=False
 )
@@ -111,15 +158,32 @@ updateManual_reqparser.add_argument(
 )
 
 deleteManual_reqparser.add_argument(
-    name="manual_id_list", type=str, location="json", required=False, nullable=True
+    name="manual_id", type=int, location="json", required=False, nullable=True
 )
 
+addGalleryPhoto_reqparser.add_argument(
+    name="photo_path", type=str, location="json", required=False, nullable=True
+)
+
+deleteGalleryPhoto_reqparser.add_argument(
+    name="photo_id", type=int, location="json", required=False, nullable=True
+)
+
+changePassword_reqparser.add_argument(
+    name="new_password", type=str, location="json", required=True, nullable=False
+)
 public_login_reqparser.add_argument(
     name="id_card_no", type=str, location="json", required=True, nullable=False
 )
 public_login_reqparser.add_argument(
     name="password", type=str, location="json", required=True, nullable=False
 )
+
+public_login_reqparser.add_argument(
+    name="lock_flag", type=bool, location="json", required=True, nullable=False
+)
+
+
 
 public_register_reqparser.add_argument(
     name="name", type=str, location="json", required=True, nullable=False
@@ -142,24 +206,14 @@ public_otp_reqparser.add_argument(
 )
 
 
-public_edit_reqparser.add_argument(
-    name="new_name", type=str, location="josn", required=True, nullable=False
-)
-public_edit_reqparser.add_argument(
-    name="new_password", type=str, location="json", required=True, nullable=False
-)
-
 forgot_reqparser.add_argument(
     name="id_card_no", type=str, location="json", required=True
 )
 forgot_reqparser.add_argument(
-    name="email", type=str, location="json", required=True
+    name="lang", type=str, location="json", required=True
 )
 
 updatePhone_reqparser.add_argument(
-    name="otp", type=str, location="json", required=True
-)
-validateotp_reqparser.add_argument(
     name="otp", type=str, location="json", required=True
 )
 
@@ -220,6 +274,15 @@ submitApplication_reqparser.add_argument(
 submitApplication_reqparser.add_argument(
     name="bagi_status_pembangunan_dokumen", type=str, location="json", required=False, nullable=True
 )
+submitApplication_reqparser.add_argument(
+    name="dinyatakan_jenis_sistem", type=str, location="json", required=False, nullable=True
+)
+submitApplication_reqparser.add_argument(
+    name="confirm", type=bool, location="json", required=False, nullable=True
+)
+updatePublicApplicationList_reqparser.add_argument(
+    name="surat_penyerahan_kawasan", type=str, location="json", required=False, nullable=True
+)
 
 deleteApplication_reqparser.add_argument(
     name="app_id_list", type=str, location="json", required=False, nullable=True
@@ -246,7 +309,13 @@ updatesiteVisitInformation_reqparser.add_argument(
 deleteSiteVisitInformation_reqparser.add_argument(
     name="site_visit_id_list", type=str, location="json", required=False, nullable=False
 )
+deleteSitevisitPDF_reqparser.add_argument(
+    name="site_id", type=int, location="json", required=False, nullable=False
+)
 
+addNonComplianceForm_reqparser.add_argument(
+    name="site_id", type=str, location="json", required=False, nullable=True
+)
 addNonComplianceForm_reqparser.add_argument(
     name="pengesahan_peneriman", type=str, location="json", required=False, nullable=True
 )
@@ -363,7 +432,15 @@ mapKawasanPerkhidmatan_reqparser.add_argument(
     name="parlimen", type=str, location='json', required=False, nullable=True
 )
 
-
+updateUserInfo_reqparser.add_argument(
+    name="username", type=str, location="json", required=True, nullable=False
+)
+updateUserInfo_reqparser.add_argument(
+    name="email", type=str, location="json", required=True, nullable=False
+)
+updateUserInfo_reqparser.add_argument(
+    name="password", type=str, location="json", required=True, nullable=False
+)
 
 """ ============================= AGENSI reqparser ============================= """
 
@@ -388,7 +465,9 @@ createFeedback_reqparser.add_argument(
 createFeedback_reqparser.add_argument(
     name="picture_after", type=str, location="json", required=False, nullable=True
 )
-
+createFeedback_reqparser.add_argument(
+    name="notes", type=str, location="json", required=False, nullable=True
+)
 updateFeedback_reqparser.add_argument(
     name="organization", type=str, location="json", required=False, nullable=True
 )
@@ -423,7 +502,7 @@ createInvoice_reqparser.add_argument(
     name="invoice_no", type=str, location="json", required=False, nullable=True
 )
 createInvoice_reqparser.add_argument(
-    name="feedback", type=str, location="json", required=False, nullable=True
+    name="contractor", type=str, location="json", required=False, nullable=True
 )
 createInvoice_reqparser.add_argument(
     name="applicant_name", type=str, location="json", required=False, nullable=True
@@ -448,7 +527,10 @@ updateInvoice_reqparser.add_argument(
     name="invoice_no", type=str, location="json", required=False, nullable=True
 )
 updateInvoice_reqparser.add_argument(
-    name="feedback", type=str, location="json", required=False, nullable=True
+    name="contractor", type=str, location="json", required=False, nullable=True
+)
+updateInvoice_reqparser.add_argument(
+    name="applicant_name", type=str, location="json", required=False, nullable=True
 )
 updateInvoice_reqparser.add_argument(
     name="e_mei", type=str, location="json", required=False, nullable=True
@@ -502,12 +584,25 @@ dbkl_login_reqparser.add_argument(
     name="password", type=str, location="json", required=True, nullable=False
 )
 
+dbkl_forgot_reqparser.add_argument(
+    name="nama_pengguna", type=str, location="json", required=True
+)
+dbkl_forgot_reqparser.add_argument(
+    name="lang", type=str, location="json", required=True
+)
 assignRole_reqparser.add_argument(
     name="id_card_number", type=str, location="json", required=False, nullable=True
 )
 assignRole_reqparser.add_argument(
     name="role", type=str, location="json", required=True, nullable=False
 )
+assignRole_reqparser.add_argument(
+    name="role", type=str, location="json", required=True, nullable=False
+)
+assignRole_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+
 
 
 addMeeting_reqparser.add_argument(
@@ -531,10 +626,7 @@ updateMeeting_reqparser.add_argument(
 )
 
 addDetailedMeeting_reqparser.add_argument(
-    name="kategori_mesyuarat", type=str, location="json", required=False, nullable=True
-)
-addDetailedMeeting_reqparser.add_argument(
-    name="kekerapan_mesyuarat", type=str, location="json", required=False, nullable=True
+    name="jenis_jawatankuasa", type=str, location="json", required=False, nullable=True
 )
 addDetailedMeeting_reqparser.add_argument(
     name="jenis_mesyuarat", type=str, location="json", required=False, nullable=True
@@ -543,10 +635,10 @@ addDetailedMeeting_reqparser.add_argument(
     name="jabatan_terlibat", type=str, location="json", required=False, nullable=True
 )
 addDetailedMeeting_reqparser.add_argument(
-    name="tarikh_mesyuarat", type=inputs.datetime_from_iso8601, location="json", required=False, nullable=True
+    name="tarikh_mesyuarat", type=str, location="json", required=True, nullable=False
 )
 addDetailedMeeting_reqparser.add_argument(
-    name="masa_mesyuarat", type=str, location="json", required=False, nullable=True
+    name="masa_mesyuarat", type=str, location="json", required=True, nullable=False
 )
 addDetailedMeeting_reqparser.add_argument(
     name="hingga", type=str, location="json", required=False, nullable=True
@@ -564,51 +656,73 @@ addDetailedMeeting_reqparser.add_argument(
     name="setiausaha", type=str, location="json", required=False, nullable=True
 )
 addDetailedMeeting_reqparser.add_argument(
-    name="tempat_mesyuarat", type=str, location="json", required=False, nullable=True
+    name="tempat_mesyuarat", type=str, location="json", required=True, nullable=False
 )
 addDetailedMeeting_reqparser.add_argument(
     name="agenda_dan_minit", type=str, location="json", required=False, nullable=True
+)
+addDetailedMeeting_reqparser.add_argument(
+    name="meeting_dokumen", type=str, location="json", required=False, nullable=True
 )
 
-updateDetailedMeeting_reqparser.add_argument(
-    name="kategori_mesyuarat", type=str, location="json", required=False, nullable=True
-)
-updateDetailedMeeting_reqparser.add_argument(
-    name="kekerapan_mesyuarat", type=str, location="json", required=False, nullable=True
-)
-updateDetailedMeeting_reqparser.add_argument(
+listDetailedMeeting_reqparser.add_argument(
     name="jenis_mesyuarat", type=str, location="json", required=False, nullable=True
 )
-updateDetailedMeeting_reqparser.add_argument(
+listDetailedMeeting_reqparser.add_argument(
+    name="jawatankuasa_mesurat", type=str, location="json", required=False, nullable=True
+)
+
+updateEMeeting_reqparser.add_argument(
+    name="jenis_jawatankuasa", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="jenis_mesyuarat", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
     name="jabatan_terlibat", type=str, location="json", required=False, nullable=True
 )
+updateEMeeting_reqparser.add_argument(
+    name="tarikh_mesyuarat", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="masa_mesyuarat", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="hingga", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="pengerusi", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="bill_mesyuarat", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="tajuk_mesyuarat", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="setiausaha", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="tempat_mesyuarat", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="agenda_dan_minit", type=str, location="json", required=False, nullable=True
+)
+updateEMeeting_reqparser.add_argument(
+    name="meeting_dokumen", type=str, location="json", required=False, nullable=True
+)
+
+
 updateDetailedMeeting_reqparser.add_argument(
-    name="tarikh_mesyuarat", type=inputs.datetime_from_iso8601, location="json", required=False, nullable=True
+    name="tarikh_mesyuarat", type=str, location="json", required=False, nullable=True
 )
 updateDetailedMeeting_reqparser.add_argument(
     name="masa_mesyuarat", type=str, location="json", required=False, nullable=True
 )
 updateDetailedMeeting_reqparser.add_argument(
-    name="hingga", type=str, location="json", required=False, nullable=True
-)
-updateDetailedMeeting_reqparser.add_argument(
-    name="pengerusi", type=str, location="json", required=False, nullable=True
-)
-updateDetailedMeeting_reqparser.add_argument(
-    name="bill_mesyuarat", type=str, location="json", required=False, nullable=True
-)
-updateDetailedMeeting_reqparser.add_argument(
-    name="tajuk_mesyuarat", type=str, location="json", required=False, nullable=True
-)
-updateDetailedMeeting_reqparser.add_argument(
-    name="setiausaha", type=str, location="json", required=False, nullable=True
-)
-updateDetailedMeeting_reqparser.add_argument(
     name="tempat_mesyuarat", type=str, location="json", required=False, nullable=True
 )
-updateDetailedMeeting_reqparser.add_argument(
-    name="agenda_dan_minit", type=str, location="json", required=False, nullable=True
-)
+
 
 deleteMeeting_reqparser.add_argument(
     name="meeting_id_list", type=str, location="json", required=False, nullable=True
@@ -618,13 +732,14 @@ updateInventoriPengguna_reqparser.add_argument(
     name="nama_pengguna", type=str, location="json", required=False, nullable=True
 )
 updateInventoriPengguna_reqparser.add_argument(
-    name="kata_laluan", type=str, location="json", required=False, nullable=True
-)
-updateInventoriPengguna_reqparser.add_argument(
     name="peranan", type=str, location="json", required=False, nullable=True
 )
 deleteInventoriPengguna_reqparser.add_argument(
     name="id_pengguna_list", type=str, location="json", required=False, nullable=True
+)
+
+updateApplicationList_reqparser.add_argument(
+   name="status_semakan_dokumen", type=bool, location="json", required=False, nullable=True 
 )
 
 updateApplication_reqparser.add_argument(
@@ -691,20 +806,27 @@ updateApplication_reqparser.add_argument(
    name="bagi_status_pembangunan_status", type=bool, location="json", required=False, nullable=True 
 )
 updateApplication_reqparser.add_argument(
-   name="surat_permohonan_perkhidmatan_pembersihan_status", type=bool, location="json", required=False, nullable=True 
+    name="surat_permohonan_perkhidmatan_pembersihan_catatan", type=str, location="json", required=False, nullable=True
 )
 updateApplication_reqparser.add_argument(
-   name="surat_salinan_CF_status", type=bool, location="json", required=False, nullable=True 
+    name="surat_salinan_CF_catatan", type=str, location="json", required=False, nullable=True
 )
 updateApplication_reqparser.add_argument(
-   name="salinan_status_pembanginan_status", type=bool, location="json", required=False, nullable=True 
+    name="salinan_status_pembanginan_catatan", type=str, location="json", required=False, nullable=True
 )
 updateApplication_reqparser.add_argument(
-   name="bagi_status_pembangunan_status", type=bool, location="json", required=False, nullable=True 
+    name="bagi_status_pembangunan_catatan", type=str, location="json", required=False, nullable=True
+)
+updateApplication_reqparser.add_argument(
+   name="status_dokumen_keseluruhan", type=bool, location="json", required=False, nullable=True 
+)
+updateApplication_reqparser.add_argument(
+   name="dinyatakan_jenis_sistem", type=str, location="json", required=False, nullable=True 
 )
 
+
 deleteApplicationList_reqparser.add_argument(
-    name="no_siri_permohonan_list", type=str, location="json", required=False, nullable=True
+    name="application_id_list", type=str, location="json", required=False, nullable=True
 )
 
 updateStatusSemakanDokumen_reqparser.add_argument(
@@ -736,32 +858,45 @@ deleteSitevisitInformation_reqparser.add_argument(
     name="site_id_list", type=str, location="json", required=False, nullable=True
 )
 
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="nama_pemohon", type=str, location="json", required=False, nullable=True 
 )
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="e_mei", type=str, location="json", required=False, nullable=True 
 )
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="jumlah_tuntutan", type=str, location="json", required=False, nullable=True 
 )
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="inbois_dokumen", type=str, location="json", required=False, nullable=True 
 )
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="ringkasan_dokumen", type=str, location="json", required=False, nullable=True 
 )
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="lampiran", type=str, location="json", required=False, nullable=True 
 )
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="status", type=str, location="json", required=False, nullable=True 
 )
-updateAgencyJobPaymentClaimByInbois_reqparser.add_argument(
+updateJobPaymentClaimByInbois_reqparser.add_argument(
    name="ulasan_pegawai", type=str, location="json", required=False, nullable=True 
 )
-deleteAgencyJobPaymentClaim_reqparser.add_argument(
-    name="no_inbois_list", type=str, location="json", required=False, nullable=True
+deleteJobPaymentClaim_reqparser.add_argument(
+    name="agensi_id_list", type=str, location="json", required=False, nullable=True
+)
+getSapuanCucianCoordinates_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=True, nullable=False
+)
+getSapuanCucianCoordinates_reqparser.add_argument(
+    name="lokasi", type=str, location="json", required=True, nullable=False
+)
+# getSapuanCucianCoordinates_reqparser.add_argument(
+#     name="service_list", type=str, location="json", required=True, nullable=False
+# )
+
+addComplaintInvestigation_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="pengadu_nama", type=str, location="json", required=True, nullable=False
@@ -776,9 +911,6 @@ addComplaintInvestigation_reqparser.add_argument(
     name="no_rujukan", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="tarikh_terima_aduan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
-)
-addComplaintInvestigation_reqparser.add_argument(
     name="emel", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
@@ -786,6 +918,9 @@ addComplaintInvestigation_reqparser.add_argument(
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="sumber_aduan", type=str, location="json", required=True, nullable=False
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="lain_lain", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="tarikh_aduan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
@@ -800,16 +935,13 @@ addComplaintInvestigation_reqparser.add_argument(
     name="keterangan_aduan", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
+    name="zon", type=str, location="json", required=True, nullable=False
+)
+addComplaintInvestigation_reqparser.add_argument(
     name="tarikh_siasatan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="masa_siasatan", type=str, location="json", required=True, nullable=False
-)
-addComplaintInvestigation_reqparser.add_argument(
     name="nama_pegawai", type=str, location="json", required=True, nullable=False
-)
-addComplaintInvestigation_reqparser.add_argument(
-    name="id_mtb", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="lokasi_siasatan", type=str, location="json", required=True, nullable=False
@@ -829,7 +961,167 @@ addComplaintInvestigation_reqparser.add_argument(
 addComplaintInvestigation_reqparser.add_argument(
     name="ullasan_ketua_seksyen", type=str, location="json", required=True, nullable=False
 )
+addComplaintInvestigation_reqparser.add_argument(
+    name="ulasanKetua_unitf1", type=str, location="json", required=True, nullable=False
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="gambar", type=str, location="json", required=True, nullable=False
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="cause", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="pengadu_nama", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="pengadu_alamat", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="no_telefon", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="no_rujukan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="tarikh_terima_aduan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="emel", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="no_faksimili", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="sumber_aduan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="lain_lain", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="tarikh_aduan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="tarikh_terima", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="lokasi_aduan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="keterangan_aduan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="zon", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="tarikh_siasatan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="nama_pegawai", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="lokasi_siasatan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="laporan_siasatan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="tindakan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="susulan", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="ullasan_penyelia", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="ullasan_ketua_seksyen", type=str, location="json", required=True, nullable=False
+)
+updateComplaintInvestigation_reqparser.add_argument(
+    name="ulasan_timbalan", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="parlimenA", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="zon", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="tarikh_siasatan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="nama_pegawai", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="lokasi_siasatan", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="laporan_siasatan", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="tindakan", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="ullasan_penyelia", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="ullasan_ketua_seksyen", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="ullasan_ketua_unit", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="sebelum_siasatan", type=str, location="json", required=True, nullable=False
+)
 
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="pengadu_nama", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="pengadu_alamat", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="no_telefon", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="no_rujukan", type=str, location="json", required=True, nullable=False
+)
+
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="emel", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="no_faksimili", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="sumber_aduan", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="lain_lain", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="tarikh_aduan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="tarikh_terima", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="lokasi_aduan", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="keterangan_aduan", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="ullasan_penyelia", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="ullasan_ketua_seksyen", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="gambar", type=str, location="json", required=True, nullable=False
+)
+add3rdComplaintInvestigation_reqparser.add_argument(
+    name="cause", type=str, location="json", required=True, nullable=False
+)
 getComplaintInvestigation_reqparser.add_argument(
     name="id_mtb", type=str, location="json", required=True, nullable=False
 )
@@ -844,8 +1136,12 @@ mtbInquiry_reqparser.add_argument(
     name="tarikh", type=str, location="json", required=True, nullable=False
 )
 mtbInquiry_reqparser.add_argument(
-    name="id_mtb", type=str, location="json", required=True, nullable=False
+    name="officer_name", type=str, location="json", required=True, nullable=False
 )
+getMTBOfficersTarikh_reqparser.add_argument(
+    name="officer_name", type=str, location="json", required=True, nullable=False
+)
+
 
 mtbCompoundInformation_reqparser.add_argument(
     name="tarikh", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
@@ -881,22 +1177,7 @@ addMTBCompoundForm_reqparser.add_argument(
     name="parlimen", type=str, location="json", required=True, nullable=False
 )
 addMTBCompoundForm_reqparser.add_argument(
-    name="lokasi_kompaun", type=str, location="json", required=True, nullable=False
-)
-addMTBCompoundForm_reqparser.add_argument(
-    name="akta_jalan", type=bool, location="json", required=True, nullable=False
-)
-addMTBCompoundForm_reqparser.add_argument(
-    name="undang_kecil_permungutan", type=bool, location="json", required=True, nullable=False
-)
-addMTBCompoundForm_reqparser.add_argument(
-    name="undang_kecil_pelesenan", type=bool, location="json", required=True, nullable=False
-)
-addMTBCompoundForm_reqparser.add_argument(
-    name="undang_pelesenan_penjaja", type=bool, location="json", required=True, nullable=False
-)
-addMTBCompoundForm_reqparser.add_argument(
-    name="undang_kecil_larangan_meludah", type=bool, location="json", required=True, nullable=False
+    name="addSeksyen", type=str, location="json", required=True, nullable=False
 )
 addMTBCompoundForm_reqparser.add_argument(
     name="butir_butir_kesalahan", type=str, location="json", required=True, nullable=False
@@ -909,6 +1190,75 @@ addMTBCompoundForm_reqparser.add_argument(
 )
 addMTBCompoundForm_reqparser.add_argument(
     name="tempat", type=str, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek47_1a", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek47_1c", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek47_1d", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek47_1e", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek47_1g", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek47_2a", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek47_2b", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk8", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk9", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk3", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek46_1b", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek46_1c", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek46_1d", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek46_1e", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek46_1f", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="sek46_1g", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk5_a", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk5_a", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk5_b", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk5_c", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk33", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk34", type=bool, location="json", required=True, nullable=False
+)
+addMTBCompoundForm_reqparser.add_argument(
+    name="uuk35", type=bool, location="json", required=True, nullable=False
 )
 sendNotice_reqparser.add_argument(
     name="id_mtb", type=str, location="json", required=True, nullable=False
@@ -936,6 +1286,13 @@ sendNotice_reqparser.add_argument(
     name="kontraktor_emel", type=str, location="json", required=True, nullable=False
 )
 
+getFilteredLokasi_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=True, nullable=False
+)
+getFilteredLokasi_reqparser.add_argument(
+    name="lokasi", type=str, location="json", required=True, nullable=False
+)
+
 grafPrestasiBulanan_reqparser.add_argument(
     name="id_pegawai_merinyu", type=str, location="json", required=False, nullable=True
 )
@@ -948,8 +1305,323 @@ grafPrestasiBulanan_reqparser.add_argument(
 grafPrestasiBulanan_reqparser.add_argument(
     name="sub_area", type=str, location="json", required=False, nullable=True
 )
+
 grafAnalisisDanStatistik_reqparser.add_argument(
     name="parlimen", type=str, location="json", required=False, nullable=True
+)
+
+createOmpBaru_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="lokasi", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="kordinat", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="jumlah_unit_premis", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sisa_domestik", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sampah_pukal", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sampah_haram", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_jalan", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_TPKK", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_parkir", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_jejantas", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siarkaki", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siarkaki_berbumbung", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_stesenbas_teksi", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_longkang", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="potong_rumput", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sampah_kebun", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="catatan", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="rujukan_tarikh_serahan", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="tarikh_semakandi_lapangant_keadeansemata_ada", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="tarikh_semakandi_lapangant_keadeansemata_tiada", type=str, location="json", required=True, nullable=False
+)
+lapisanFitur_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+grafPerkhidmatanPusatTong_reqparser.add_argument(
+    name="lapisan_fitur", type=str, location="json", required=False, nullable=True
+)
+
+getKategori_reqparser.add_argument(
+    name="lapisan_fitur", type=str, location="json", required=False, nullable=True
+)
+
+getMonthlyPerformance_reqparser.add_argument(
+    name="bulan", type=str, location="json", required=False, nullable=True
+)
+getMonthlyPerformance_reqparser.add_argument(
+    name="tahun", type=int, location="json", required=False, nullable=True
+)
+getMonthlyPerformance_reqparser.add_argument(
+    name="zon", type=str, location="json", required=False, nullable=True
+)
+getMonthlyPerformance_reqparser.add_argument(
+    name="nama_mtk", type=str, location="json", required=False, nullable=True
+)
+getNamaMTK_reqparser.add_argument(
+    name="zon", type=str, location="json", required=False, nullable=True
+)
+
+fetchMapCoordinates_reqparser.add_argument(
+    name="id_mtk", type=str, location="json", required=False, nullable=True
+)
+fetchMapCoordinates_reqparser.add_argument(
+    name="zon", type=str, location="json", required=False, nullable=True
+)
+
+
+
+
+getNamaTaman_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+getNamaTaman_reqparser.add_argument(
+    name="nama_jalan", type=str, location="json", required=False, nullable=True
+)
+
+getNamaKawasan_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+getNamaKawasan_reqparser.add_argument(
+    name="nama_jalan", type=str, location="json", required=False, nullable=True
+)
+getNamaKawasan_reqparser.add_argument(
+    name="nama_taman", type=str, location="json", required=False, nullable=True
+)
+
+getMapLapisanFitur_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+getMapLapisanFitur_reqparser.add_argument(
+    name="nama_jalan", type=str, location="json", required=False, nullable=True
+)
+getMapLapisanFitur_reqparser.add_argument(
+    name="nama_taman", type=str, location="json", required=False, nullable=True
+)
+getMapLapisanFitur_reqparser.add_argument(
+    name="nama_kawasan", type=str, location="json", required=False, nullable=True
+)
+
+getPetaKawasan_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+getPetaKawasan_reqparser.add_argument(
+    name="nama_jalan", type=str, location="json", required=False, nullable=True
+)
+getPetaKawasan_reqparser.add_argument(
+    name="nama_taman", type=str, location="json", required=False, nullable=True
+)
+getPetaKawasan_reqparser.add_argument(
+    name="nama_kawasan", type=str, location="json", required=False, nullable=True
+)
+getPetaKawasan_reqparser.add_argument(
+    name="lapisan_fitur", type=str, location="json", required=False, nullable=True
+)
+getPetaKawasan_reqparser.add_argument(
+    name="servis_perkhidmatan_jkas", type=str, location="json", required=False, nullable=True
+)
+
+getJadualKutipan_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+getJadualKutipan_reqparser.add_argument(
+    name="nama_jalan", type=str, location="json", required=False, nullable=True
+)
+getJadualKutipan_reqparser.add_argument(
+    name="nama_taman", type=str, location="json", required=False, nullable=True
+)
+getJadualKutipan_reqparser.add_argument(
+    name="nama_kawasan", type=str, location="json", required=False, nullable=True
+)
+getJadualKutipan_reqparser.add_argument(
+    name="lapisan_fitur", type=str, location="json", required=False, nullable=True
+)
+getJadualKutipan_reqparser.add_argument(
+    name="kekerapan", type=str, location="json", required=False, nullable=True
+)
+
+get2ndPetaKawasan_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+get2ndPetaKawasan_reqparser.add_argument(
+    name="nama_jalan", type=str, location="json", required=False, nullable=True
+)
+get2ndPetaKawasan_reqparser.add_argument(
+    name="nama_taman", type=str, location="json", required=False, nullable=True
+)
+get2ndPetaKawasan_reqparser.add_argument(
+    name="nama_kawasan", type=str, location="json", required=False, nullable=True
+)
+get2ndPetaKawasan_reqparser.add_argument(
+    name="lapisan_fitur", type=str, location="json", required=False, nullable=True
+)
+get2ndPetaKawasan_reqparser.add_argument(
+    name="servis_perkhidmatan_jkas", type=str, location="json", required=False, nullable=True
+)
+
+getjadualPembersihan_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+getjadualPembersihan_reqparser.add_argument(
+    name="nama_jalan", type=str, location="json", required=False, nullable=True
+)
+getjadualPembersihan_reqparser.add_argument(
+    name="nama_taman", type=str, location="json", required=False, nullable=True
+)
+getjadualPembersihan_reqparser.add_argument(
+    name="nama_kawasan", type=str, location="json", required=False, nullable=True
+)
+getjadualPembersihan_reqparser.add_argument(
+    name="lapisan_fitur", type=str, location="json", required=False, nullable=True
+)
+getjadualPembersihan_reqparser.add_argument(
+    name="aktiviti", type=str, location="json", required=False, nullable=True
+)
+
+randomSearch_reqparser.add_argument(
+    name="search_body", type=str, location="json", required=False, nullable=True
+)
+
+getOmpBaru_reqparser.add_argument(
+    name="parliament_name", type=str, location="json", required=False, nullable=True
+)
+getOmpBaru_reqparser.add_argument(
+    name="parliament_subarea", type=str, location="json", required=False, nullable=True
+)
+
+updateOmpBaru_reqparser.add_argument(
+    name="kodarea", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="lokasi", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="parlimen_subarea", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="kordinat", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="jumlah_unit_premis", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="kekerapan_kutipan_sisa_domestik", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="kekerapan_kutipan_sampah_pukal", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="kekerapan_kutipan_sampah_haram", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_sapuan_jalan", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_sapuan_TPKK", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_sapuan_kaw_lapang_parkir", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_sapuan_jejantas", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_cucian_jejantas", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_cucian_siarkaki", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_cucian_siarkaki_berbumbung", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_cucian_stesenbas_teksi", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_cucian_longkang", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_potongrumput", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="ukuran_panjang_sampahkebun", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="catatan", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="rujuken_tarikh_serahan", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="tarikh_semakandi_lapangant_keadeansemata_ada", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="tarikh_semakandi_lapangant_keadeansemata_tiada", type=str, location="json", required=False, nullable=True
+)
+addTextInPublicApplicationList_reqparser.add_argument(
+    name="application_id", type=int, location="json", required=False, nullable=True
+)
+addTextInPublicApplicationList_reqparser.add_argument(
+    name="text", type=str, location="json", required=False, nullable=True
+)
+
+getMTB_reqparser.add_argument(
+    name="officer_name", type=str, location="json", required=False, nullable=True
+)
+
+
+getMTBOfficer_reqparser.add_argument(
+    name="id_mtb", type=str, location="json", required=False, nullable=True
+)
+getDailyMTBInquiryInforByMTB_reqparser.add_argument(
+    name="tarikh", type=str, location="json", required=False, nullable=True
+)
+getDailyMTBInquiryInforByMTB_reqparser.add_argument(
+    name="id_mtb", type=str, location="json", required=False, nullable=True
 )
 masterUser_model = Model(
     "MasterUser",
