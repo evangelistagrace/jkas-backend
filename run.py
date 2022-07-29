@@ -18,7 +18,7 @@ from flask_sqlalchemy import get_debug_queries
 app = create_app('dev')
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.register_blueprint(api_bp)
+app.register_blueprint(api_bp, url_prefix="/api")
 app.app_context().push()
 
 manager = Manager(app)

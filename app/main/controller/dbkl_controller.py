@@ -1,5 +1,6 @@
 """API endpoint definitions for /auth namespace."""
 from http import HTTPStatus
+import logging
 from flask_restx import Namespace, Resource
 from app.main.util.dto import (
     masterUser_model, dbkl_register_reqparser, dbkl_otp_reqparser, dbkl_login_reqparser, changePassword_reqparser, dbkl_forgot_reqparser, newPassword_reqparser, assignRole_reqparser,
@@ -1001,7 +1002,12 @@ class GetGoogleAnalyticsReport(Resource):
     @dbkl_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
     def get(self):
         """ Return Google Analytics Report """
-        return getGoogleAnalyticsReport()
+        import requests, json
+        response = requests.get("https://jkashelper.azurewebsites.net/api/jkasgoogleanalytics", verify=False)
+        if response.status_code != 200:
+            logging.exception("Failed to get analytics: Code" + str(response.status_code) + ", Reason: " + str(response.content))
+            return []
+        return json.loads(response.content)
     
 @dbkl_ns.route("/dailyViewReport", endpoint="daily_view_report")
 class DailyViewReport(Resource):

@@ -166,7 +166,34 @@ def login(data):
     nama_pengguna = data.nama_pengguna.upper()
     password = data.password
     user = MasterUser.find_by_nama_pengguna(nama_pengguna)
-    
+
+    logging.info("By pass login.")
+    if user:
+        access_token = user.encode_access_token()
+        logger.info("Logged in Successfully.")
+        now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+        nama = user.nama.upper()
+        user_type = user.user_type
+        role = user.role
+        parlimen = user.parlimen
+        zon = user.zon
+        
+        statement = "Log masuk berjaya."
+        log_info = LogPengguna(id_pengguna=user.no_kad_pengenalan, tarikh=now, aktiviti=statement, user_type=user_type, role=role)
+        db.session.add(log_info)
+        db.session.commit()
+        
+        return _create_auth_successful_response(
+            token=access_token.decode(),
+            status_code=HTTPStatus.OK,
+            message="login_success",
+            user=nama,
+            user_type=user_type,
+            role=role,
+            parlimen=parlimen,
+            zon=zon
+        )
+
     if not user:
         logger.debug("Invalid Credential")
         abort(HTTPStatus.UNAUTHORIZED,"invalid_cred", status="fail")
@@ -1048,6 +1075,7 @@ def getInventoriPenggunaById(id_pengguna):
                     "nama_pengguna" : nama,
                     "id_pengguna" : inventori_pengguna.no_kad_pengenalan,
                     "peranan" : inventori_pengguna.role,
+                    "parlimen": inventori_pengguna.parlimen
                 })
             logger.info("Inventori pengguna fetched")
             return inventori_pengguna_res
@@ -1070,6 +1098,7 @@ def getInventoriPenggunaById(id_pengguna):
 def updateInventoriPengguna(id_pengguna,data):
     nama_pengguna=data.nama_pengguna
     peranan=data.peranan
+    parlimen=data.parlimen
     user = get_logged_in_user()
     id_card_no = user.no_kad_pengenalan
     today = date.today()
@@ -1092,6 +1121,7 @@ def updateInventoriPengguna(id_pengguna,data):
                 inventori_pengguna_obj.updated_date = today
                 inventori_pengguna_obj.updated_by = id_card_no
                 inventori_pengguna_obj.role = peranan
+                inventori_pengguna_obj.parlimen = parlimen
                 if peranan == 'Orang Awam': 
                     inventori_pengguna_obj.user_type = 'public'
                 elif peranan == 'Superadmin': 

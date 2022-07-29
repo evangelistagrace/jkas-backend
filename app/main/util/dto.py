@@ -734,6 +734,9 @@ updateInventoriPengguna_reqparser.add_argument(
 updateInventoriPengguna_reqparser.add_argument(
     name="peranan", type=str, location="json", required=False, nullable=True
 )
+updateInventoriPengguna_reqparser.add_argument(
+    name="parlimen", type=str, location="json", required=False, nullable=True
+)
 deleteInventoriPengguna_reqparser.add_argument(
     name="id_pengguna_list", type=str, location="json", required=False, nullable=True
 )
