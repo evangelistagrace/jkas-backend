@@ -732,7 +732,7 @@ def getCommitteeList():
             "status": "fail",
             "message": "Committee List could not be fetched"
         }
-        
+
 """ ===============================<< Get Committee List ends >>=============================== """
 """ ===============================<< Get Department List starts >>=============================== """
 def getDepartmentList():
@@ -1175,7 +1175,7 @@ def deleteInventoriPengguna(data):
     role = user.role
     id_pengguna_list = data.id_pengguna_list.split(",")
     try:
-        if user.user_type == 'SuperAdmin':
+        if role and role.strip().lower() == 'superadmin':
             for i in id_pengguna_list:
                 if MasterUser.query.filter_by(id=i).first():
                     MasterUser.query.filter_by(id=i).first().active = 0
