@@ -518,11 +518,19 @@ def register(name, id_card_no, email, password):
     TO_EMAIL = email
     MAIL_CONTENT = f'''
     Salam Sejahtera,
-    
-    Harap perhatikan kod 6 digit - {randotp} untuk pendaftaran pengguna nama {id_card_no}
-    
-    
-    Jabatan Kesihatan dan Alam Sekitar
+
+    Anda telah membuat pendaftaran akses masuk ke dalam sistem iwastekl@dbkl.gov.my. Maklumat anda adalah seperti berikut :-
+    ID Pengguna: {id_card_no}
+    Nama: {name}
+    Kod OTP : {randotp}
+
+    Sekiranya pihak anda tidak membuat sebarang permohonan, sila abaikan email ini dan sekiranya mempunyai sebarang pertanyaan lanjut, Sila hubungi pihak Jabatan Kesihatan dan Alam Sekitar, Dewan Bandaraya Kuala Lumpur (DBKL) di talian seperti di bawah:
+    Tel : +603-03-2027 5300
+    Email: jkas@dbkl.gov.my
+    Alamat: KM 4, Jalan Cheras, 56100 Kuala Lumpur.
+
+    Terima Kasih.
+    -Pentadbir Sistem-
     '''
     try:
         response = requests.post("https://jkashelper.azurewebsites.net/api/jkasemailsender", verify=False, json={
