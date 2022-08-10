@@ -53,6 +53,7 @@ dbkl_forgot_reqparser  = RequestParser(bundle_errors=True)
 addComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
 updateComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
 add2ndComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
+updateComplaintComments_reqparser = RequestParser(bundle_errors=True)
 add3rdComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
 getComplaintInvestigation_reqparser  = RequestParser(bundle_errors=True)
 assignRole_reqparser = RequestParser(bundle_errors=True)
@@ -1042,6 +1043,18 @@ updateComplaintInvestigation_reqparser.add_argument(
 updateComplaintInvestigation_reqparser.add_argument(
     name="ulasan_timbalan", type=str, location="json", required=True, nullable=False
 )
+updateComplaintComments_reqparser.add_argument(
+    name="formId", type=int, location="json", required=True, nullable=False
+)
+updateComplaintComments_reqparser.add_argument(
+    name="ulasanPenyelia", type=str, location="json", required=False, nullable=True
+)
+updateComplaintComments_reqparser.add_argument(
+    name="ulasanKetuaSeksyen", type=str, location="json", required=False, nullable=True
+)
+updateComplaintComments_reqparser.add_argument(
+    name="ulasanKetuaUnit", type=str, location="json", required=False, nullable=True
+)
 add2ndComplaintInvestigation_reqparser.add_argument(
     name="parlimenA", type=str, location="json", required=True, nullable=False
 )
@@ -1064,13 +1077,13 @@ add2ndComplaintInvestigation_reqparser.add_argument(
     name="tindakan", type=str, location="json", required=True, nullable=False
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_penyelia", type=str, location="json", required=True, nullable=False
+    name="ullasan_penyelia", type=str, location="json", required=False, nullable=True
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_ketua_seksyen", type=str, location="json", required=True, nullable=False
+    name="ullasan_ketua_seksyen", type=str, location="json", required=False, nullable=True
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_ketua_unit", type=str, location="json", required=True, nullable=False
+    name="ullasan_ketua_unit", type=str, location="json", required=False, nullable=True
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
     name="sebelum_siasatan", type=str, location="json", required=True, nullable=False

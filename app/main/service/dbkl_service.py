@@ -3261,6 +3261,22 @@ def addComplaintInvestigation(data):
         return response_object, 400
         
 
+@token_required
+def updateComplaintComments(data):
+    user = get_logged_in_user()
+    if user.role == "MerinyuMTK" or user.role == 'Superadmin':
+        current_complaint = db.session.query(ComplaintInvestigation).filter_by(form_id=data.formId).first()
+        
+        if data.ulasanPenyelia:
+            current_complaint.ullasan_penyelia = data.ulasanPenyelia
+        if data.ulasanKetuaSeksyen:
+            current_complaint.ullasan_ketua_seksyen = data.ulasanKetuaSeksyen
+        if data.ulasanKetuaSeksyen:
+            current_complaint.ullasan_ketua_unit = data.ulasanKetuaUnit
+        db.session.commit()
+        logging.info('Updated complaint ' + str(data.formId))
+    return {}, 204
+
 """ ===============================<< Add Complaint Investigation ends >>=============================== """
 """ ===============================<< Add Complaint Investigation starts >>=============================== """
 @token_required
@@ -3282,20 +3298,23 @@ def add2ndComplaintInvestigation(data):
     lokasi_siasatan= data.lokasi_siasatan
     locator = Nominatim(user_agent="myGeocoder")
     coordinates = lokasi_siasatan
-    location = locator.reverse(coordinates)
     location_info = []
-    if 'village' in location.raw['address']:
-        village = location.raw['address']['village']
-        location_info.append(village)
-    if 'building' in location.raw['address']:
-        building = location.raw['address']['building']
-        location_info.append(building)
-    if 'road' in location.raw['address']:
-        road = location.raw['address']['road']
-        location_info.append(road)
-    if 'suburb' in location.raw['address']:
-        suburb = location.raw['address']['suburb']
-        location_info.append(suburb)
+    try:
+        location = locator.reverse(coordinates)
+        if 'village' in location.raw['address']:
+            village = location.raw['address']['village']
+            location_info.append(village)
+        if 'building' in location.raw['address']:
+            building = location.raw['address']['building']
+            location_info.append(building)
+        if 'road' in location.raw['address']:
+            road = location.raw['address']['road']
+            location_info.append(road)
+        if 'suburb' in location.raw['address']:
+            suburb = location.raw['address']['suburb']
+            location_info.append(suburb)
+    except:
+        logging.error("Unable to geocode location.")
     location_text = ','.join(map(str, location_info))
     lokasi_aduan = location_text
     laporan_siasatan= data.laporan_siasatan

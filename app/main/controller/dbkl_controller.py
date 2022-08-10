@@ -7,7 +7,7 @@ from app.main.util.dto import (
     updateMeeting_reqparser, addDetailedMeeting_reqparser, listDetailedMeeting_reqparser, updateEMeeting_reqparser, updateDetailedMeeting_reqparser, deleteMeeting_reqparser, getOmpBaru_reqparser, updateOmpBaru_reqparser,
     updateInventoriPengguna_reqparser, deleteInventoriPengguna_reqparser, updateApplicationList_reqparser, updateApplication_reqparser, deleteApplicationList_reqparser, 
     updateSiteVisit_reqparser, deleteSitevisitInformation_reqparser, deleteSitevisitPDF_reqparser, updateStatusSemakanDokumen_reqparser, updateJobPaymentClaimByInbois_reqparser, deleteJobPaymentClaim_reqparser, getSapuanCucianCoordinates_reqparser,
-    addComplaintInvestigation_reqparser, updateComplaintInvestigation_reqparser, add2ndComplaintInvestigation_reqparser, add3rdComplaintInvestigation_reqparser, getComplaintInvestigation_reqparser, mtbInquiry_reqparser,getMTBOfficersTarikh_reqparser, mtbCompoundInformation_reqparser, mtbCompoundInfoByMTB_reqparser, addMTBCompoundForm_reqparser,
+    addComplaintInvestigation_reqparser, updateComplaintInvestigation_reqparser, add2ndComplaintInvestigation_reqparser, updateComplaintComments_reqparser, add3rdComplaintInvestigation_reqparser, getComplaintInvestigation_reqparser, mtbInquiry_reqparser,getMTBOfficersTarikh_reqparser, mtbCompoundInformation_reqparser, mtbCompoundInfoByMTB_reqparser, addMTBCompoundForm_reqparser,
     getFilteredLokasi_reqparser, sendNotice_reqparser, grafPrestasiBulanan_reqparser, grafAnalisisDanStatistik_reqparser, createOmpBaru_reqparser, lapisanFitur_reqparser, getKategori_reqparser, grafPerkhidmatanPusatTong_reqparser, 
     getMonthlyPerformance_reqparser, getNamaMTK_reqparser, fetchMapCoordinates_reqparser, getNamaTaman_reqparser, getNamaKawasan_reqparser, getMapLapisanFitur_reqparser, getPetaKawasan_reqparser, getJadualKutipan_reqparser, get2ndPetaKawasan_reqparser, getjadualPembersihan_reqparser, randomSearch_reqparser,
     addTextInPublicApplicationList_reqparser, getMTB_reqparser, getMTBOfficer_reqparser, getDailyMTBInquiryInforByMTB_reqparser,
@@ -16,7 +16,7 @@ from app.main.util.dto import (
 from app.main.service.dbkl_service import (
     registerDbklUser, completeRegistration, get_logged_in_user, login, getProfileInformation, changePassword, logout, assignRole, forgotPassword, resetPassword, getCommitteeList, getDepartmentList,
     getJumlahKawasanPerkhidmatan, getJumlahPermis, getJumlahPembersihanAwam, getJumlahKutipanSampah,
-    addDetailedMeeting, getMeeting, listOfDetailedMeeting, getAllDetailedMeeting, getDetailedMeeting, listOfMeeting, updateMeeting, deleteListOfMeeting, 
+    addDetailedMeeting, getMeeting, listOfDetailedMeeting, getAllDetailedMeeting, getDetailedMeeting, listOfMeeting, updateComplaintComments, updateMeeting, deleteListOfMeeting, 
     deleteInventoriPengguna, fetchPublicApplicationDetails, getJobPaymentClaim, getJobPaymentClaimByInbois, updateJobPaymentClaimByInbois, deleteJobPaymentClaim, 
     addComplaintInvestigation, add2ndComplaintInvestigation, add3rdComplaintInvestigation, getComplaintInvestigation, updateComplaintInvestigation, getLogPengguna, 
     getMTBCompoundInformation, getMTBCompoundInfoByMTB, addMTBCompoundForm, getMTBCompoundList, getCompoundForm, getOmpSubArea, getOmpBaru, getSingleOmpBaru, updateOmpBaru, deleteOmpBaru, getFilteredLokasi, getOmpLama, getOmpLamaSubArea,
@@ -752,7 +752,18 @@ class Add2ndComplaintInvestigation(Resource):
         """ Add Complaint Investigation."""
         request_data = add2ndComplaintInvestigation_reqparser.parse_args()
         return add2ndComplaintInvestigation(request_data)
-    
+
+@dbkl_ns.route("/updateComplaintComments", endpoint="updateComplaintCommments")
+class UpdateComplaintComments(Resource):
+    @dbkl_ns.doc(security="Bearer")
+    @dbkl_ns.expect(updateComplaintComments_reqparser)
+    @dbkl_ns.response(int(HTTPStatus.NO_CONTENT), "Complaint comments updated.")
+    @dbkl_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation errors.")
+    @dbkl_ns.response(int(HTTPStatus.UNAUTHORIZED), "Unauthorized access.")
+    def put(self):
+        request_data=updateComplaintComments_reqparser.parse_args()
+        return updateComplaintComments(request_data)
+
 @dbkl_ns.route("/add3rdComplaintInvestigation", endpoint="add_3rd_complaint_investigation")
 class Add3rdComplaintInvestigation(Resource):
     """Handles HTTP requests to URL: /dbkl/add3rdComplaintInvestigation."""
