@@ -3220,7 +3220,13 @@ def addComplaintInvestigation(data):
                 id_mtk = _.id_mtk
             officer_name = user.nama
             compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
-
+        else:
+            id_mtb=user.no_kad_pengenalan
+            parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtb).first().parlimen
+            mtkUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
+            for _ in mtkUserInfo:
+                id_mtk = _.id_mtk
+            officer_name = user.nama
         # officers_list = OfficersList(
         #     id_mtk= id_mtk, id_mtb=id_mtb, officer_name=officer_name, parlimen=parlimen, tarikh=tarikh_siasatan, inserted_by=name,inserted_date=today, active=1
         # )

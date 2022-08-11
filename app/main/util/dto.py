@@ -960,13 +960,13 @@ addComplaintInvestigation_reqparser.add_argument(
     name="susulan", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_penyelia", type=str, location="json", required=True, nullable=False
+    name="ullasan_penyelia", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_ketua_seksyen", type=str, location="json", required=True, nullable=False
+    name="ullasan_ketua_seksyen", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="ulasanKetua_unitf1", type=str, location="json", required=True, nullable=False
+    name="ulasanKetua_unitf1", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="gambar", type=str, location="json", required=True, nullable=False
@@ -1127,10 +1127,10 @@ add3rdComplaintInvestigation_reqparser.add_argument(
     name="keterangan_aduan", type=str, location="json", required=True, nullable=False
 )
 add3rdComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_penyelia", type=str, location="json", required=True, nullable=False
+    name="ullasan_penyelia", type=str, location="json", required=False, nullable=True
 )
 add3rdComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_ketua_seksyen", type=str, location="json", required=True, nullable=False
+    name="ullasan_ketua_seksyen", type=str, location="json", required=False, nullable=True
 )
 add3rdComplaintInvestigation_reqparser.add_argument(
     name="gambar", type=str, location="json", required=True, nullable=False
