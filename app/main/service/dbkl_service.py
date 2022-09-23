@@ -1366,6 +1366,8 @@ def updatePublicApplicationDetails(no_siri_permohonan,data):
     
     try:
         app_details = db.session.query(PublicApplicationDetails).filter_by(no_siri_permohonan=no_siri_permohonan, active=1).first() 
+        app_list_info = db.session.query(PublicApplicationList).filter_by(no_siri_permohonan=no_siri_permohonan).first()
+        app_list_info.status_semakan_dokumen = status_dokumen_keseluruhan
     except:
         logger.exception('Application Info not found with no siri permohonan')
         response_object = {
