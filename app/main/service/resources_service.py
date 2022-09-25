@@ -18,7 +18,7 @@ from applogger import logger
 
 
 """ ===============================<< PDF Read starts >>=============================== """
-@token_required
+#@token_required
 def readPDF(pdfname):
     try:
         logger.info("pdf found")
@@ -36,7 +36,7 @@ def readPDF(pdfname):
 """ ===============================<< PDF Read ends >>=============================== """
 """ ===============================<< PDF Read starts >>=============================== """
 
-@token_required
+#@token_required
 def readImage(imagename):
     try:
         logger.info("image found")

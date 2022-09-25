@@ -343,6 +343,8 @@ class JobPaymentClaim(db.Model):
     inbois_dokumen=db.Column(db.String(500))
     ringkasan_dokumen=db.Column(db.String(500))
     lampiran=db.Column(db.String(500))
+    bd44=db.Column(db.String(500))
+    laporan_tuntutan=db.Column(db.String(500))
     tarikh=db.Column(db.Date)
     status=db.Column(db.String(50))
     ulasan_pegawai=db.Column(db.String(50))
@@ -384,6 +386,9 @@ class OmpBaru(db.Model):
     ukuran_panjang_sampahkebun = db.Column(db.String(255), nullable=True)
     catatan = db.Column(db.String(255), nullable=True)
     rujuken_tarikh_serahan = db.Column(db.String(500), nullable=True)
+    surat_serahan = db.Column(db.String(500), nullable=True)
+    kadar = db.Column(db.String(500), nullable=True)
+    frekuensi = db.Column(db.String(500), nullable=True)
     tarikh_semakandi_lapangant_keadeansemata_ada = db.Column(db.String(255), nullable=True)
     tarikh_semakandi_lapangant_keadeansemata_tiada = db.Column(db.String(255), nullable=True)
     
@@ -506,6 +511,7 @@ class ComplaintInvestigation(db.Model):
     tarikh_siasatan=db.Column(db.Date, nullable=True)
     masa_siasatan=db.Column(db.String(100))
     nama_pegawai=db.Column(db.String(100))
+    no_ic_pegawai_mtk=db.Column(db.String(100))
     id_mtb=db.Column(db.String(50))
     lokasi_siasatan=db.Column(db.String(500))
     laporan_siasatan=db.Column(db.String(500))
@@ -565,6 +571,7 @@ class Inquiry(db.Model):
     inserted_by = db.Column(db.String(30), nullable=True)
     updated_by = db.Column(db.String(30), nullable=True)
     active = db.Column(db.Boolean, default=1)
+    no_ic_pegawai_mtk = db.Column(db.String(100), nullable=True)
 
 class CompoundInformation(db.Model):
     __tablename__= "compound_information" 

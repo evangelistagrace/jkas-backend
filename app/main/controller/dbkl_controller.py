@@ -26,7 +26,7 @@ from app.main.service.dbkl_service import (
     updatePublicApplicationDetails, updateSiteVisitApplicationList, deletelistOfsitevisitInformation, undeletelistOfsitevisitInformation, deleteSitevisitPDF, updateStatusSemakanDokumen, 
     grafJumlahKutipan, grafJumlahPembersihanAwam, createOmpBaru, getIdPegawai, getLokasi, getLapisanFitur, getKategori, grafPerkhidmatanPusatTong, grafAnalisisDanStatistik, grafPrestasiBulanan,getBorangZon, getBorangParlimen,
     getGoogleAnalyticsReport, dailyViewReport, getMonthlyPerformance, getNamaMTK, fetchMapCoordinates, adminUserAdd, compoundAnalysis, getCompoundCount,
-    getParlimen, getNamaTaman, getNamaJalan, getNamaKawasan, getMapLapisanFitur, getPetaKawasan, getJadualKutipan, get2ndPetaKawasan, getJadualPembersihan, randomSearch, getMTB, getMTBOfficer,
+    getParlimen, getNamaTaman, getNamaJalan, getNamaKawasan, getMapLapisanFitur, getPetaKawasan, getJadualKutipan, get2ndPetaKawasan, getJadualPembersihan, randomSearch, getMTB, getMTBOfficer, get_mtk_list
     ) 
 
 dbkl_ns = Namespace(name="dbkl", validate=True)
@@ -649,6 +649,12 @@ class ListPegawai(Resource):
     @dbkl_ns.doc(security="Bearer")
     def get(self):
         return listPegawai()
+
+@dbkl_ns.route("/listMtk", endpoint="listMtk")
+class ListPegawai(Resource):
+    @dbkl_ns.doc(security="Bearer")
+    def get(self):
+        return get_mtk_list()
 
 @dbkl_ns.route("/getMTBOfficersTarikh", endpoint="getMTBOfficersTarikh")
 class GetMTBOfficersTarikh(Resource):

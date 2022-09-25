@@ -523,7 +523,12 @@ createInvoice_reqparser.add_argument(
 createInvoice_reqparser.add_argument(
     name="attachment", type=str, location="json", required=False, nullable=True
 )
-
+createInvoice_reqparser.add_argument(
+    name="bd44", type=str, location="json", required=False, nullable=True
+)
+createInvoice_reqparser.add_argument(
+    name="laporan_tuntutan", type=str, location="json", required=False, nullable=True
+)
 updateInvoice_reqparser.add_argument(
     name="invoice_no", type=str, location="json", required=False, nullable=True
 )
@@ -743,7 +748,11 @@ deleteInventoriPengguna_reqparser.add_argument(
 )
 
 updateApplicationList_reqparser.add_argument(
-   name="status_semakan_dokumen", type=bool, location="json", required=False, nullable=True 
+   name="status_semakan_dokumen", type=bool, location="json", required=False, nullable=True,
+)
+
+updateApplicationList_reqparser.add_argument(
+   name="catatan", type=str, location="json", required=False, nullable=True,
 )
 
 updateApplication_reqparser.add_argument(
@@ -915,10 +924,10 @@ addComplaintInvestigation_reqparser.add_argument(
     name="no_rujukan", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="emel", type=str, location="json", required=True, nullable=False
+    name="emel", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="no_faksimili", type=str, location="json", required=True, nullable=False
+    name="no_faksimili", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="sumber_aduan", type=str, location="json", required=True, nullable=False
@@ -951,13 +960,13 @@ addComplaintInvestigation_reqparser.add_argument(
     name="lokasi_siasatan", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="laporan_siasatan", type=str, location="json", required=True, nullable=False
+    name="laporan_siasatan", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="tindakan", type=str, location="json", required=True, nullable=False
+    name="tindakan", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="susulan", type=str, location="json", required=True, nullable=False
+    name="susulan", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="ullasan_penyelia", type=str, location="json", required=False, nullable=True
@@ -972,7 +981,10 @@ addComplaintInvestigation_reqparser.add_argument(
     name="gambar", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="cause", type=str, location="json", required=True, nullable=False
+    name="cause", type=str, location="json", required=False, nullable=True
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="no_ic_pegawai_mtk", type=str, location="json", required=False, nullable=True
 )
 updateComplaintInvestigation_reqparser.add_argument(
     name="pengadu_nama", type=str, location="json", required=True, nullable=False
@@ -1066,6 +1078,9 @@ add2ndComplaintInvestigation_reqparser.add_argument(
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
     name="nama_pegawai", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="no_ic_pegawai_mtk", type=str, location="json", required=False, nullable=True
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
     name="lokasi_siasatan", type=str, location="json", required=True, nullable=False
@@ -1388,6 +1403,15 @@ createOmpBaru_reqparser.add_argument(
 )
 createOmpBaru_reqparser.add_argument(
     name="tarikh_semakandi_lapangant_keadeansemata_ada", type=str, location="json", required=True, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="surat_serahan", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="kadar", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="frekuensi", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
     name="tarikh_semakandi_lapangant_keadeansemata_tiada", type=str, location="json", required=True, nullable=False

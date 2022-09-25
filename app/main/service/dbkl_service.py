@@ -1291,10 +1291,12 @@ def updateApplicationList(no_siri_permohonan, data):
     role = user.role
     
     status_semakan_dokumen = data.status_semakan_dokumen
+    catatan = data.catatan
     if user.user_type == 'SuperAdmin':
         try:
             app_list_info = db.session.query(PublicApplicationList).filter_by(no_siri_permohonan=no_siri_permohonan).first()
             app_list_info.status_semakan_dokumen = status_semakan_dokumen
+            app_list_info.text = catatan
             
             app_detail_info = db.session.query(PublicApplicationDetails).filter_by(no_siri_permohonan=no_siri_permohonan).first()
             app_detail_info.surat_permohonan_perkhidmatan_pembersihan_status = status_semakan_dokumen
@@ -2208,7 +2210,10 @@ def getOmpBaru(data):
                 "catatan":jkasOmp.catatan,
                 "rujuken_tarikh_serahan":jkasOmp.rujuken_tarikh_serahan,
                 "tarikh_semakandi_lapangant_keadeansemata_ada":jkasOmp.tarikh_semakandi_lapangant_keadeansemata_ada,
-                "tarikh_semakandi_lapangant_keadeansemata_tiada":jkasOmp.tarikh_semakandi_lapangant_keadeansemata_tiada
+                "tarikh_semakandi_lapangant_keadeansemata_tiada":jkasOmp.tarikh_semakandi_lapangant_keadeansemata_tiada,
+                "surat_serahan": jkasOmp.surat_serahan,
+                "kadar": jkasOmp.kadar,
+                "frekuensi": jkasOmp.frekuensi
                 })
         logger.info("OMP Baru list fetched.")
         return jsonify(omp_baru_list)
@@ -2934,6 +2939,32 @@ def getMTBOfficersList():
         return response_object, 400 
     
 """ ===============================<< MTB Officers List ends >>=============================== """
+
+@token_required
+def get_mtk_list():
+    try:
+        officers_list = []
+        for user in db.session.query(MasterUser).filter_by(role='MerinyuMTK'):
+            officers_list.append({
+                'officer_name': user.nama,
+                'no_kad_pengenalan': user.no_kad_pengenalan,
+            })
+        # for officer in db.session.query(OfficersList.officer_name, OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(active=1):
+        #     if officer.officer_name != 'SuperAdmin':
+        #             officers_list.append({
+        #                 'officer_name': officer.officer_name,
+        #                 'parlimen': officer.parlimen,
+        #             })
+        logger.info("Officers list fetched")
+        return jsonify(officers_list)
+    except:
+        logger.exception("Officers list could not be fetched")
+        response_object = {
+            'status': 'fail',
+            'message': 'Officers list could not be fetched',
+        }
+        return response_object, 400
+
 """ ===============================<< list Pegawai  starts >>=============================== """
 @token_required
 def listPegawai():
@@ -3199,6 +3230,7 @@ def addComplaintInvestigation(data):
     ulasanKetua_unitf1=data.ulasanKetua_unitf1
     gambar = data.gambar    
     cause = data.cause    
+    no_ic_pegawai_mtk = data.no_ic_pegawai_mtk
     try:
         if user.no_kad_pengenalan == 'SUPERADMIN':
             officer_name = nama_pegawai
@@ -3240,7 +3272,7 @@ def addComplaintInvestigation(data):
             lokasi_aduan=lokasi_aduan,keterangan_aduan=keterangan_aduan,zon=zon,tarikh_siasatan=tarikh_siasatan,masa_siasatan=masa_siasatan,
             nama_pegawai=nama_pegawai,id_mtb=id_mtb,lokasi_siasatan=lokasi_siasatan,laporan_siasatan=laporan_siasatan,tindakan=tindakan,
             susulan=susulan,ullasan_penyelia=ullasan_penyelia,ullasan_ketua_seksyen=ullasan_ketua_seksyen,ullasan_ketua_unit=ulasanKetua_unitf1,
-            gambar=gambar,cause=cause,inserted_by=name,inserted_date=today, active=1)
+            gambar=gambar,cause=cause,inserted_by=name,inserted_date=today, active=1,no_ic_pegawai_mtk=no_ic_pegawai_mtk)
         db.session.add(complaint_investigation_form)
         db.session.commit()
         
@@ -3331,6 +3363,7 @@ def add2ndComplaintInvestigation(data):
     ullasan_ketua_seksyen= data.ullasan_ketua_seksyen
     ullasan_ketua_unit= data.ullasan_ketua_unit
     sebelum_siasatan= data.sebelum_siasatan
+    no_ic_pegawai_mtk = data.no_ic_pegawai_mtk
     sebelum_siasatan = re.sub('[^a-zA-Z0-9.]', '', sebelum_siasatan)
     bulan = calendar.month_abbr[tarikh_siasatan.month].upper()
     tahun = tarikh_siasatan.year
@@ -3371,7 +3404,7 @@ def add2ndComplaintInvestigation(data):
             tarikh_siasatan=tarikh_siasatan,masa_siasatan=time,nama_pegawai=nama_pegawai,
             id_mtb=id_mtb,lokasi_siasatan=lokasi_siasatan,laporan_siasatan=laporan_siasatan,tindakan=tindakan,
             ullasan_penyelia=ullasan_penyelia,ullasan_ketua_seksyen=ullasan_ketua_seksyen,ullasan_ketua_unit=ullasan_ketua_unit,
-            sebelum_siasatan=sebelum_siasatan, zon=zon, inserted_by=name,inserted_date=today, active=1)
+            sebelum_siasatan=sebelum_siasatan, zon=zon, inserted_by=name,inserted_date=today, active=1, no_ic_pegawai_mtk=no_ic_pegawai_mtk)
         db.session.add(complaint_investigation_form)
         db.session.commit()
         
@@ -4538,6 +4571,9 @@ def createOmpBaru(data):
     rujukan_tarikh_serahan = data.rujukan_tarikh_serahan
     tarikh_semakandi_lapangant_keadeansemata_ada = data.tarikh_semakandi_lapangant_keadeansemata_ada
     tarikh_semakandi_lapangant_keadeansemata_tiada = data.tarikh_semakandi_lapangant_keadeansemata_tiada
+    surat_serahan = data.surat_serahan
+    kadar = data.kadar
+    frekuensi = data.frekuensi
     try:
         user = get_logged_in_user()
         id_card_no = user.no_kad_pengenalan
@@ -4564,6 +4600,7 @@ def createOmpBaru(data):
                                rujuken_tarikh_serahan=rujukan_tarikh_serahan,
                                tarikh_semakandi_lapangant_keadeansemata_ada=tarikh_semakandi_lapangant_keadeansemata_ada,
                                tarikh_semakandi_lapangant_keadeansemata_tiada=tarikh_semakandi_lapangant_keadeansemata_tiada,
+                               surat_serahan=surat_serahan, kadar=kadar, frekuensi=frekuensi,
                                inserted_by=id_card_no, inserted_date=now, active=1)
         db.session.add(new_omp_baru)
         db.session.commit()

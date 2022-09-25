@@ -624,14 +624,36 @@ def createInvoice(data):
         attachment_temp = ""
         for i in attachment_temp_list:
             attachment_temp += i+','
-            
+
+    db44_temp = data.bd44
+    if db44_temp:
+        attachment_list = db44_temp.split(",")
+        attachment_temp_list = []
+        for i in attachment_list:
+            db44_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+            attachment_temp_list.append(db44_temp)
+        db44_temp = ""
+        for i in attachment_temp_list:
+            db44_temp += i+','
+
+    laporan_tuntutan_temp = data.laporan_tuntutan
+    if laporan_tuntutan_temp:
+        attachment_list = laporan_tuntutan_temp.split(",")
+        attachment_temp_list = []
+        for i in attachment_list:
+            laporan_tuntutan_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+            attachment_temp_list.append(laporan_tuntutan_temp)
+        laporan_tuntutan_temp = ""
+        for i in attachment_temp_list:
+            laporan_tuntutan_temp += i+','
+
     today = date.today()
     now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")  
 
     try:
         new_claim = JobPaymentClaim(no_inbois=invoice_no,kontraktor=contractor,nama_pemohon=applicant_name,e_mei=e_mei,
                                           jumlah_tuntutan=amount_claim,inbois_dokumen=invoice_document_temp[:-1],ringkasan_dokumen=summary_document_temp[:-1],
-                                          lampiran=attachment_temp[:-1], tarikh=today, inserted_by = invoice_no, inserted_date = now, active=1)
+                                          lampiran=attachment_temp[:-1], tarikh=today, inserted_by = invoice_no, inserted_date = now, active=1, bd44=db44_temp, laporan_tuntutan=laporan_tuntutan_temp)
         db.session.add(new_claim)
         db.session.commit()
 
