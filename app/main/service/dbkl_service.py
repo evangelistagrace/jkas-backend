@@ -2261,6 +2261,8 @@ def getSingleOmpBaru(omp_id):
         ompBaruDict['rujuken_tarikh_serahan']=ompInfo.rujuken_tarikh_serahan
         ompBaruDict['tarikh_semakandi_lapangant_keadeansemata_ada']=ompInfo.tarikh_semakandi_lapangant_keadeansemata_ada
         ompBaruDict['tarikh_semakandi_lapangant_keadeansemata_tiada']=ompInfo.tarikh_semakandi_lapangant_keadeansemata_tiada
+        ompBaruDict['kadar'] = ompInfo.kadar
+        ompBaruDict['frekuensi'] = ompInfo.frekuensi
         logger.info("OMP Baru Info fetched.")
         return ompBaruDict
     except:
@@ -2298,6 +2300,8 @@ def updateOmpBaru(data,omp_id):
     rujuken_tarikh_serahan=data.rujuken_tarikh_serahan
     tarikh_semakandi_lapangant_keadeansemata_ada=data.tarikh_semakandi_lapangant_keadeansemata_ada
     tarikh_semakandi_lapangant_keadeansemata_tiada=data.tarikh_semakandi_lapangant_keadeansemata_tiada
+    kadar = data.kadar
+    frekuensi = data.frekuensi
     if db.session.query(OmpBaru).filter_by(omp_id=omp_id,active=1).first() == None:
         abort(HTTPStatus.CONFLICT, f"No Data Present with omp_id {omp_id}", status="fail")
     try:
@@ -2326,6 +2330,8 @@ def updateOmpBaru(data,omp_id):
         ompInfo.rujuken_tarikh_serahan=rujuken_tarikh_serahan
         ompInfo.tarikh_semakandi_lapangant_keadeansemata_ada=tarikh_semakandi_lapangant_keadeansemata_ada
         ompInfo.tarikh_semakandi_lapangant_keadeansemata_tiada=tarikh_semakandi_lapangant_keadeansemata_tiada
+        ompInfo.kadar = kadar
+        ompInfo.frekuensi = frekuensi
         db.session.commit()
         logger.info("OMP Baru list updated.")
         response_object = {

@@ -554,7 +554,9 @@ def getInvoice(data):
                         'ringkasan_dokumen': invoice.ringkasan_dokumen,            
                         'lampiran': invoice.lampiran,                 
                         'status': invoice.status,            
-                        'ulasan_pegawai': invoice.ulasan_pegawai,            
+                        'ulasan_pegawai': invoice.ulasan_pegawai,
+                        'bd44': invoice.bd44,
+                        'laporan_tuntutan': invoice.laporan_tuntutan            
                         })
                 logger.info("Invoice data fetched successfully")
                 return jsonify(invoice_list)
@@ -626,26 +628,7 @@ def createInvoice(data):
             attachment_temp += i+','
 
     db44_temp = data.bd44
-    if db44_temp:
-        attachment_list = db44_temp.split(",")
-        attachment_temp_list = []
-        for i in attachment_list:
-            db44_temp = re.sub('[^a-zA-Z0-9.]', '', i)
-            attachment_temp_list.append(db44_temp)
-        db44_temp = ""
-        for i in attachment_temp_list:
-            db44_temp += i+','
-
     laporan_tuntutan_temp = data.laporan_tuntutan
-    if laporan_tuntutan_temp:
-        attachment_list = laporan_tuntutan_temp.split(",")
-        attachment_temp_list = []
-        for i in attachment_list:
-            laporan_tuntutan_temp = re.sub('[^a-zA-Z0-9.]', '', i)
-            attachment_temp_list.append(laporan_tuntutan_temp)
-        laporan_tuntutan_temp = ""
-        for i in attachment_temp_list:
-            laporan_tuntutan_temp += i+','
 
     today = date.today()
     now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")  

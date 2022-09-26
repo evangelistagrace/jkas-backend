@@ -1642,6 +1642,12 @@ updateOmpBaru_reqparser.add_argument(
 updateOmpBaru_reqparser.add_argument(
     name="tarikh_semakandi_lapangant_keadeansemata_tiada", type=str, location="json", required=False, nullable=True
 )
+updateOmpBaru_reqparser.add_argument(
+    name="kadar", type=str, location="json", required=False, nullable=True
+)
+updateOmpBaru_reqparser.add_argument(
+    name="frekuensi", type=str, location="json", required=False, nullable=True
+)
 addTextInPublicApplicationList_reqparser.add_argument(
     name="application_id", type=int, location="json", required=False, nullable=True
 )
