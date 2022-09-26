@@ -2022,6 +2022,8 @@ def getJobPaymentClaimByInbois(no_inbois):
                 "lampiran" : inventori_pengguna_obj.lampiran,
                 "kemaskini_status" : inventori_pengguna_obj.status,
                 "ulasan_pegawai" : inventori_pengguna_obj.ulasan_pegawai,
+                "bd44": inventori_pengguna_obj.bd44,
+                "laporan_tuntutan": inventori_pengguna_obj.laporan_tuntutan
             }
             logger.info("Job Payment Claim by inbois no fetched")
             return inventori_pengguna_res

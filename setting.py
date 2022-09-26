@@ -3,7 +3,7 @@ import os
 os.environ['SECRETY_KEY']="open sessame"
 os.environ['SQL_SERVER']="mysuites.southeastasia.cloudapp.azure.com"
 os.environ['SQL_PORT']="1433"
-os.environ['SQL_DATABASE']="JKAS"
+os.environ['SQL_DATABASE']="JKAS_LOCAL"
 os.environ['SQL_UID']="dbkljkas"
 os.environ['SQL_PASSWORD']="iwaste123dbkl"
 os.environ['SMTP_MAIL']="jkas.ppks@gmail.com"
