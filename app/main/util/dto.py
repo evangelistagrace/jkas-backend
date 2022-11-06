@@ -1360,6 +1360,200 @@ createOmpBaru_reqparser.add_argument(
     name="sampah_pukal", type=str, location="json", required=True, nullable=False
 )
 createOmpBaru_reqparser.add_argument(
+    name="domestic_total", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="domestic_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="domestic_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="pukal_total", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="pukal_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="pukal_freq", type=str, location="json", required=False, nullable=False
+)
+
+
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_domestic_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_domestic_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_domestic_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_komersial_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_komersial_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_komersial_freq", type=str, location="json", required=False, nullable=False
+)
+
+
+createOmpBaru_reqparser.add_argument(
+    name="cucian_domestic_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_domestic_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_domestic_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_komersial_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_komersial_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_komersial_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_drain_domestic_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_drain_domestic_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_drain_domestic_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_drain_komersial_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_drain_komersial_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_drain_komersial_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_dalam_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_dalam_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_dalam_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_atas_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_atas_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_atas_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_roof_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_roof_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_roof_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam1_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam1_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam1_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam2_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam2_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam2_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_tandas_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_tandas_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_tandas_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_teksi_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_teksi_freq", type=str, location="json", required=False, nullable=False
+)
+
+createOmpBaru_reqparser.add_argument(
+    name="bersih_lapang_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_lapang_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_lapang_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_tpkk_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_tpkk_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_tpkk_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_penjaja_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_penjaja_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_penjaja_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_freq", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_mlm_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_mlm_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_mlm_freq", type=str, location="json", required=False, nullable=False
+)
+
+createOmpBaru_reqparser.add_argument(
+    name="rumput_unit", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="rumput_rate", type=str, location="json", required=False, nullable=False
+)
+createOmpBaru_reqparser.add_argument(
+    name="rumput_freq", type=str, location="json", required=False, nullable=False
+)
+
+
+createOmpBaru_reqparser.add_argument(
     name="sampah_haram", type=str, location="json", required=True, nullable=False
 )
 createOmpBaru_reqparser.add_argument(

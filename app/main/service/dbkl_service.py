@@ -3153,6 +3153,7 @@ def getDailyMTBInquiryInforByMTK(data):
         inquiry_list_log = []
         for log in InquiryInformation.query.filter_by(tarikh=tarikh,officer_name=officer_name, active=1):
             inquiry_list_log.append({
+                'id': log.inquiry_information_id,
                 'tarikh': log.tarikh,
                 'masa': log.masa,
                 'lokasi_aduan': log.lokasi_aduan,
@@ -4582,6 +4583,74 @@ def createOmpBaru(data):
     surat_serahan = data.surat_serahan
     kadar = data.kadar
     frekuensi = data.frekuensi
+
+    domestic_total = data.domestic_total
+    domestic_freq = data.domestic_total
+    domestic_rate = data.domestic_rate
+    pukal_total = data.pukal_total
+    pukal_freq = data.pukal_total
+    pukal_rate = data.pukal_rate
+
+    sapuan_domestic_unit = data.sapuan_domestic_unit
+    sapuan_domestic_rate = data.sapuan_domestic_rate
+    sapuan_domestic_freq = data.sapuan_domestic_freq
+    sapuan_komersial_unit = data.sapuan_komersial_unit
+    sapuan_komersial_rate = data.sapuan_komersial_rate
+    sapuan_komersial_freq = data.sapuan_komersial_freq
+
+    cucian_domestic_unit = data.cucian_domestic_unit
+    cucian_domestic_rate = data.cucian_domestic_rate
+    cucian_domestic_freq = data.cucian_domestic_freq
+    cucian_komersial_unit = data.cucian_komersial_unit
+    cucian_komersial_rate = data.cucian_komersial_rate
+    cucian_komersial_freq = data.cucian_komersial_freq
+    cucian_drain_domestic_unit = data.cucian_drain_domestic_unit
+    cucian_drain_domestic_rate = data.cucian_drain_domestic_rate
+    cucian_drain_domestic_freq = data.cucian_drain_domestic_freq
+    cucian_drain_komersial_unit = data.cucian_drain_komersial_unit
+    cucian_drain_komersial_rate = data.cucian_drain_komersial_rate
+    cucian_drain_komersial_freq = data.cucian_drain_komersial_freq
+    cucian_jejantas_dalam_unit = data.cucian_jejantas_dalam_unit
+    cucian_jejantas_dalam_rate = data.cucian_jejantas_dalam_rate
+    cucian_jejantas_dalam_freq = data.cucian_jejantas_dalam_freq
+    cucian_jejantas_atas_unit = data.cucian_jejantas_atas_unit
+    cucian_jejantas_atas_rate = data.cucian_jejantas_atas_rate
+    cucian_jejantas_atas_freq = data.cucian_jejantas_atas_freq
+    cucian_siar_roof_unit = data.cucian_siar_roof_unit
+    cucian_siar_roof_rate = data.cucian_siar_roof_rate
+    cucian_siar_roof_freq = data.cucian_siar_roof_freq
+    cucian_siar_gulam1_unit = data.cucian_siar_gulam1_unit
+    cucian_siar_gulam1_rate = data.cucian_siar_gulam1_rate
+    cucian_siar_gulam1_freq = data.cucian_siar_gulam1_freq
+    cucian_siar_gulam2_unit = data.cucian_siar_gulam2_unit
+    cucian_siar_gulam2_rate = data.cucian_siar_gulam2_rate
+    cucian_siar_gulam2_freq = data.cucian_siar_gulam2_freq
+    cucian_tandas_unit = data.cucian_tandas_unit
+    cucian_tandas_rate = data.cucian_tandas_rate
+    cucian_tandas_freq = data.cucian_tandas_freq
+    cucian_teksi_rate = data.cucian_teksi_rate
+    cucian_teksi_freq = data.cucian_teksi_freq
+
+    bersih_lapang_unit = data.bersih_lapang_unit
+    bersih_lapang_rate = data.bersih_lapang_rate
+    bersih_lapang_freq = data.bersih_lapang_freq
+    bersih_tpkk_unit = data.bersih_tpkk_unit
+    bersih_tpkk_rate = data.bersih_tpkk_rate
+    bersih_tpkk_freq = data.bersih_tpkk_freq
+    bersih_penjaja_unit = data.bersih_penjaja_unit
+    bersih_penjaja_rate = data.bersih_penjaja_rate
+    bersih_penjaja_freq = data.bersih_penjaja_freq
+    bersih_pasar_unit = data.bersih_pasar_unit
+    bersih_pasar_rate = data.bersih_pasar_rate
+    bersih_pasar_freq = data.bersih_pasar_freq
+    bersih_pasar_mlm_unit = data.bersih_pasar_mlm_unit
+    bersih_pasar_mlm_rate = data.bersih_pasar_mlm_rate
+    bersih_pasar_mlm_freq = data.bersih_pasar_mlm_freq
+
+    rumput_unit = data.rumput_unit
+    rumput_rate = data.rumput_rate
+    rumput_freq = data.rumput_freq
+
     try:
         user = get_logged_in_user()
         id_card_no = user.no_kad_pengenalan
@@ -4604,6 +4673,30 @@ def createOmpBaru(data):
                                ukuran_panjang_cucian_longkang=ukuran_panjang_cucian_longkang,
                                ukuran_panjang_potongrumput=ukuran_panjang_potongrumput,
                                ukuran_panjang_sampahkebun=ukuran_panjang_sampahkebun,
+                               domestic_freq=domestic_freq, domestic_rate=domestic_rate, domestic_total=domestic_total,
+                               pukal_total=pukal_total, pukal_freq=pukal_freq, pukal_rate=pukal_rate,
+
+                               sapuan_domestic_unit=sapuan_domestic_unit, sapuan_domestic_rate=sapuan_domestic_rate, sapuan_domestic_freq=sapuan_domestic_freq,
+                               sapuan_komersial_unit=sapuan_komersial_unit, sapuan_komersial_rate=sapuan_komersial_rate, sapuan_komersial_freq=sapuan_komersial_freq,
+
+                               cucian_domestic_unit=cucian_domestic_unit, cucian_domestic_rate=cucian_domestic_rate, cucian_domestic_freq=cucian_domestic_freq,
+                               cucian_komersial_unit=cucian_komersial_unit, cucian_komersial_rate=cucian_komersial_rate, cucian_komersial_freq=cucian_komersial_freq,
+                               cucian_drain_domestic_unit=cucian_drain_domestic_unit, cucian_drain_domestic_rate=cucian_drain_domestic_rate, cucian_drain_domestic_freq=cucian_drain_domestic_freq,
+                               cucian_drain_komersial_unit=cucian_drain_komersial_unit, cucian_drain_komersial_rate=cucian_drain_komersial_rate, cucian_drain_komersial_freq=cucian_drain_komersial_freq,
+                               cucian_jejantas_dalam_unit=cucian_jejantas_dalam_unit, cucian_jejantas_dalam_rate=cucian_jejantas_dalam_rate, cucian_jejantas_dalam_freq=cucian_jejantas_dalam_freq,
+                               cucian_jejantas_atas_unit=cucian_jejantas_atas_unit, cucian_jejantas_atas_rate=cucian_jejantas_atas_rate, cucian_jejantas_atas_freq=cucian_jejantas_atas_freq,
+                               cucian_siar_roof_unit=cucian_siar_roof_unit, cucian_siar_roof_rate=cucian_siar_roof_rate, cucian_siar_roof_freq=cucian_siar_roof_freq,
+                               cucian_siar_gulam1_unit=cucian_siar_gulam1_unit, cucian_siar_gulam1_rate=cucian_siar_gulam1_rate, cucian_siar_gulam1_freq=cucian_siar_gulam1_freq,
+                               cucian_siar_gulam2_unit=cucian_siar_gulam2_unit, cucian_siar_gulam2_rate=cucian_siar_gulam2_rate, cucian_siar_gulam2_freq=cucian_siar_gulam2_freq,
+                               cucian_tandas_unit=cucian_tandas_unit, cucian_tandas_rate=cucian_tandas_rate, cucian_tandas_freq=cucian_tandas_freq,
+                               cucian_teksi_rate=cucian_teksi_rate, cucian_teksi_freq=cucian_teksi_freq,
+                               bersih_lapang_unit=bersih_lapang_unit, bersih_lapang_rate=bersih_lapang_rate, bersih_lapang_freq=bersih_lapang_freq,
+                               bersih_tpkk_unit=bersih_tpkk_unit, bersih_tpkk_rate=bersih_tpkk_rate, bersih_tpkk_freq=bersih_tpkk_freq,
+                               bersih_penjaja_unit=bersih_penjaja_unit, bersih_penjaja_rate=bersih_penjaja_rate, bersih_penjaja_freq=bersih_penjaja_freq,
+                               bersih_pasar_unit=bersih_pasar_unit, bersih_pasar_rate=bersih_pasar_rate, bersih_pasar_freq=bersih_pasar_freq,
+                               bersih_pasar_mlm_unit=bersih_pasar_mlm_unit, bersih_pasar_mlm_rate=bersih_pasar_mlm_rate, bersih_pasar_mlm_freq=bersih_pasar_mlm_freq,
+                               rumput_unit=rumput_unit, rumput_rate=rumput_rate, rumput_freq=rumput_freq,
+
                                catatan=catatan,
                                rujuken_tarikh_serahan=rujukan_tarikh_serahan,
                                tarikh_semakandi_lapangant_keadeansemata_ada=tarikh_semakandi_lapangant_keadeansemata_ada,
