@@ -26,10 +26,12 @@ import setting
 from werkzeug.utils import secure_filename
 import logging
 from applogger import logger
+from uuid import uuid4
 
 SMTP_MAIL = os.environ.get('SMTP_MAIL')
 SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
 FROM_EMAIL = os.environ.get('FROM_EMAIL')
+SEND_GRID_KEY = os.environ.get('SEND_GRID_KEY')
 UI_URL = os.environ.get('UI_URL')
 PUBLIC_PHOTO_FOLDER = os.environ.get('PUBLIC_PHOTO_FOLDER')
 PUBLIC_DOC_FOLDER = os.environ.get('PUBLIC_DOC_FOLDER')
@@ -503,6 +505,26 @@ def triggerRegistration(data):
             abort(HTTPStatus.CONFLICT,"user_exists", status="fail")
     return register(name, id_card_no, email, password)
 
+def send_email(sender, recipient, subject, content):
+    response = requests.post('https://api.sendgrid.com/v3/mail/send', verify=False, json={
+        "personalizations": [{
+            "to": [{
+                "email": recipient
+            }]
+        }],
+        "from": {
+            "email": sender
+        },
+        "subject": subject,
+        "content": [{
+            "type": "text/plain",
+            "value": content
+        }]
+    }, headers={
+        "Authorization": "Bearer " + SEND_GRID_KEY,
+        "Content-Type": "application/json" 
+    })
+    return response.status_code == 202
 
 def register(name, id_card_no, email, password):
 
@@ -533,15 +555,7 @@ def register(name, id_card_no, email, password):
     -Pentadbir Sistem-
     '''
     try:
-        response = requests.post("https://jkashelper.azurewebsites.net/api/jkasemailsender", verify=False, json={
-            "from": FROM_EMAIL,
-            "to": TO_EMAIL,
-            "subject": "Emel OTP",
-            "content": MAIL_CONTENT
-        })
-
-        if response.status_code != 200:
-            logger.exception("JKAS Helper returns " + str(response.status_code))
+        if not send_email(FROM_EMAIL, TO_EMAIL, 'Emel OTP', MAIL_CONTENT):
             raise Exception("Failed to send mail")
         logger.info("Mail Sent")
         response_object = {
@@ -849,10 +863,6 @@ def forgotPassword(data):
 def make_forgot_mail(id_card_no, email, lang, reset_password_token):
     id_card_no = id_card_no
     TO_EMAIL = email
-    message = MIMEMultipart()
-    message['From'] = FROM_EMAIL
-    message['To'] = TO_EMAIL
-    message['Subject'] = 'JKAS Tetapkan Semula Kata Laluan'
     MAIL_CONTENT = f'''
     Salam Sejahtera,
     
@@ -862,27 +872,19 @@ def make_forgot_mail(id_card_no, email, lang, reset_password_token):
 
     Jabatan Kesihatan dan Alam Sekitar
     '''
-    message.attach(MIMEText(MAIL_CONTENT, 'plain'))
-    try:
-        mail_session = smtplib.SMTP('smtp.gmail.com', 587)
-        mail_session.starttls()
-        mail_session.login(SMTP_MAIL, SMTP_PASSWORD)
-        text = message.as_string()
-        mail_session.sendmail(FROM_EMAIL, TO_EMAIL, text)
-        mail_session.quit()
+    if send_email(FROM_EMAIL, TO_EMAIL, 'JKAS - Tetapan Semula Kata Laluan', MAIL_CONTENT):
         logger.info("Mail Sent with reset password token")
         response_object = {
             'status': 'success',
             'message': 'reset_pwd_mail_sent'
             }
         return response_object, 200
-    except:
-        logger.exception("could not be sent mail")
-        response_object = {
-            'status': 'fail',
-            'message': 'Could not sent reset pasword link'
-        }
-        return response_object, 400
+    logger.exception("could not be sent mail")
+    response_object = {
+        'status': 'fail',
+        'message': 'Could not sent reset pasword link'
+    }
+    return response_object, 400
 
 """ ===============================<< Forgot password ends >>===============================  """
 """ ===============================<< Reset password starts >>===============================  """
@@ -1084,7 +1086,7 @@ def submitApplication(data):
         surat_permohonan_perkhidmatan_pembersihan_dokumen_list = surat_permohonan_perkhidmatan_pembersihan_dokumen_temp.split(",")
         surat_permohonan_perkhidmatan_pembersihan_dokumen_temp_list = []
         for i in surat_permohonan_perkhidmatan_pembersihan_dokumen_list:
-            surat_permohonan_perkhidmatan_pembersihan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+            #surat_permohonan_perkhidmatan_pembersihan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
             surat_permohonan_perkhidmatan_pembersihan_dokumen_temp = surat_permohonan_perkhidmatan_pembersihan_dokumen_temp
             surat_permohonan_perkhidmatan_pembersihan_dokumen_temp_list.append(surat_permohonan_perkhidmatan_pembersihan_dokumen_temp)
         surat_permohonan_perkhidmatan_pembersihan_dokumen_temp = ""
@@ -1096,7 +1098,7 @@ def submitApplication(data):
         surat_salinan_CF_dokumen_list = surat_salinan_CF_dokumen_temp.split(",")
         surat_salinan_CF_dokumen_temp_list = []
         for i in surat_salinan_CF_dokumen_list:
-            surat_salinan_CF_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+            #surat_salinan_CF_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
             surat_salinan_CF_dokumen_temp = surat_salinan_CF_dokumen_temp
             surat_salinan_CF_dokumen_temp_list.append(surat_salinan_CF_dokumen_temp)
         surat_salinan_CF_dokumen_temp = ""
@@ -1108,7 +1110,7 @@ def submitApplication(data):
         salinan_status_pembanginan_dokumen_list = salinan_status_pembanginan_dokumen_temp.split(",")
         salinan_status_pembanginan_dokumen_temp_list = []
         for i in salinan_status_pembanginan_dokumen_list:
-            salinan_status_pembanginan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+            #salinan_status_pembanginan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
             salinan_status_pembanginan_dokumen_temp = salinan_status_pembanginan_dokumen_temp
             salinan_status_pembanginan_dokumen_temp_list.append(salinan_status_pembanginan_dokumen_temp)
         salinan_status_pembanginan_dokumen_temp = ""
@@ -1120,7 +1122,7 @@ def submitApplication(data):
         bagi_status_pembangunan_dokumen_list = bagi_status_pembangunan_dokumen_temp.split(",")
         bagi_status_pembangunan_dokumen_temp_list = []
         for i in bagi_status_pembangunan_dokumen_list:
-            bagi_status_pembangunan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+            #bagi_status_pembangunan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
             bagi_status_pembangunan_dokumen_temp = bagi_status_pembangunan_dokumen_temp
             bagi_status_pembangunan_dokumen_temp_list.append(bagi_status_pembangunan_dokumen_temp)
         bagi_status_pembangunan_dokumen_temp = ""
@@ -1132,7 +1134,7 @@ def submitApplication(data):
         dinyatakan_jenis_sistem_list = dinyatakan_jenis_sistem_temp.split(",")
         dinyatakan_jenis_sistem_temp_list = []
         for i in dinyatakan_jenis_sistem_list:
-            dinyatakan_jenis_sistem_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+            #dinyatakan_jenis_sistem_temp = re.sub('[^a-zA-Z0-9.]', '', i)
             dinyatakan_jenis_sistem_temp = dinyatakan_jenis_sistem_temp
             dinyatakan_jenis_sistem_temp_list.append(dinyatakan_jenis_sistem_temp)
         dinyatakan_jenis_sistem_temp = ""
@@ -1727,14 +1729,18 @@ def uploadFile(files):
     if files and allowed_photo(files.filename):
         logger.info("Uploading Image")
         try:
-            
             filename = secure_filename(files.filename)
-            filename = re.sub('[^a-zA-Z0-9.]', '', filename)
+            names = os.path.splitext(filename)
+            if len(names) == 2:
+                filename = names[0] + str(uuid4()) + names[1]
+            else:
+                filename = names[0] + str(uuid4())
             files.save(os.path.join(os.environ.get('PRIVATE_PHOTO_FOLDER'), filename))
             logger.info("Image Upload Successfull")
             response_object = { 
                 'status': 'success',
                 'message': 'Photo uploaded successfully',
+                'filename': filename
             }
             return response_object, 201         
         except:
@@ -1748,12 +1754,19 @@ def uploadFile(files):
         logger.info("Document Upload")
         try:
             filename = secure_filename(files.filename)
-            filename = re.sub('[^a-zA-Z0-9.]', '', filename)
+            names = os.path.splitext(filename)
+            if len(names) == 2:
+                filename = names[0] + str(uuid4()) + names[1]
+            else:
+                filename = names[0] + str(uuid4())
+            #os.path.splitext(filename)[0] + str(uuid4())
+            #filename = re.sub('[^a-zA-Z0-9.]', '', filename) + str(uuid4())
             files.save(os.path.join(os.environ.get('PRIVATE_DOC_FOLDER'), filename))
             logger.info("Document Upload Successfull")
             response_object = { 
                 'status': 'success',
                 'message': 'Document uploaded successfully',
+                'filename': filename
             }
             return response_object, 201         
         except:

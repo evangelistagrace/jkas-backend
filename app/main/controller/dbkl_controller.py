@@ -587,10 +587,10 @@ class GetSingleOmpBaru(Resource):
 @dbkl_ns.route("/updateOmpBaru/<omp_id>", endpoint="updateOmpBaru")
 class UpdateOmpBaru(Resource):
     
-    @dbkl_ns.expect(updateOmpBaru_reqparser)
+    @dbkl_ns.expect(createOmpBaru_reqparser)
     @dbkl_ns.doc(security="Bearer")
     def put(self,omp_id):
-        request_data = updateOmpBaru_reqparser.parse_args()
+        request_data = createOmpBaru_reqparser.parse_args()
         return updateOmpBaru(request_data,omp_id)
 
 @dbkl_ns.route("/deleteOmpBaru/<omp_id>", endpoint="deleteOmpBaru")
@@ -796,7 +796,7 @@ class GetComplaintInvestigation(Resource):
         """ View Complaint Investigation"""
         request_data = getComplaintInvestigation_reqparser.parse_args()
         return getComplaintInvestigation(request_data)
-    
+
 @dbkl_ns.route("/updateComplaintInvestigation/<int:form_id>", endpoint="update_complaint_investigation")
 class UpdateComplaintInvestigation(Resource):
     """Handles HTTP requests to URL: /dbkl/getMTBComplaintInvestigation."""

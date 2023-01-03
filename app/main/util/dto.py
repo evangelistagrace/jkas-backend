@@ -503,6 +503,12 @@ createInvoice_reqparser.add_argument(
     name="invoice_no", type=str, location="json", required=False, nullable=True
 )
 createInvoice_reqparser.add_argument(
+    name="bulan", type=str, location="json", required=False, nullable=True
+)
+createInvoice_reqparser.add_argument(
+    name="tahun", type=str, location="json", required=False, nullable=True
+)
+createInvoice_reqparser.add_argument(
     name="contractor", type=str, location="json", required=False, nullable=True
 )
 createInvoice_reqparser.add_argument(
@@ -909,6 +915,12 @@ getSapuanCucianCoordinates_reqparser.add_argument(
 # )
 
 addComplaintInvestigation_reqparser.add_argument(
+    name="id_pegawai", type=str, location="json", required=True, nullable=False
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="jenis_kawasan", type=str, location="json", required=True, nullable=False
+)
+addComplaintInvestigation_reqparser.add_argument(
     name="parlimen", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
@@ -918,10 +930,10 @@ addComplaintInvestigation_reqparser.add_argument(
     name="pengadu_alamat", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="no_telefon", type=str, location="json", required=True, nullable=False
+    name="no_telefon", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="no_rujukan", type=str, location="json", required=True, nullable=False
+    name="no_rujukan", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="emel", type=str, location="json", required=False, nullable=True
@@ -933,7 +945,7 @@ addComplaintInvestigation_reqparser.add_argument(
     name="sumber_aduan", type=str, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="lain_lain", type=str, location="json", required=True, nullable=False
+    name="lain_lain", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="tarikh_aduan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
@@ -954,10 +966,10 @@ addComplaintInvestigation_reqparser.add_argument(
     name="tarikh_siasatan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="nama_pegawai", type=str, location="json", required=True, nullable=False
+    name="nama_pegawai", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="lokasi_siasatan", type=str, location="json", required=True, nullable=False
+    name="lokasi_siasatan", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="laporan_siasatan", type=str, location="json", required=False, nullable=True
@@ -978,13 +990,22 @@ addComplaintInvestigation_reqparser.add_argument(
     name="ulasanKetua_unitf1", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
-    name="gambar", type=str, location="json", required=True, nullable=False
+    name="gambar", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="cause", type=str, location="json", required=False, nullable=True
 )
 addComplaintInvestigation_reqparser.add_argument(
     name="no_ic_pegawai_mtk", type=str, location="json", required=False, nullable=True
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="picture1", type=str, location="json", required=False, nullable=True
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="picture2", type=str, location="json", required=False, nullable=True
+)
+addComplaintInvestigation_reqparser.add_argument(
+    name="picture3", type=str, location="json", required=False, nullable=True
 )
 updateComplaintInvestigation_reqparser.add_argument(
     name="pengadu_nama", type=str, location="json", required=True, nullable=False
@@ -1068,6 +1089,9 @@ updateComplaintComments_reqparser.add_argument(
     name="ulasanKetuaUnit", type=str, location="json", required=False, nullable=True
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
+    name="id_pegawai", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
     name="parlimenA", type=str, location="json", required=True, nullable=False
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
@@ -1077,13 +1101,16 @@ add2ndComplaintInvestigation_reqparser.add_argument(
     name="tarikh_siasatan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
-    name="nama_pegawai", type=str, location="json", required=True, nullable=False
-)
-add2ndComplaintInvestigation_reqparser.add_argument(
-    name="no_ic_pegawai_mtk", type=str, location="json", required=False, nullable=True
-)
-add2ndComplaintInvestigation_reqparser.add_argument(
     name="lokasi_siasatan", type=str, location="json", required=True, nullable=False
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="picture1", type=str, location="json", required=False, nullable=True
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="picture2", type=str, location="json", required=False, nullable=True
+)
+add2ndComplaintInvestigation_reqparser.add_argument(
+    name="picture3", type=str, location="json", required=False, nullable=True
 )
 add2ndComplaintInvestigation_reqparser.add_argument(
     name="laporan_siasatan", type=str, location="json", required=True, nullable=False
@@ -1091,19 +1118,6 @@ add2ndComplaintInvestigation_reqparser.add_argument(
 add2ndComplaintInvestigation_reqparser.add_argument(
     name="tindakan", type=str, location="json", required=True, nullable=False
 )
-add2ndComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_penyelia", type=str, location="json", required=False, nullable=True
-)
-add2ndComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_ketua_seksyen", type=str, location="json", required=False, nullable=True
-)
-add2ndComplaintInvestigation_reqparser.add_argument(
-    name="ullasan_ketua_unit", type=str, location="json", required=False, nullable=True
-)
-add2ndComplaintInvestigation_reqparser.add_argument(
-    name="sebelum_siasatan", type=str, location="json", required=True, nullable=False
-)
-
 add3rdComplaintInvestigation_reqparser.add_argument(
     name="pengadu_nama", type=str, location="json", required=True, nullable=False
 )
@@ -1154,23 +1168,29 @@ add3rdComplaintInvestigation_reqparser.add_argument(
     name="cause", type=str, location="json", required=True, nullable=False
 )
 getComplaintInvestigation_reqparser.add_argument(
-    name="id_mtb", type=str, location="json", required=True, nullable=False
+    name="id_mtb", type=str, location="json", required=False, nullable=True
 )
 getComplaintInvestigation_reqparser.add_argument(
-    name="masa_siasatan", type=str, location="json", required=True, nullable=False
+    name="masa_siasatan", type=str, location="json", required=False, nullable=True
 )
 getComplaintInvestigation_reqparser.add_argument(
-    name="tarikh_siasatan", type=inputs.date_from_iso8601, location="json", required=True, nullable=False
+    name="tarikh_siasatan", type=inputs.date_from_iso8601, location="json", required=False, nullable=True
+)
+getComplaintInvestigation_reqparser.add_argument(
+    name="complaint_id", type=str, location="json", required=False, nullable=True
+)
+getComplaintInvestigation_reqparser.add_argument(
+    name="inquiry_id", type=str, location="json", required=False, nullable=True
 )
 
 mtbInquiry_reqparser.add_argument(
     name="tarikh", type=str, location="json", required=True, nullable=False
 )
 mtbInquiry_reqparser.add_argument(
-    name="officer_name", type=str, location="json", required=True, nullable=False
+    name="officer_name", type=str, location="json", required=False, nullable=True
 )
 getMTBOfficersTarikh_reqparser.add_argument(
-    name="officer_name", type=str, location="json", required=True, nullable=False
+    name="officer_name", type=str, location="json", required=False, nullable=True
 )
 
 
@@ -1190,6 +1210,9 @@ mtbCompoundInfoByMTB_reqparser.add_argument(
 
 
 addMTBCompoundForm_reqparser.add_argument(
+    name="id_pegawai", type=str, location="json", required=False, nullable=True
+)
+addMTBCompoundForm_reqparser.add_argument(
     name="no_notis_bas", type=str, location="json", required=True, nullable=False
 )
 addMTBCompoundForm_reqparser.add_argument(
@@ -1202,7 +1225,7 @@ addMTBCompoundForm_reqparser.add_argument(
     name="alamat", type=str, location="json", required=True, nullable=False
 )
 addMTBCompoundForm_reqparser.add_argument(
-    name="id_mtb", type=str, location="json", required=True, nullable=False
+    name="id_mtb", type=str, location="json", required=False, nullable=True
 )
 addMTBCompoundForm_reqparser.add_argument(
     name="parlimen", type=str, location="json", required=True, nullable=False
@@ -1342,261 +1365,270 @@ grafAnalisisDanStatistik_reqparser.add_argument(
 )
 
 createOmpBaru_reqparser.add_argument(
-    name="parlimen", type=str, location="json", required=True, nullable=False
+    name="parlimen", type=str, location="json", required=True, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="lokasi", type=str, location="json", required=True, nullable=False
+    name="lokasi", type=str, location="json", required=True, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="kordinat", type=str, location="json", required=True, nullable=False
+    name="kordinat", type=str, location="json", required=True, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="jumlah_unit_premis", type=str, location="json", required=True, nullable=False
+    name="jumlah_unit_premis", type=str, location="json", required=True, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sisa_domestik", type=str, location="json", required=True, nullable=False
+    name="sisa_domestik", type=str, location="json", required=True, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sampah_pukal", type=str, location="json", required=True, nullable=False
+    name="sampah_pukal", type=str, location="json", required=True, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="domestic_total", type=str, location="json", required=False, nullable=False
+    name="domestic_category", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="domestic_rate", type=str, location="json", required=False, nullable=False
+    name="domestic_total", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="domestic_freq", type=str, location="json", required=False, nullable=False
+    name="domestic_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="pukal_total", type=str, location="json", required=False, nullable=False
+    name="domestic_freq", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="pukal_rate", type=str, location="json", required=False, nullable=False
+    name="pukal_category", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="pukal_freq", type=str, location="json", required=False, nullable=False
-)
-
-
-createOmpBaru_reqparser.add_argument(
-    name="sapuan_domestic_unit", type=str, location="json", required=False, nullable=False
+    name="pukal_total", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sapuan_domestic_rate", type=str, location="json", required=False, nullable=False
+    name="pukal_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sapuan_domestic_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="sapuan_komersial_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="sapuan_komersial_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="sapuan_komersial_freq", type=str, location="json", required=False, nullable=False
+    name="pukal_freq", type=str, location="json", required=False, nullable=True
 )
 
 
 createOmpBaru_reqparser.add_argument(
-    name="cucian_domestic_unit", type=str, location="json", required=False, nullable=False
+    name="sapuan_domestic_unit", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_domestic_rate", type=str, location="json", required=False, nullable=False
+    name="sapuan_domestic_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_domestic_freq", type=str, location="json", required=False, nullable=False
+    name="sapuan_domestic_freq", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_komersial_unit", type=str, location="json", required=False, nullable=False
+    name="sapuan_komersial_unit", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_komersial_rate", type=str, location="json", required=False, nullable=False
+    name="sapuan_komersial_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_komersial_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_drain_domestic_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_drain_domestic_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_drain_domestic_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_drain_komersial_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_drain_komersial_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_drain_komersial_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_jejantas_dalam_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_jejantas_dalam_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_jejantas_dalam_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_jejantas_atas_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_jejantas_atas_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_jejantas_atas_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_roof_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_roof_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_roof_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_gulam1_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_gulam1_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_gulam1_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_gulam2_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_gulam2_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_siar_gulam2_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_tandas_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_tandas_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_tandas_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_teksi_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="cucian_teksi_freq", type=str, location="json", required=False, nullable=False
-)
-
-createOmpBaru_reqparser.add_argument(
-    name="bersih_lapang_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_lapang_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_lapang_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_tpkk_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_tpkk_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_tpkk_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_penjaja_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_penjaja_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_penjaja_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_pasar_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_pasar_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_pasar_freq", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_pasar_mlm_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_pasar_mlm_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="bersih_pasar_mlm_freq", type=str, location="json", required=False, nullable=False
-)
-
-createOmpBaru_reqparser.add_argument(
-    name="rumput_unit", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="rumput_rate", type=str, location="json", required=False, nullable=False
-)
-createOmpBaru_reqparser.add_argument(
-    name="rumput_freq", type=str, location="json", required=False, nullable=False
+    name="sapuan_komersial_freq", type=str, location="json", required=False, nullable=True
 )
 
 
 createOmpBaru_reqparser.add_argument(
-    name="sampah_haram", type=str, location="json", required=True, nullable=False
+    name="cucian_domestic_unit", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sapuan_jalan", type=str, location="json", required=True, nullable=False
+    name="cucian_domestic_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sapuan_TPKK", type=str, location="json", required=True, nullable=False
+    name="cucian_domestic_freq", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sapuan_parkir", type=str, location="json", required=True, nullable=False
+    name="cucian_komersial_unit", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sapuan_jejantas", type=str, location="json", required=True, nullable=False
+    name="cucian_komersial_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_jejantas", type=str, location="json", required=True, nullable=False
+    name="cucian_komersial_freq", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_siarkaki", type=str, location="json", required=True, nullable=False
+    name="cucian_drain_domestic_unit", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_siarkaki_berbumbung", type=str, location="json", required=True, nullable=False
+    name="cucian_drain_domestic_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_stesenbas_teksi", type=str, location="json", required=True, nullable=False
+    name="cucian_drain_domestic_freq", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="cucian_longkang", type=str, location="json", required=True, nullable=False
+    name="cucian_drain_komersial_unit", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="potong_rumput", type=str, location="json", required=True, nullable=False
+    name="cucian_drain_komersial_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="sampah_kebun", type=str, location="json", required=True, nullable=False
+    name="cucian_drain_komersial_freq", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="catatan", type=str, location="json", required=True, nullable=False
+    name="cucian_jejantas_dalam_unit", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="rujukan_tarikh_serahan", type=str, location="json", required=True, nullable=False
+    name="cucian_jejantas_dalam_rate", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="tarikh_semakandi_lapangant_keadeansemata_ada", type=str, location="json", required=True, nullable=False
+    name="cucian_jejantas_dalam_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_atas_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_atas_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas_atas_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_roof_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_roof_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_roof_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam1_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam1_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam1_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam2_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam2_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siar_gulam2_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_tandas_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_tandas_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_tandas_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_teksi_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_teksi_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_teksi_total", type=str, location="json", required=False, nullable=True
+)
+
+createOmpBaru_reqparser.add_argument(
+    name="bersih_lapang_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_lapang_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_lapang_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_tpkk_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_tpkk_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_tpkk_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_penjaja_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_penjaja_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_penjaja_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_freq", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_mlm_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_mlm_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="bersih_pasar_mlm_freq", type=str, location="json", required=False, nullable=True
+)
+
+createOmpBaru_reqparser.add_argument(
+    name="rumput_unit", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="rumput_rate", type=str, location="json", required=False, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="rumput_freq", type=str, location="json", required=False, nullable=True
+)
+
+
+createOmpBaru_reqparser.add_argument(
+    name="sampah_haram", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_jalan", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_TPKK", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_parkir", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="sapuan_jejantas", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_jejantas", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siarkaki", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_siarkaki_berbumbung", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_stesenbas_teksi", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="cucian_longkang", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="potong_rumput", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="sampah_kebun", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="catatan", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="rujukan_tarikh_serahan", type=str, location="json", required=True, nullable=True
+)
+createOmpBaru_reqparser.add_argument(
+    name="tarikh_semakandi_lapangant_keadeansemata_ada", type=str, location="json", required=True, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
     name="surat_serahan", type=str, location="json", required=False, nullable=True
@@ -1608,7 +1640,7 @@ createOmpBaru_reqparser.add_argument(
     name="frekuensi", type=str, location="json", required=False, nullable=True
 )
 createOmpBaru_reqparser.add_argument(
-    name="tarikh_semakandi_lapangant_keadeansemata_tiada", type=str, location="json", required=True, nullable=False
+    name="tarikh_semakandi_lapangant_keadeansemata_tiada", type=str, location="json", required=True, nullable=True
 )
 lapisanFitur_reqparser.add_argument(
     name="parlimen", type=str, location="json", required=False, nullable=True

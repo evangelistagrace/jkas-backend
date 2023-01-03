@@ -593,6 +593,8 @@ def createInvoice(data):
     applicant_name = data.applicant_name
     e_mei = data.e_mei
     amount_claim = data.amount_claim
+    bulan = data.bulan
+    tahun = data.tahun
             
     invoice_document_temp = data.invoice_document
     if invoice_document_temp:
@@ -634,7 +636,7 @@ def createInvoice(data):
     now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")  
 
     try:
-        new_claim = JobPaymentClaim(no_inbois=invoice_no,kontraktor=contractor,nama_pemohon=applicant_name,e_mei=e_mei,
+        new_claim = JobPaymentClaim(no_inbois=invoice_no,kontraktor=contractor,nama_pemohon=applicant_name,e_mei=e_mei, bulan=bulan, tahun=tahun,
                                           jumlah_tuntutan=amount_claim,inbois_dokumen=invoice_document_temp[:-1],ringkasan_dokumen=summary_document_temp[:-1],
                                           lampiran=attachment_temp[:-1], tarikh=today, inserted_by = invoice_no, inserted_date = now, active=1, bd44=db44_temp, laporan_tuntutan=laporan_tuntutan_temp)
         db.session.add(new_claim)

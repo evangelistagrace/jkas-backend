@@ -41,9 +41,31 @@ SMTP_MAIL = os.environ.get('SMTP_MAIL')
 SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
 FROM_EMAIL = os.environ.get('FROM_EMAIL')
 UI_URL = os.environ.get('UI_URL')
+SEND_GRID_KEY = os.environ.get('SEND_GRID_KEY')
 # PRIVATE_PHOTO_FOLDER = os.environ.get('PRIVATE_PHOTO_FOLDER')
 # PRIVATE_DOC_FOLDER = os.environ.get('PRIVATE_DOC_FOLDER')
 tz = pytz.timezone('Asia/Kuala_Lumpur')
+
+def send_email(sender, recipient, subject, content):
+    response = requests.post('https://api.sendgrid.com/v3/mail/send', verify=False, json={
+        "personalizations": [{
+            "to": [{
+                "email": recipient
+            }]
+        }],
+        "from": {
+            "email": sender
+        },
+        "subject": subject,
+        "content": [{
+            "type": "text/plain",
+            "value": content
+        }]
+    }, headers={
+        "Authorization": "Bearer " + SEND_GRID_KEY,
+        "Content-Type": "application/json" 
+    })
+    return response.status_code == 202
 
 """ ===============================<< Registration of new user starts >>==============================="""
 
@@ -87,27 +109,20 @@ def register(name, nama_pengguna, email, password):
     
     Jabatan Kesihatan dan Alam Sekitar
     '''
-    message.attach(MIMEText(MAIL_CONTENT, 'plain'))
-    try:
-        mail_session = smtplib.SMTP('smtp.gmail.com', 587)
-        mail_session.starttls()
-        mail_session.login(SMTP_MAIL, SMTP_PASSWORD)
-        text = message.as_string()
-        mail_session.sendmail(FROM_EMAIL, TO_EMAIL, text)
-        mail_session.quit()
+    if send_email(FROM_EMAIL, TO_EMAIL, 'JKAS OTP', MAIL_CONTENT):
         logger.info("Mail Sent")
         response_object = {
             "status": "success",
             "message": "otp_sent"
         }
         return response_object
-    except:
-        logger.exception("Mail could not be sent")
-        response_object = {
-            "status": "fail",
-            "message": "mail_failed"
-        }
-        return response_object, 400
+    logger.exception("Mail could not be sent")
+    response_object = {
+        "status": "fail",
+        "message": "mail_failed"
+    }
+    return response_object, 400
+
  
 def completeRegistration(data):
     user_otp = data.otp
@@ -410,27 +425,19 @@ def make_forgot_mail(id_card_no, email, lang, reset_password_token):
     
     Jabatan Kesihatan dan Alam Sekitar
     '''
-    message.attach(MIMEText(MAIL_CONTENT, 'plain'))
-    try:
-        mail_session = smtplib.SMTP('smtp.gmail.com', 587)
-        mail_session.starttls()
-        mail_session.login(SMTP_MAIL, SMTP_PASSWORD)
-        text = message.as_string()
-        mail_session.sendmail(FROM_EMAIL, TO_EMAIL, text)
-        mail_session.quit()
+    if send_email(FROM_EMAIL, TO_EMAIL, 'JKAS - Tetapan Semula Kata Laluan', MAIL_CONTENT):
         logger.info("Mail Sent with reset password token")
         response_object = {
             'status': 'success',
             'message': 'reset_pwd_mail_sent'
             }
         return response_object, 200
-    except:
-        logger.exception("could not be sent mail")
-        response_object = {
-            'status': 'fail',
-            'message': 'Can not sent reset pasword link'
-        }
-        return response_object, 400
+    logger.exception("could not be sent mail")
+    response_object = {
+        'status': 'fail',
+        'message': 'Can not sent reset pasword link'
+    }
+    return response_object, 400
 
 """ ===============================<< Forgot password ends >>===============================  """
 """ ===============================<< Reset password starts >>===============================  """
@@ -1405,7 +1412,7 @@ def updatePublicApplicationDetails(no_siri_permohonan,data):
                 surat_permohonan_perkhidmatan_pembersihan_dokumen_list = surat_permohonan_perkhidmatan_pembersihan_dokumen_temp.split(",")
                 surat_permohonan_perkhidmatan_pembersihan_dokumen_temp_list = []
                 for i in surat_permohonan_perkhidmatan_pembersihan_dokumen_list:
-                    surat_permohonan_perkhidmatan_pembersihan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+                    #surat_permohonan_perkhidmatan_pembersihan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
                     surat_permohonan_perkhidmatan_pembersihan_dokumen_temp_list.append(surat_permohonan_perkhidmatan_pembersihan_dokumen_temp)
                 surat_permohonan_perkhidmatan_pembersihan_dokumen_temp = ""
                 for i in surat_permohonan_perkhidmatan_pembersihan_dokumen_temp_list:
@@ -1420,7 +1427,7 @@ def updatePublicApplicationDetails(no_siri_permohonan,data):
                 surat_salinan_CF_dokumen_list = surat_salinan_CF_dokumen_temp.split(",")
                 surat_salinan_CF_dokumen_temp_list = []
                 for i in surat_salinan_CF_dokumen_list:
-                    surat_salinan_CF_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+                    #surat_salinan_CF_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
                     surat_salinan_CF_dokumen_temp_list.append(surat_salinan_CF_dokumen_temp)
                 surat_salinan_CF_dokumen_temp = ""
                 for i in surat_salinan_CF_dokumen_temp_list:
@@ -1435,7 +1442,7 @@ def updatePublicApplicationDetails(no_siri_permohonan,data):
                 salinan_status_pembanginan_dokumen_list = salinan_status_pembanginan_dokumen_temp.split(",")
                 salinan_status_pembanginan_dokumen_temp_list = []
                 for i in salinan_status_pembanginan_dokumen_list:
-                    salinan_status_pembanginan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+                    #salinan_status_pembanginan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
                     salinan_status_pembanginan_dokumen_temp_list.append(salinan_status_pembanginan_dokumen_temp)
                 salinan_status_pembanginan_dokumen_temp = ""
                 for i in salinan_status_pembanginan_dokumen_temp_list:
@@ -1450,7 +1457,7 @@ def updatePublicApplicationDetails(no_siri_permohonan,data):
                 bagi_status_pembangunan_dokumen_list = bagi_status_pembangunan_dokumen_temp.split(",")
                 bagi_status_pembangunan_dokumen_temp_list = []
                 for i in bagi_status_pembangunan_dokumen_list:
-                    bagi_status_pembangunan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+                    #bagi_status_pembangunan_dokumen_temp = re.sub('[^a-zA-Z0-9.]', '', i)
                     bagi_status_pembangunan_dokumen_temp_list.append(bagi_status_pembangunan_dokumen_temp)
                 bagi_status_pembangunan_dokumen_temp = ""
                 for i in bagi_status_pembangunan_dokumen_temp_list:
@@ -1475,7 +1482,7 @@ def updatePublicApplicationDetails(no_siri_permohonan,data):
                 dinyatakan_jenis_sistem_list = dinyatakan_jenis_sistem_temp.split(",")
                 dinyatakan_jenis_sistem_temp_list = []
                 for i in dinyatakan_jenis_sistem_list:
-                    dinyatakan_jenis_sistem_temp = re.sub('[^a-zA-Z0-9.]', '', i)
+                    #dinyatakan_jenis_sistem_temp = re.sub('[^a-zA-Z0-9.]', '', i)
                     dinyatakan_jenis_sistem_temp = dinyatakan_jenis_sistem_temp
                     dinyatakan_jenis_sistem_temp_list.append(dinyatakan_jenis_sistem_temp)
                 dinyatakan_jenis_sistem_temp = ""
@@ -2196,9 +2203,11 @@ def getOmpBaru(data):
                 "kordinat":jkasOmp.kordinat,
                 "jumlah_unit_premis":jkasOmp.jumlah_unit_premis,
 
+                "domestic_category": jkasOmp.domestic_category,
                 "domestic_freq": jkasOmp.domestic_freq,
                 "domestic_rate": jkasOmp.domestic_rate,
                 "domestic_total": jkasOmp.domestic_total,
+                "pukal_category": jkasOmp.pukal_category,
                 "pukal_freq": jkasOmp.pukal_freq,
                 "pukal_rate": jkasOmp.pukal_rate,
                 "pukal_total": jkasOmp.pukal_total,
@@ -2217,8 +2226,8 @@ def getOmpBaru(data):
                 "cucian_komersial_freq": jkasOmp.cucian_komersial_freq,
                 "cucian_komersial_rate": jkasOmp.cucian_komersial_rate,
                 "cucian_drain_domestic_unit": jkasOmp.cucian_drain_domestic_unit,
-                "cucian_drain_domestic_freq": jkasOmp.cucian_drain_domestic_unit,
-                "cucian_drain_domestic_rate": jkasOmp.cucian_drain_domestic_unit,
+                "cucian_drain_domestic_freq": jkasOmp.cucian_drain_domestic_freq,
+                "cucian_drain_domestic_rate": jkasOmp.cucian_drain_domestic_rate,
                 "cucian_drain_komersial_unit": jkasOmp.cucian_drain_komersial_unit,
                 "cucian_drain_komersial_freq": jkasOmp.cucian_drain_komersial_freq,
                 "cucian_drain_komersial_rate": jkasOmp.cucian_drain_komersial_rate,
@@ -2242,6 +2251,7 @@ def getOmpBaru(data):
                 "cucian_tandas_rate": jkasOmp.cucian_tandas_rate,
                 "cucian_teksi_rate": jkasOmp.cucian_teksi_rate,
                 "cucian_teksi_freq": jkasOmp.cucian_teksi_freq,
+                "cucian_teksi_total": jkasOmp.cucian_teksi_total,
 
                 "bersih_lapang_unit": jkasOmp.bersih_lapang_unit,
                 "bersih_lapang_freq": jkasOmp.bersih_lapang_freq,
@@ -2331,6 +2341,80 @@ def getSingleOmpBaru(omp_id):
         ompBaruDict['tarikh_semakandi_lapangant_keadeansemata_tiada']=ompInfo.tarikh_semakandi_lapangant_keadeansemata_tiada
         ompBaruDict['kadar'] = ompInfo.kadar
         ompBaruDict['frekuensi'] = ompInfo.frekuensi
+
+        ompBaruDict['domestic_category'] = ompInfo.domestic_category
+        ompBaruDict['domestic_freq'] = ompInfo.domestic_freq
+        ompBaruDict['domestic_rate'] = ompInfo.domestic_rate
+        ompBaruDict['domestic_total'] = ompInfo.domestic_total
+        ompBaruDict['pukal_category'] = ompInfo.pukal_category
+        ompBaruDict['pukal_freq'] = ompInfo.pukal_freq
+        ompBaruDict['pukal_rate'] = ompInfo.pukal_rate
+        ompBaruDict['pukal_total'] = ompInfo.pukal_total
+
+        ompBaruDict['sapuan_domestic_unit'] = ompInfo.sapuan_domestic_unit
+        ompBaruDict['sapuan_domestic_rate'] = ompInfo.sapuan_domestic_rate
+        ompBaruDict['sapuan_domestic_freq'] = ompInfo.sapuan_domestic_freq
+        ompBaruDict['sapuan_komersial_unit'] = ompInfo.sapuan_komersial_unit
+        ompBaruDict['sapuan_komersial_rate'] = ompInfo.sapuan_komersial_rate
+        ompBaruDict['sapuan_komersial_freq'] = ompInfo.sapuan_komersial_freq
+
+        ompBaruDict['cucian_domestic_unit'] = ompInfo.cucian_domestic_unit
+        ompBaruDict['cucian_domestic_rate'] = ompInfo.cucian_domestic_rate
+        ompBaruDict['cucian_domestic_freq'] = ompInfo.cucian_domestic_freq
+        ompBaruDict['cucian_komersial_unit'] = ompInfo.cucian_komersial_unit
+        ompBaruDict['cucian_komersial_rate'] = ompInfo.cucian_komersial_rate
+        ompBaruDict['cucian_komersial_freq'] = ompInfo.cucian_komersial_freq
+        ompBaruDict['cucian_drain_domestic_unit'] = ompInfo.cucian_drain_domestic_unit
+        ompBaruDict['cucian_drain_domestic_rate'] = ompInfo.cucian_drain_domestic_rate
+        ompBaruDict['cucian_drain_domestic_freq'] = ompInfo.cucian_drain_domestic_freq
+        ompBaruDict['cucian_drain_komersial_unit'] = ompInfo.cucian_drain_komersial_unit
+        ompBaruDict['cucian_drain_komersial_rate'] = ompInfo.cucian_drain_komersial_rate
+        ompBaruDict['cucian_drain_komersial_freq'] = ompInfo.cucian_drain_komersial_freq
+        ompBaruDict['cucian_jejantas_dalam_unit'] = ompInfo.cucian_jejantas_dalam_unit
+        ompBaruDict['cucian_jejantas_dalam_rate'] = ompInfo.cucian_jejantas_dalam_rate
+        ompBaruDict['cucian_jejantas_dalam_freq'] = ompInfo.cucian_jejantas_dalam_freq
+        ompBaruDict['cucian_jejantas_atas_unit'] = ompInfo.cucian_jejantas_atas_unit
+        ompBaruDict['cucian_jejantas_atas_rate'] = ompInfo.cucian_jejantas_atas_rate
+        ompBaruDict['cucian_jejantas_atas_freq'] = ompInfo.cucian_jejantas_atas_freq
+        ompBaruDict['cucian_siar_roof_unit'] = ompInfo.cucian_siar_roof_unit
+        ompBaruDict['cucian_siar_roof_rate'] = ompInfo.cucian_siar_roof_rate
+        ompBaruDict['cucian_siar_roof_freq'] = ompInfo.cucian_siar_roof_freq
+        ompBaruDict['cucian_siar_gulam1_unit'] = ompInfo.cucian_siar_gulam1_unit
+        ompBaruDict['cucian_siar_gulam1_rate'] = ompInfo.cucian_siar_gulam1_rate
+        ompBaruDict['cucian_siar_gulam1_freq'] = ompInfo.cucian_siar_gulam1_freq
+        ompBaruDict['cucian_siar_gulam2_unit'] = ompInfo.cucian_siar_gulam2_unit
+        ompBaruDict['cucian_siar_gulam2_rate'] = ompInfo.cucian_siar_gulam2_rate
+        ompBaruDict['cucian_siar_gulam2_freq'] = ompInfo.cucian_siar_gulam2_freq
+        ompBaruDict['cucian_tandas_unit'] = ompInfo.cucian_tandas_unit
+        ompBaruDict['cucian_tandas_rate'] = ompInfo.cucian_tandas_rate
+        ompBaruDict['cucian_tandas_freq'] = ompInfo.cucian_tandas_freq
+        ompBaruDict['cucian_teksi_rate'] = ompInfo.cucian_teksi_rate
+        ompBaruDict['cucian_teksi_freq'] = ompInfo.cucian_teksi_freq
+        ompBaruDict['cucian_teksi_total'] = ompInfo.cucian_teksi_total
+
+        ompBaruDict['bersih_lapang_unit'] = ompInfo.bersih_lapang_unit
+        ompBaruDict['bersih_lapang_freq'] = ompInfo.bersih_lapang_freq
+        ompBaruDict['bersih_lapang_rate'] = ompInfo.bersih_lapang_rate
+        ompBaruDict['bersih_tpkk_unit'] = ompInfo.bersih_tpkk_unit
+        ompBaruDict['bersih_tpkk_freq'] = ompInfo.bersih_tpkk_freq
+        ompBaruDict['bersih_tpkk_rate'] = ompInfo.bersih_tpkk_rate
+        ompBaruDict['bersih_penjaja_unit'] = ompInfo.bersih_penjaja_unit
+        ompBaruDict['bersih_penjaja_rate'] = ompInfo.bersih_penjaja_rate
+        ompBaruDict['bersih_penjaja_freq'] = ompInfo.bersih_penjaja_freq
+        ompBaruDict['bersih_pasar_unit'] = ompInfo.bersih_pasar_unit
+        ompBaruDict['bersih_pasar_freq'] = ompInfo.bersih_pasar_freq
+        ompBaruDict['bersih_pasar_rate'] = ompInfo.bersih_pasar_rate
+        ompBaruDict['bersih_pasar_mlm_unit'] = ompInfo.bersih_pasar_mlm_unit
+        ompBaruDict['bersih_pasar_mlm_rate'] = ompInfo.bersih_pasar_mlm_rate
+        ompBaruDict['bersih_pasar_mlm_freq'] = ompInfo.bersih_pasar_mlm_freq
+
+        ompBaruDict['rumput_unit'] = ompInfo.rumput_unit
+        ompBaruDict['rumput_freq'] = ompInfo.rumput_freq
+        ompBaruDict['rumput_rate'] = ompInfo.rumput_rate
+
+        ompBaruDict['surat_serahan'] = ompInfo.surat_serahan
+
+
         logger.info("OMP Baru Info fetched.")
         return ompBaruDict
     except:
@@ -2344,40 +2428,107 @@ def getSingleOmpBaru(omp_id):
 """ ===============================<< updateOmpBaru starts >>=============================== """
 @token_required
 def updateOmpBaru(data,omp_id):
-    kodarea= data.kodarea
-    lokasi = data.lokasi
     parlimen = data.parlimen
-    parlimen_subarea=data.parlimen_subarea
-    kordinat=data.kordinat
-    jumlah_unit_premis=data.jumlah_unit_premis
-    kekerapan_kutipan_sisa_domestik=data.kekerapan_kutipan_sisa_domestik
-    kekerapan_kutipan_sampah_pukal=data.kekerapan_kutipan_sampah_pukal
-    kekerapan_kutipan_sampah_haram=data.kekerapan_kutipan_sampah_haram
-    ukuran_panjang_sapuan_jalan=data.ukuran_panjang_sapuan_jalan
-    ukuran_panjang_sapuan_TPKK=data.ukuran_panjang_sapuan_TPKK
-    ukuran_panjang_sapuan_kaw_lapang_parkir=data.ukuran_panjang_sapuan_kaw_lapang_parkir
-    ukuran_panjang_sapuan_jejantas=data.ukuran_panjang_sapuan_jejantas
-    ukuran_panjang_cucian_jejantas=data.ukuran_panjang_cucian_jejantas
-    ukuran_panjang_cucian_siarkaki=data.ukuran_panjang_cucian_siarkaki
-    ukuran_panjang_cucian_siarkaki_berbumbung=data.ukuran_panjang_cucian_siarkaki_berbumbung
-    ukuran_panjang_cucian_stesenbas_teksi=data.ukuran_panjang_cucian_stesenbas_teksi
-    ukuran_panjang_cucian_longkang=data.ukuran_panjang_cucian_longkang
-    ukuran_panjang_potongrumput=data.ukuran_panjang_potongrumput
-    ukuran_panjang_sampahkebun=data.ukuran_panjang_sampahkebun
-    catatan=data.catatan
-    rujuken_tarikh_serahan=data.rujuken_tarikh_serahan
-    tarikh_semakandi_lapangant_keadeansemata_ada=data.tarikh_semakandi_lapangant_keadeansemata_ada
-    tarikh_semakandi_lapangant_keadeansemata_tiada=data.tarikh_semakandi_lapangant_keadeansemata_tiada
+    lokasi = data.lokasi
+    kordinat = data.kordinat
+    jumlah_unit_premis = data.jumlah_unit_premis
+    kekerapan_kutipan_sisa_domestik = data.sisa_domestik
+    kekerapan_kutipan_sampah_pukal = data.sampah_pukal
+    kekerapan_kutipan_sampah_haram = data.sampah_haram
+    ukuran_panjang_sapuan_jalan = data.sapuan_jalan
+    ukuran_panjang_sapuan_TPKK = data.sapuan_TPKK
+    ukuran_panjang_sapuan_kaw_lapang_parkir = data.sapuan_parkir
+    ukuran_panjang_sapuan_jejantas = data.sapuan_jejantas
+    ukuran_panjang_cucian_jejantas = data.cucian_jejantas
+    ukuran_panjang_cucian_siarkaki = data.cucian_siarkaki
+    ukuran_panjang_cucian_siarkaki_berbumbung = data.cucian_siarkaki_berbumbung
+    ukuran_panjang_cucian_stesenbas_teksi = data.cucian_stesenbas_teksi
+    ukuran_panjang_cucian_longkang = data.cucian_longkang
+    ukuran_panjang_potongrumput = data.potong_rumput
+    ukuran_panjang_sampahkebun = data.sampah_kebun
+    catatan = data.catatan
+    rujukan_tarikh_serahan = data.rujukan_tarikh_serahan
+    tarikh_semakandi_lapangant_keadeansemata_ada = data.tarikh_semakandi_lapangant_keadeansemata_ada
+    tarikh_semakandi_lapangant_keadeansemata_tiada = data.tarikh_semakandi_lapangant_keadeansemata_tiada
+    surat_serahan = data.surat_serahan
     kadar = data.kadar
     frekuensi = data.frekuensi
+
+    domestic_category = data.domestic_category
+    domestic_total = data.domestic_total
+    domestic_freq = data.domestic_freq
+    domestic_rate = data.domestic_rate
+    pukal_category = data.pukal_category
+    pukal_total = data.pukal_total
+    pukal_freq = data.pukal_freq
+    pukal_rate = data.pukal_rate
+
+    sapuan_domestic_unit = data.sapuan_domestic_unit
+    sapuan_domestic_rate = data.sapuan_domestic_rate
+    sapuan_domestic_freq = data.sapuan_domestic_freq
+    sapuan_komersial_unit = data.sapuan_komersial_unit
+    sapuan_komersial_rate = data.sapuan_komersial_rate
+    sapuan_komersial_freq = data.sapuan_komersial_freq
+
+    cucian_domestic_unit = data.cucian_domestic_unit
+    cucian_domestic_rate = data.cucian_domestic_rate
+    cucian_domestic_freq = data.cucian_domestic_freq
+    cucian_komersial_unit = data.cucian_komersial_unit
+    cucian_komersial_rate = data.cucian_komersial_rate
+    cucian_komersial_freq = data.cucian_komersial_freq
+    cucian_drain_domestic_unit = data.cucian_drain_domestic_unit
+    cucian_drain_domestic_rate = data.cucian_drain_domestic_rate
+    cucian_drain_domestic_freq = data.cucian_drain_domestic_freq
+    cucian_drain_komersial_unit = data.cucian_drain_komersial_unit
+    cucian_drain_komersial_rate = data.cucian_drain_komersial_rate
+    cucian_drain_komersial_freq = data.cucian_drain_komersial_freq
+    cucian_jejantas_dalam_unit = data.cucian_jejantas_dalam_unit
+    cucian_jejantas_dalam_rate = data.cucian_jejantas_dalam_rate
+    cucian_jejantas_dalam_freq = data.cucian_jejantas_dalam_freq
+    cucian_jejantas_atas_unit = data.cucian_jejantas_atas_unit
+    cucian_jejantas_atas_rate = data.cucian_jejantas_atas_rate
+    cucian_jejantas_atas_freq = data.cucian_jejantas_atas_freq
+    cucian_siar_roof_unit = data.cucian_siar_roof_unit
+    cucian_siar_roof_rate = data.cucian_siar_roof_rate
+    cucian_siar_roof_freq = data.cucian_siar_roof_freq
+    cucian_siar_gulam1_unit = data.cucian_siar_gulam1_unit
+    cucian_siar_gulam1_rate = data.cucian_siar_gulam1_rate
+    cucian_siar_gulam1_freq = data.cucian_siar_gulam1_freq
+    cucian_siar_gulam2_unit = data.cucian_siar_gulam2_unit
+    cucian_siar_gulam2_rate = data.cucian_siar_gulam2_rate
+    cucian_siar_gulam2_freq = data.cucian_siar_gulam2_freq
+    cucian_tandas_unit = data.cucian_tandas_unit
+    cucian_tandas_rate = data.cucian_tandas_rate
+    cucian_tandas_freq = data.cucian_tandas_freq
+    cucian_teksi_rate = data.cucian_teksi_rate
+    cucian_teksi_freq = data.cucian_teksi_freq
+    cucian_teksi_total = data.cucian_teksi_total
+
+    bersih_lapang_unit = data.bersih_lapang_unit
+    bersih_lapang_rate = data.bersih_lapang_rate
+    bersih_lapang_freq = data.bersih_lapang_freq
+    bersih_tpkk_unit = data.bersih_tpkk_unit
+    bersih_tpkk_rate = data.bersih_tpkk_rate
+    bersih_tpkk_freq = data.bersih_tpkk_freq
+    bersih_penjaja_unit = data.bersih_penjaja_unit
+    bersih_penjaja_rate = data.bersih_penjaja_rate
+    bersih_penjaja_freq = data.bersih_penjaja_freq
+    bersih_pasar_unit = data.bersih_pasar_unit
+    bersih_pasar_rate = data.bersih_pasar_rate
+    bersih_pasar_freq = data.bersih_pasar_freq
+    bersih_pasar_mlm_unit = data.bersih_pasar_mlm_unit
+    bersih_pasar_mlm_rate = data.bersih_pasar_mlm_rate
+    bersih_pasar_mlm_freq = data.bersih_pasar_mlm_freq
+
+    rumput_unit = data.rumput_unit
+    rumput_rate = data.rumput_rate
+    rumput_freq = data.rumput_freq
     if db.session.query(OmpBaru).filter_by(omp_id=omp_id,active=1).first() == None:
         abort(HTTPStatus.CONFLICT, f"No Data Present with omp_id {omp_id}", status="fail")
     try:
         ompInfo = db.session.query(OmpBaru).filter_by(omp_id=omp_id,active=1).first()
-        ompInfo.kodarea= kodarea
         ompInfo.lokasi = lokasi
         ompInfo.parlimen = parlimen
-        ompInfo.parlimen_subarea=parlimen_subarea
         ompInfo.kordinat=kordinat
         ompInfo.jumlah_unit_premis=jumlah_unit_premis
         ompInfo.kekerapan_kutipan_sisa_domestik=kekerapan_kutipan_sisa_domestik
@@ -2395,7 +2546,79 @@ def updateOmpBaru(data,omp_id):
         ompInfo.ukuran_panjang_potongrumput=ukuran_panjang_potongrumput
         ompInfo.ukuran_panjang_sampahkebun=ukuran_panjang_sampahkebun
         ompInfo.catatan=catatan
-        ompInfo.rujuken_tarikh_serahan=rujuken_tarikh_serahan
+        ompInfo.rujuken_tarikh_serahan=rujukan_tarikh_serahan
+        ompInfo.surat_serahan = surat_serahan
+
+        ompInfo.domestic_category = domestic_category
+        ompInfo.domestic_total = domestic_total
+        ompInfo.domestic_freq = domestic_freq
+        ompInfo.domestic_rate = domestic_rate
+        ompInfo.pukal_category = pukal_category
+        ompInfo.pukal_total = pukal_total
+        ompInfo.pukal_freq = pukal_freq
+        ompInfo.pukal_rate = pukal_rate
+
+        ompInfo.sapuan_domestic_unit = sapuan_domestic_unit
+        ompInfo.sapuan_domestic_rate = sapuan_domestic_rate
+        ompInfo.sapuan_domestic_freq = sapuan_domestic_freq
+        ompInfo.sapuan_komersial_unit = sapuan_komersial_unit
+        ompInfo.sapuan_komersial_rate = sapuan_komersial_rate
+        ompInfo.sapuan_komersial_freq = sapuan_komersial_freq
+
+        ompInfo.cucian_domestic_unit = cucian_domestic_unit
+        ompInfo.cucian_domestic_rate = cucian_domestic_rate
+        ompInfo.cucian_domestic_freq = cucian_domestic_freq
+        ompInfo.cucian_komersial_unit = cucian_komersial_unit
+        ompInfo.cucian_komersial_rate = cucian_komersial_rate
+        ompInfo.cucian_komersial_freq = cucian_komersial_freq
+        ompInfo.cucian_drain_domestic_unit = cucian_drain_domestic_unit
+        ompInfo.cucian_drain_domestic_rate = cucian_drain_domestic_rate
+        ompInfo.cucian_drain_domestic_freq = cucian_drain_domestic_freq
+        ompInfo.cucian_drain_komersial_unit = cucian_drain_komersial_unit
+        ompInfo.cucian_drain_komersial_rate = cucian_drain_komersial_rate
+        ompInfo.cucian_drain_komersial_freq = cucian_drain_komersial_freq
+        ompInfo.cucian_jejantas_dalam_unit = cucian_jejantas_dalam_unit
+        ompInfo.cucian_jejantas_dalam_rate = cucian_jejantas_dalam_rate
+        ompInfo.cucian_jejantas_dalam_freq = cucian_jejantas_dalam_freq
+        ompInfo.cucian_jejantas_atas_unit = cucian_jejantas_atas_unit
+        ompInfo.cucian_jejantas_atas_rate = cucian_jejantas_atas_rate
+        ompInfo.cucian_jejantas_atas_freq = cucian_jejantas_atas_freq
+        ompInfo.cucian_siar_roof_unit = cucian_siar_roof_unit
+        ompInfo.cucian_siar_roof_rate = cucian_siar_roof_rate
+        ompInfo.cucian_siar_roof_freq = cucian_siar_roof_freq
+        ompInfo.cucian_siar_gulam1_unit = cucian_siar_gulam1_unit
+        ompInfo.cucian_siar_gulam1_rate = cucian_siar_gulam1_rate
+        ompInfo.cucian_siar_gulam1_freq = cucian_siar_gulam1_freq
+        ompInfo.cucian_siar_gulam2_unit = cucian_siar_gulam2_unit
+        ompInfo.cucian_siar_gulam2_rate = cucian_siar_gulam2_rate
+        ompInfo.cucian_siar_gulam2_freq = cucian_siar_gulam2_freq
+        ompInfo.cucian_tandas_unit = cucian_tandas_unit
+        ompInfo.cucian_tandas_rate = cucian_tandas_rate
+        ompInfo.cucian_tandas_freq = cucian_tandas_freq
+        ompInfo.cucian_teksi_rate = cucian_teksi_rate
+        ompInfo.cucian_teksi_freq = cucian_teksi_freq
+        ompInfo.cucian_teksi_total = cucian_teksi_total
+
+        ompInfo.bersih_lapang_unit = bersih_lapang_unit
+        ompInfo.bersih_lapang_rate = bersih_lapang_rate
+        ompInfo.bersih_lapang_freq = bersih_lapang_freq
+        ompInfo.bersih_tpkk_unit = bersih_tpkk_unit
+        ompInfo.bersih_tpkk_rate = bersih_tpkk_rate
+        ompInfo.bersih_tpkk_freq = bersih_tpkk_freq
+        ompInfo.bersih_penjaja_unit = bersih_penjaja_unit
+        ompInfo.bersih_penjaja_rate = bersih_penjaja_rate
+        ompInfo.bersih_penjaja_freq = bersih_penjaja_freq
+        ompInfo.bersih_pasar_unit = bersih_pasar_unit
+        ompInfo.bersih_pasar_rate = bersih_pasar_rate
+        ompInfo.bersih_pasar_freq = bersih_pasar_freq
+        ompInfo.bersih_pasar_mlm_unit = bersih_pasar_mlm_unit
+        ompInfo.bersih_pasar_mlm_rate = bersih_pasar_mlm_rate
+        ompInfo.bersih_pasar_mlm_freq = bersih_pasar_mlm_freq
+
+        ompInfo.rumput_unit = rumput_unit
+        ompInfo.rumput_rate = rumput_rate
+        ompInfo.rumput_freq = rumput_freq
+
         ompInfo.tarikh_semakandi_lapangant_keadeansemata_ada=tarikh_semakandi_lapangant_keadeansemata_ada
         ompInfo.tarikh_semakandi_lapangant_keadeansemata_tiada=tarikh_semakandi_lapangant_keadeansemata_tiada
         ompInfo.kadar = kadar
@@ -2929,14 +3152,20 @@ def getMTKList():
 def getMTBOfficersList():
     user = get_logged_in_user()
     id_mtk = user.no_kad_pengenalan
+
+    officers_list = []
+
+    mtk_user_info = MasterUser.query.with_entities(MasterUser.nama, MasterUser.parlimen,MasterUser.no_kad_pengenalan).filter_by(role='MerinyuMTK').all()
+    for mtk in mtk_user_info:
+        officers_list.append({'officer_name': mtk.nama, 'parlimen': mtk.parlimen, 'no_kad_pengenalan': mtk.no_kad_pengenalan})
     if user.role == 'Superadmin':
         try:
-            officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(active=1):
+            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen,OfficersList.no_ic_pegawai).distinct(OfficersList.no_ic_pegawai).filter_by(active=1):
                 if officer.officer_name != 'SuperAdmin':
                     officers_list.append({
                         'officer_name': officer.officer_name,
                         'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_ic_pegawai
                     })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
@@ -2950,12 +3179,12 @@ def getMTBOfficersList():
             return response_object, 400
     elif user.role == 'MerinyuMTK':
         try:
-            officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(id_mtk=id_mtk, active=1):
+            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen,OfficersList.no_ic_pegawai).distinct(OfficersList.no_ic_pegawai).filter_by(id_mtk=id_mtk, active=1):
                 if officer.officer_name != 'SuperAdmin':
                     officers_list.append({
                         'officer_name': officer.officer_name,
                         'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_ic_pegawai
                     })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
@@ -2969,12 +3198,12 @@ def getMTBOfficersList():
             return response_object, 400
     elif user.role == 'Analisis,MerinyuMTB,MerinyuMTK':
         try:
-            officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(id_mtk=id_mtk, active=1):
+            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen,OfficersList.no_ic_pegawai).distinct(OfficersList.no_ic_pegawai).filter_by(id_mtk=id_mtk, active=1):
                 if officer.officer_name != 'SuperAdmin':
                     officers_list.append({
                         'officer_name': officer.officer_name,
                         'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_ic_pegawai
                     })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
@@ -2988,12 +3217,12 @@ def getMTBOfficersList():
             return response_object, 400
     elif user.role == 'MerinyuMTB':
         try:
-            officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(id_mtb=id_mtk, active=1):
+            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen,OfficersList.no_ic_pegawai).distinct(OfficersList.no_ic_pegawai).filter_by(id_mtb=id_mtk, active=1):
                 if officer.officer_name != 'SuperAdmin':
                     officers_list.append({
                         'officer_name': officer.officer_name,
                         'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_ic_pegawai
                     })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
@@ -3049,11 +3278,12 @@ def listPegawai():
     if user.role == 'Superadmin':
         try:
             officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(active=1):
-                if officer.officer_name != 'SuperAdmin':
+            for officer in db.session.query(MasterUser.no_kad_pengenalan, MasterUser.nama, MasterUser.parlimen, MasterUser.role).distinct(MasterUser.nama).filter_by(active=1):
+                if officer.role in ('MerinyuMTB', 'MerinyuMTK'):
                     officers_list.append({
-                        'officer_name': officer.officer_name,
+                        'officer_name': officer.nama,
                         'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_kad_pengenalan,
                     })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
@@ -3068,15 +3298,15 @@ def listPegawai():
     elif user.role == 'MerinyuMTK':
         try:
             officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(id_mtk=id_mtk, active=1):
-                if officer.officer_name != 'SuperAdmin':
+            for officer in db.session.query(MasterUser.no_kad_pengenalan, MasterUser.nama, MasterUser.parlimen, MasterUser.role).distinct(MasterUser.nama).filter_by(zon=user.zon, active=1):
+                if officer.role in ('MerinyuMTB', 'MerinyuMTK'):
                     officers_list.append({
-                        'officer_name': officer.officer_name,
+                        'officer_name': officer.nama,
                         'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_kad_pengenalan,
                     })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
-
         except:
             logger.exception("Officers list could not be fetched")
             response_object = {
@@ -3087,11 +3317,12 @@ def listPegawai():
     elif user.role == 'Analisis,MerinyuMTB,MerinyuMTK':
         try:
             officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(id_mtk=id_mtk, active=1):
-                if officer.officer_name != 'SuperAdmin':
+            for officer in db.session.query(MasterUser.no_kad_pengenalan, MasterUser.nama, MasterUser.parlimen, MasterUser.role).distinct(MasterUser.nama).filter_by(zon=user.zon, active=1):
+                if officer.role in ('MerinyuMTB', 'MerinyuMTK'):
                     officers_list.append({
-                        'officer_name': officer.officer_name,
+                        'officer_name': officer.nama,
                         'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_kad_pengenalan,
                     })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
@@ -3106,11 +3337,13 @@ def listPegawai():
     elif user.role == 'MerinyuMTB':
         try:
             officers_list = []
-            for officer in db.session.query(OfficersList.officer_name,OfficersList.parlimen).distinct(OfficersList.officer_name).filter_by(id_mtb=user.no_kad_pengenalan, active=1):
-                officers_list.append({
-                    'officer_name': officer.officer_name,
-                    'parlimen': officer.parlimen,
-            })
+            for officer in db.session.query(MasterUser.no_kad_pengenalan, MasterUser.nama, MasterUser.parlimen, MasterUser.role).distinct(MasterUser.nama).filter_by(zon=user.zon, active=1):
+                if officer.role in ('MerinyuMTB'):
+                    officers_list.append({
+                        'officer_name': officer.nama,
+                        'parlimen': officer.parlimen,
+                        'no_kad_pengenalan': officer.no_kad_pengenalan,
+                    })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
 
@@ -3134,9 +3367,11 @@ def listPegawai():
 @token_required
 def getMTBOfficersTarikh(officer_name):
     user = get_logged_in_user()
+    if not officer_name:
+        officer_name = user.no_kad_pengenalan
     try:
         tarikh_list = []
-        for tarikh_data in db.session.query(OfficersList.tarikh).distinct().filter_by(officer_name=officer_name,active=1):
+        for tarikh_data in db.session.query(InquiryInformation.tarikh).distinct().filter_by(no_ic_pegawai=officer_name, active=1):
             tarikh_list.append(date.strftime(tarikh_data.tarikh, "%Y-%m-%d"))
         logger.info("Officers tarikh fetched")
         return jsonify(tarikh_list)
@@ -3189,6 +3424,7 @@ def getMTBOfficerInfo():
             })
         if user.role == 'MerinyuMTB':
             officer_info = []
+
             for officer in OfficersList.query.filter_by(id_mtb=user.no_kad_pengenalan, active=1).order_by(desc(OfficersList.tarikh)):
                 officer_info.append({
                     'officer_id': officer.officer_id,
@@ -3216,18 +3452,23 @@ def getMTBOfficerInfo():
 def getDailyMTBInquiryInforByMTK(data):
     tarikh = data.tarikh
     officer_name = data.officer_name
+    user = get_logged_in_user()
+    if not officer_name:
+        officer_name = user.no_kad_pengenalan
     
     try:
         inquiry_list_log = []
-        for log in InquiryInformation.query.filter_by(tarikh=tarikh,officer_name=officer_name, active=1):
-            inquiry_list_log.append({
-                'id': log.inquiry_information_id,
-                'tarikh': log.tarikh,
-                'masa': log.masa,
-                'lokasi_aduan': log.lokasi_aduan,
-                'lokasi_siasatan': log.lokasi_siasatan,
-                'borang_siasatan': log.borang_siasatan
-            })
+        for log in InquiryInformation.query.filter_by(tarikh=tarikh,no_ic_pegawai=officer_name, active=1):
+            if log.inquiry_id or log.complaint_id:
+                inquiry_list_log.append({
+                    'id': log.inquiry_id,
+                    'tarikh': log.tarikh,
+                    'masa': log.masa,
+                    'lokasi_aduan': log.lokasi_aduan,
+                    'lokasi_siasatan': log.lokasi_siasatan,
+                    'borang_siasatan': log.borang_siasatan,
+                    'rujukan': getRujukan(log.parlimen, log.inquiry_information_id)
+                })
         logger.info("Inquiry Information fetched")
         return jsonify(inquiry_list_log)
     except:
@@ -3237,7 +3478,42 @@ def getDailyMTBInquiryInforByMTK(data):
             'message': 'Inquiry Information could not be fetched',
         }
         return response_object, 400
-        
+
+def getRujukan(parlimen, id):
+    if not parlimen:
+        return 'JKAS/X/XXX/' + str(id).zfill(5)
+    if parlimen.lower() in ('segambut','batu','kepong', 'wangsa maju'):
+        return 'JKAS/U/' + getParlimenAbbreviation(parlimen=parlimen) + '/' + str(id).zfill(5)
+    if parlimen.lower() in ('bukit bintang','setiawangsa','titiwangsa'):
+        return 'JKAS/T/' + getParlimenAbbreviation(parlimen=parlimen) + '/' + str(id).zfill(5)
+    if parlimen.lower() in ('seputeh','lembah pantai','cheras', 'bandar tun razak'):
+        return 'JKAS/S/' + getParlimenAbbreviation(parlimen=parlimen) + '/' + str(id).zfill(5)
+
+def getParlimenAbbreviation(parlimen):
+    if parlimen.lower() == 'Segambut'.lower():
+        return 'SEG'
+    if parlimen.lower() == 'Batu'.lower():
+        return 'BT'
+    if parlimen.lower() == 'Kepong'.lower():
+        return 'KEP'
+    if parlimen.lower() == 'Wangsa Maju'.lower():
+        return 'WM'
+    if parlimen.lower() == 'Titiwangsa'.lower():
+        return 'TW'
+    if parlimen.lower() == 'Setiawangsa'.lower():
+        return 'SW'
+    if parlimen.lower() == 'Bukit Bintang'.lower():
+        return 'BB'
+    if parlimen.lower() == 'Bandar Tun Razak'.lower():
+        return 'BTR'
+    if parlimen.lower() == 'Cheras'.lower():
+        return 'CHE'
+    if parlimen.lower() == 'Lembah Pantai'.lower():
+        return 'LP'
+    if parlimen.lower() == 'Seputeh'.lower():
+        return 'SEP'
+    return ''
+
 """ ===============================<< getDailyMTBInquiryInforByMTK ends >>=============================== """
 """ ===============================<< getDailyMTBInquiryInforByMTB starts >>=============================== """
 
@@ -3246,17 +3522,33 @@ def getDailyMTBInquiryInforByMTB(data):
     user = get_logged_in_user()
     tarikh = data.tarikh
     id_mtb = data.id_mtb
+    if not id_mtb:
+        id_mtb = get_logged_in_user().no_kad_pengenalan
     
     try:
         inquiry_list_log = []
-        for log in InquiryInformation.query.filter_by(tarikh=tarikh,id_mtb=id_mtb, active=1):
-            inquiry_list_log.append({
-                'tarikh': log.tarikh,
-                'masa': log.masa,
-                'lokasi_aduan': log.lokasi_aduan,
-                'lokasi_siasatan': log.lokasi_siasatan,
-                'borang_siasatan': log.borang_siasatan
-            })
+        for log in InquiryInformation.query.filter_by(tarikh=tarikh,no_ic_pegawai=id_mtb, active=1):
+            if log.inquiry_id or log.complaint_id:
+                inquiry_list_log.append({
+                    'id': log.inquiry_information_id,
+                    'tarikh': log.tarikh,
+                    'masa': log.masa,
+                    'lokasi_aduan': log.lokasi_aduan,
+                    'lokasi_siasatan': log.lokasi_siasatan,
+                    'borang_siasatan': log.borang_siasatan,
+                    'complaint_id': log.complaint_id,
+                    'inquiry_id': log.inquiry_id,
+                    'rujukan': getRujukan(log.parlimen, log.inquiry_information_id)
+                })
+        # inquiry_list_log = []
+        # for log in InquiryInformation.query.filter_by(tarikh=tarikh,id_mtb=id_mtb, active=1):
+        #     inquiry_list_log.append({
+        #         'tarikh': log.tarikh,
+        #         'masa': log.masa,
+        #         'lokasi_aduan': log.lokasi_aduan,
+        #         'lokasi_siasatan': log.lokasi_siasatan,
+        #         'borang_siasatan': log.borang_siasatan
+        #     })
         logger.info("Inquiry Information fetched")
         return jsonify(inquiry_list_log)
     except:
@@ -3282,7 +3574,11 @@ def addComplaintInvestigation(data):
     masa_siasatan = datetime.now(tz).strftime("%H:%M:%S")
     time = datetime.now(tz).strftime("%H:%M:%S")
     
+    id_pegawai = data.id_pegawai
+    jenis_kawasan = data.jenis_kawasan
     parlimen = data.parlimen
+    if not parlimen:
+        parlimen = user.parlimen
     pengadu_nama=data.pengadu_nama
     pengadu_alamat=data.pengadu_alamat
     no_telefon=data.no_telefon
@@ -3298,6 +3594,8 @@ def addComplaintInvestigation(data):
     zon=data.zon
     tarikh_siasatan=data.tarikh_siasatan
     nama_pegawai=data.nama_pegawai
+    if not nama_pegawai:
+        nama_pegawai = user.nama
     lokasi_siasatan=data.lokasi_siasatan
     laporan_siasatan=data.laporan_siasatan
     tindakan=data.tindakan
@@ -3306,57 +3604,67 @@ def addComplaintInvestigation(data):
     ullasan_ketua_seksyen=data.ullasan_ketua_seksyen
     ulasanKetua_unitf1=data.ulasanKetua_unitf1
     gambar = data.gambar    
-    cause = data.cause    
-    no_ic_pegawai_mtk = data.no_ic_pegawai_mtk
+    cause = data.cause
+    picture1 = data.picture1
+    picture2 = data.picture2
+    picture3 = data.picture3
     try:
-        if user.no_kad_pengenalan == 'SUPERADMIN':
-            officer_name = nama_pegawai
-            id_mtb = db.session.query(MasterUser).filter_by(nama=officer_name).first().no_kad_pengenalan
-            parlimen = db.session.query(MasterUser).filter_by(nama=officer_name).first().parlimen
-            mtbUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
-            for _ in mtbUserInfo:
-                id_mtk = _.id_mtk
-            compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
-        if user.role == 'MerinyuMTK' or user.role == 'Analisis,MerinyuMTB,MerinyuMTK':
-            officer_name = nama_pegawai
-            id_mtb = db.session.query(MasterUser).filter_by(nama=officer_name).first().no_kad_pengenalan
-            parlimen = db.session.query(MasterUser).filter_by(nama=officer_name).first().parlimen
-            id_mtk = user.no_kad_pengenalan
-            compound_officer_name = user.nama
-        if user.role == 'MerinyuMTB':
-            id_mtb=user.no_kad_pengenalan
-            parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtb).first().parlimen
-            mtkUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
-            for _ in mtkUserInfo:
-                id_mtk = _.id_mtk
-            officer_name = user.nama
-            compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
-        else:
-            id_mtb=user.no_kad_pengenalan
-            parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtb).first().parlimen
-            mtkUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
-            for _ in mtkUserInfo:
-                id_mtk = _.id_mtk
-            officer_name = user.nama
-        # officers_list = OfficersList(
-        #     id_mtk= id_mtk, id_mtb=id_mtb, officer_name=officer_name, parlimen=parlimen, tarikh=tarikh_siasatan, inserted_by=name,inserted_date=today, active=1
-        # )
-        # db.session.add(officers_list)
-        # db.session.commit()
-        complaint_investigation_form = Inquiry(parlimenA=parlimen,
+        # if user.no_kad_pengenalan == 'SUPERADMIN':
+        #     officer_name = nama_pegawai
+        #     id_mtb = id_pegawai
+        #     parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_pegawai).first().parlimen
+        #     mtbUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
+        #     if not mtbUserInfo:
+        #         id_mtk = id_pegawai
+        #     for _ in mtbUserInfo:
+        #         id_mtk = _.id_mtk
+        # if user.role == 'MerinyuMTK' or user.role == 'Analisis,MerinyuMTB,MerinyuMTK':
+        #     officer_name = nama_pegawai
+        #     id_mtb = db.session.query(MasterUser).filter_by(nama=officer_name).first().no_kad_pengenalan
+        #     parlimen = db.session.query(MasterUser).filter_by(nama=officer_name).first().parlimen
+        #     id_mtk = user.no_kad_pengenalan
+        #     mtbUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
+        #     if not mtbUserInfo:
+        #         id_mtk = id_pegawai
+        #     if not mtbUserInfo:
+        #         id_mtk = id_pegawai
+        # if user.role == 'MerinyuMTB':
+        #     id_mtb=user.no_kad_pengenalan
+        #     parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtb).first().parlimen
+        #     mtkUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
+        #     if not mtkUserInfo:
+        #         id_mtk = id_pegawai
+        #     for _ in mtkUserInfo:
+        #         id_mtk = _.id_mtk
+        #     officer_name = user.nama
+        #     compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
+        # else:
+        #     id_mtb=user.no_kad_pengenalan
+        #     parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtb).first().parlimen
+        #     mtkUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
+        #     if not mtkUserInfo:
+        #         id_mtk = id_pegawai
+        #     for _ in mtkUserInfo:
+        #         id_mtk = _.id_mtk
+        #     officer_name = user.nama
+        
+        # if not officer_name:
+        #     officer_name = user.nama
+        complaint_investigation_form = Inquiry(parlimenA=parlimen, jenis_kawasan=jenis_kawasan, picture1=picture1,picture2=picture2,picture3=picture3,no_ic_pegawai=id_pegawai,
             pengadu_nama=pengadu_nama,pengadu_alamat=pengadu_alamat,no_telefon=no_telefon,emel=emel,no_faksimili=no_faksimili,
             sumber_aduan=sumber_aduan,lain_lain=lain_lain,tarikh_aduan=tarikh_aduan,tarikh_terima=tarikh_terima,no_rujukan=no_rujukan,
             lokasi_aduan=lokasi_aduan,keterangan_aduan=keterangan_aduan,zon=zon,tarikh_siasatan=tarikh_siasatan,masa_siasatan=masa_siasatan,
-            nama_pegawai=nama_pegawai,id_mtb=id_mtb,lokasi_siasatan=lokasi_siasatan,laporan_siasatan=laporan_siasatan,tindakan=tindakan,
+            nama_pegawai=nama_pegawai,id_mtb='',lokasi_siasatan=lokasi_siasatan,laporan_siasatan=laporan_siasatan,tindakan=tindakan,
             susulan=susulan,ullasan_penyelia=ullasan_penyelia,ullasan_ketua_seksyen=ullasan_ketua_seksyen,ullasan_ketua_unit=ulasanKetua_unitf1,
-            gambar=gambar,cause=cause,inserted_by=name,inserted_date=today, active=1,no_ic_pegawai_mtk=no_ic_pegawai_mtk)
+            gambar=gambar,cause=cause,inserted_by=name,inserted_date=today, active=1, inquiry_type='complaint', tarikh=tarikh_siasatan)
         db.session.add(complaint_investigation_form)
         db.session.commit()
         
-        # inquiry_info = InquiryInformation(
-        #     id_mtb=id_mtb, officer_name=officer_name, tarikh=tarikh_siasatan, parlimen=parlimen, masa=time, lokasi_aduan=lokasi_aduan,lokasi_siasatan=lokasi_siasatan,borang_siasatan=lokasi_aduan ,inserted_by=name,inserted_date=today, active=1)
-        # db.session.add(inquiry_info)
-        # db.session.commit()
+        inquiry_info = InquiryInformation(inquiry_id=complaint_investigation_form.inquiry_id, inquiry_type='complaint', no_ic_pegawai=id_pegawai,
+            id_mtb='', officer_name='', tarikh=tarikh_siasatan, parlimen=parlimen, masa=time, 
+            lokasi_aduan=lokasi_aduan,lokasi_siasatan=lokasi_siasatan,borang_siasatan=lokasi_aduan ,inserted_by=name,inserted_date=today, active=1)
+        db.session.add(inquiry_info)
+        db.session.commit()
         
         statement = "Borang siasatan aduan baru berjaya ditambahkan"
         log_info = LogPengguna(id_pengguna=name, tarikh=now, aktiviti=statement, user_type=user_type, role=role)
@@ -3382,13 +3690,12 @@ def addComplaintInvestigation(data):
 def updateComplaintComments(data):
     user = get_logged_in_user()
     if user.role == "MerinyuMTK" or user.role == 'Superadmin':
-        current_complaint = db.session.query(ComplaintInvestigation).filter_by(form_id=data.formId).first()
-        
+        current_complaint = db.session.query(Inquiry).filter_by(inquiry_id=data.formId).first()
         if data.ulasanPenyelia:
             current_complaint.ullasan_penyelia = data.ulasanPenyelia
         if data.ulasanKetuaSeksyen:
             current_complaint.ullasan_ketua_seksyen = data.ulasanKetuaSeksyen
-        if data.ulasanKetuaSeksyen:
+        if data.ulasanKetuaUnit:
             current_complaint.ullasan_ketua_unit = data.ulasanKetuaUnit
         db.session.commit()
         logging.info('Updated complaint ' + str(data.formId))
@@ -3408,11 +3715,17 @@ def add2ndComplaintInvestigation(data):
     now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
     time = datetime.now(tz).strftime("%H:%M:%S")
     
+    id_pegawai = data.id_pegawai
     parlimenA = data.parlimenA
     zon= data.zon
     tarikh_siasatan= data.tarikh_siasatan
-    nama_pegawai=data.nama_pegawai
     lokasi_siasatan= data.lokasi_siasatan
+    picture1 = data.picture1
+    picture2 = data.picture2
+    picture3 = data.picture3
+    laporan_siasatan = data.laporan_siasatan
+    tindakan = data.tindakan
+
     locator = Nominatim(user_agent="myGeocoder")
     coordinates = lokasi_siasatan
     location_info = []
@@ -3432,61 +3745,62 @@ def add2ndComplaintInvestigation(data):
             location_info.append(suburb)
     except:
         logging.error("Unable to geocode location.")
-    location_text = ','.join(map(str, location_info))
-    lokasi_aduan = location_text
-    laporan_siasatan= data.laporan_siasatan
-    tindakan= data.tindakan
-    ullasan_penyelia= data.ullasan_penyelia
-    ullasan_ketua_seksyen= data.ullasan_ketua_seksyen
-    ullasan_ketua_unit= data.ullasan_ketua_unit
-    sebelum_siasatan= data.sebelum_siasatan
-    no_ic_pegawai_mtk = data.no_ic_pegawai_mtk
-    sebelum_siasatan = re.sub('[^a-zA-Z0-9.]', '', sebelum_siasatan)
-    bulan = calendar.month_abbr[tarikh_siasatan.month].upper()
-    tahun = tarikh_siasatan.year
+    lokasi_aduan = ','.join(map(str, location_info))
+    # bulan = calendar.month_abbr[tarikh_siasatan.month].upper()
+    # tahun = tarikh_siasatan.year
 
-    if user.role == 'Superadmin':
-        officer_name = nama_pegawai
-        id_mtb = db.session.query(MasterUser).filter_by(nama=officer_name).first().no_kad_pengenalan
-        parlimen = db.session.query(MasterUser).filter_by(nama=officer_name).first().parlimen
-        mtbUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
-        for _ in mtbUserInfo:
-            id_mtk = _.id_mtk
-        # compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
-    if user.role == 'MerinyuMTK' or user.role == 'Analisis,MerinyuMTB,MerinyuMTK':
-        officer_name = nama_pegawai
-        id_mtb = db.session.query(MasterUser).filter_by(nama=officer_name).first().no_kad_pengenalan
-        parlimen = db.session.query(MasterUser).filter_by(nama=officer_name).first().parlimen
-        id_mtk = user.no_kad_pengenalan
-        # compound_officer_name = user.nama
-    if user.role == 'MerinyuMTB':
-        id_mtb=user.no_kad_pengenalan
-        parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtb).first().parlimen
-        mtkUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
-        for _ in mtkUserInfo:
-            id_mtk = _.id_mtk
+    # if user.role == 'Superadmin':
+    #     id_mtb = id_pegawai
+    #     parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_pegawai).first().parlimen
+    #     mtbUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
+    #     if len(mtbUserInfo) == 0:
+    #         id_mtk = id_pegawai
+    #     for _ in mtbUserInfo:
+    #         id_mtk = _.id_mtk
+    #     officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_pegawai).first().nama
+    #     # compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
+    # if user.role == 'MerinyuMTK' or user.role == 'Analisis,MerinyuMTB,MerinyuMTK':
+    #     id_mtb = id_pegawai
+    #     parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_pegawai).first().parlimen
+    #     id_mtk = user.no_kad_pengenalan
+    #     officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_pegawai).first().nama
+    #     # compound_officer_name = user.nama
+    # if user.role == 'MerinyuMTB':
+    #     id_mtb=user.no_kad_pengenalan
+    #     parlimen = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtb).first().parlimen
+    #     mtkUserInfo = db.session.query(OfficersList).filter_by(id_mtb=id_mtb).all()
+    #     if len(mtbUserInfo) == 0:
+    #         id_mtk = id_pegawai
+    #     for _ in mtkUserInfo:
+    #         id_mtk = _.id_mtk
+    #     officer_name = user.nama
+    #     # compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
+
+    pegawai = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_pegawai).first()
+    parlimen = pegawai.parlimen
+    officer_name = pegawai.nama
+
+    if not officer_name:
         officer_name = user.nama
-        # compound_officer_name = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
+    if not parlimen:
+        parlimen = parlimenA
 
-    longitude_latitude = lokasi_siasatan.split(',')
-    latitude = longitude_latitude[0]
-    longitude = longitude_latitude[1]
     try:
-        officers_list = OfficersList(
-            id_mtk=id_mtk, id_mtb=id_mtb, officer_name=officer_name, parlimen=parlimen, tarikh=tarikh_siasatan, inserted_by=name,inserted_date=today, active=1
-        )
-        db.session.add(officers_list)
-        db.session.commit()
-        complaint_investigation_form = ComplaintInvestigation(parlimenA=parlimen,
-            tarikh_siasatan=tarikh_siasatan,masa_siasatan=time,nama_pegawai=nama_pegawai,
-            id_mtb=id_mtb,lokasi_siasatan=lokasi_siasatan,laporan_siasatan=laporan_siasatan,tindakan=tindakan,
-            ullasan_penyelia=ullasan_penyelia,ullasan_ketua_seksyen=ullasan_ketua_seksyen,ullasan_ketua_unit=ullasan_ketua_unit,
-            sebelum_siasatan=sebelum_siasatan, zon=zon, inserted_by=name,inserted_date=today, active=1, no_ic_pegawai_mtk=no_ic_pegawai_mtk)
+        # officers_list = OfficersList(
+        #     id_mtk='', id_mtb='',no_ic_pegawai=id_pegawai, officer_name=officer_name, parlimen=parlimen, tarikh=tarikh_siasatan, inserted_by=name,inserted_date=today, active=1
+        # )
+        # db.session.add(officers_list)
+        # db.session.commit()
+        complaint_investigation_form = Inquiry(parlimenA=parlimen,tarikh=tarikh_siasatan,
+            tarikh_siasatan=tarikh_siasatan,masa_siasatan=time, no_ic_pegawai=id_pegawai,
+            lokasi_siasatan=lokasi_siasatan,laporan_siasatan=laporan_siasatan,tindakan=tindakan,
+            zon=zon, inserted_by=name,inserted_date=today, active=1, picture1=picture1, picture2=picture2, picture3=picture3, inquiry_type='daily')
         db.session.add(complaint_investigation_form)
         db.session.commit()
         
-        inquiry_info = InquiryInformation(
-            id_mtb=id_mtb, officer_name=officer_name, tarikh=tarikh_siasatan, parlimen=parlimen, masa=time, lokasi_siasatan=lokasi_siasatan, lokasi_aduan=lokasi_aduan, inserted_by=name,inserted_date=today, active=1)
+        inquiry_info = InquiryInformation(inquiry_id=complaint_investigation_form.inquiry_id, no_ic_pegawai=id_pegawai, id_mtb='', officer_name=officer_name, tarikh=tarikh_siasatan, 
+            parlimen=parlimen, masa=time, lokasi_siasatan=lokasi_siasatan, lokasi_aduan=lokasi_aduan, 
+            inserted_by=name,inserted_date=today, active=1, inquiry_type='daily')
         db.session.add(inquiry_info)
         db.session.commit()
         
@@ -3609,11 +3923,10 @@ def add3rdComplaintInvestigation(data):
 
 @token_required
 def getComplaintInvestigation(data):
-    masa_siasatan=data.masa_siasatan
-    tarikh_siasatan=data.tarikh_siasatan
-    id_mtb=data.id_mtb
+    inquiry_id = data.inquiry_id
+
     try:
-        complaint_info = db.session.query(ComplaintInvestigation).filter_by(id_mtb=id_mtb, masa_siasatan=masa_siasatan, tarikh_siasatan=tarikh_siasatan, active=1).first()
+        inquiry = db.session.query(Inquiry).filter_by(inquiry_id=inquiry_id, active=1).first()
     except:
         logger.exception('No data found with given id_mtb and tarikh_siasatan')
         response_object = {
@@ -3621,57 +3934,50 @@ def getComplaintInvestigation(data):
                 'message': 'No data found with given id_mtb and tarikh_siasatan',
             }
         return response_object, 404
-    if complaint_info:
-        try:
-            completed_form = []
-            for form in ComplaintInvestigation.query.filter_by(id_mtb=id_mtb, masa_siasatan=masa_siasatan, tarikh_siasatan=tarikh_siasatan, active=1):
-                completed_form.append({
-                    "form_id": form.form_id,
-                    "pengadu_nama":form.pengadu_nama,
-                    "pengadu_alamat":form.pengadu_alamat,
-                    "no_telefon":form.no_telefon,
-                    "no_rujukan":form.no_rujukan,
-                    "tarikh_terima_aduan":form.tarikh_terima_aduan,
-                    "emel":form.emel,
-                    "no_faksimili":form.no_faksimili,
-                    "sumber_aduan":form.sumber_aduan,
-                    "lain_lain":form.lain_lain,
-                    "tarikh_aduan":form.tarikh_aduan,
-                    "tarikh_terima":form.tarikh_terima,
-                    "lokasi_aduan":form.lokasi_aduan,
-                    "keterangan_aduan":form.keterangan_aduan,
-                    "zon":form.zon,
-                    "parlimen":form.parlimenA,
-                    "tarikh_siasatan":form.tarikh_siasatan,
-                    "masa_siasatan":form.masa_siasatan,
-                    "nama_pegawai":form.nama_pegawai,
-                    "id_mtb":form.id_mtb,
-                    "lokasi_siasatan":form.lokasi_siasatan,
-                    "laporan_siasatan":form.laporan_siasatan,
-                    "tindakan":form.tindakan,
-                    "susulan":form.susulan,
-                    "sebelum_siasatan":form.sebelum_siasatan,
-                    "ullasan_penyelia":form.ullasan_penyelia,
-                    "ullasan_ketua_seksyen":form.ullasan_ketua_seksyen,
-                    "ullasan_ketua_unit":form.ullasan_ketua_unit,
-                    "ulasan_timbalan":form.ulasan_timbalan
-                })
-            logger.info("Complaint Investigation fetched")
-            return jsonify(completed_form)
-        except:
-            logger.exception("Complaint Investigation Form could not be fetched")
-            response_object = {
-                'status': 'fail',
-                'message': 'Complaint Investigation form could not be fetched',
-            }
-            return response_object, 400
-    else:
-        logger.exception("Complaint Investigation Form could not be fetched")
-        response_object = {
-            'status': 'fail',
-            'message': f'No Complaint Investigation is found',
-        }
-        return response_object, 404
+    logging.info('Inquiry: ' + str(inquiry))
+    if inquiry:
+        inquiries = []
+        pegawai = db.session.query(MasterUser).filter_by(no_kad_pengenalan=inquiry.no_ic_pegawai).first()
+        inquiries.append({
+            'inquiry_id': inquiry.inquiry_id,
+            'parlimen': inquiry.parlimenA,
+            'tarikh': inquiry.tarikh,
+            'pengadu_nama': inquiry.pengadu_nama,
+            'pengadu_alamat': inquiry.pengadu_alamat,
+            'no_telefon': inquiry.no_telefon,
+            'tarikh_terima_aduan': inquiry.tarikh_terima_aduan,
+            'no_rujukan': inquiry.no_rujukan,
+            'emel': inquiry.emel,
+            'no_faksimili': inquiry.no_faksimili,
+            'sumber_aduan': inquiry.sumber_aduan,
+            'lain_lain': inquiry.lain_lain,
+            'tarikh_aduan': inquiry.tarikh_aduan,
+            'lokasi_aduan': inquiry.lokasi_aduan,
+            'keterangan_aduan': inquiry.keterangan_aduan,
+            'zon': inquiry.zon,
+            'tarikh_siasatan': inquiry.tarikh_siasatan,
+            'masa_siasatan': inquiry.masa_siasatan,
+            'nama_pegawai': pegawai.nama,
+            'id_mtb': inquiry.id_mtb,
+            'lokasi_siasatan': inquiry.lokasi_siasatan,
+            'laporan_siasatan': inquiry.laporan_siasatan,
+            'tindakan': inquiry.tindakan,
+            'susulan': inquiry.susulan,
+            'no_ic_pegawai': inquiry.no_ic_pegawai,
+            'jenis_kawasan': inquiry.jenis_kawasan,
+            'picture1': inquiry.picture1,
+            'picture2': inquiry.picture2,
+            'picture3': inquiry.picture3,
+            "tarikh_terima":inquiry.tarikh_terima,
+            "nama_pegawai":pegawai.nama,
+            "sebelum_siasatan":inquiry.sebelum_siasatan,
+            "ullasan_penyelia":inquiry.ullasan_penyelia,
+            "ullasan_ketua_seksyen":inquiry.ullasan_ketua_seksyen,
+            "ullasan_ketua_unit":inquiry.ullasan_ketua_unit,
+            "ulasan_timbalan":inquiry.ulasan_timbalan,
+            "inquiry_type": inquiry.inquiry_type
+        })
+        return jsonify(inquiries)
 
 """ ===============================<< get Complaint Investigstion Form ends >>=============================== """
 """ ===============================<< Update Complaint Investigation Form starts >>=============================== """
@@ -3774,10 +4080,10 @@ def getMTBCompoundInformation(data):
     tarikh = data.tarikh
     id_mtb = data.id_mtb
     parlimen = data.parlimen
-    
+    logger.info('Fetching via ' + str(tarikh) + ', ic=' + id_mtb + ', parlimen=' + parlimen)
     try:
         compound_list = []
-        for log in CompoundInformation.query.filter_by(tarikh=tarikh,id_mtb=id_mtb, parlimen=parlimen, active=1):
+        for log in CompoundInformation.query.filter_by(tarikh=tarikh,no_ic_pegawai=id_mtb, parlimen=parlimen, active=1):
             compound_list.append({
                 'masa': log.masa,
                 'lokasi_kompaun': log.lokasi_kompaun,
@@ -3825,6 +4131,7 @@ def getMTBCompoundInfoByMTB(data):
 @token_required
 def addMTBCompoundForm(data):
     no_notis_bas = data.no_notis_bas
+    id_pegawai = data.id_pegawai
     if db.session.query(CompoundInformation).filter_by(no_notis_bas=no_notis_bas).first():
         abort(HTTPStatus.CONFLICT, f"no notis bas {no_notis_bas} is already used")
     user= get_logged_in_user()
@@ -3872,28 +4179,20 @@ def addMTBCompoundForm(data):
         user_type = user.user_type
         role = user.role
         
-        officer_name = data.id_mtb
-        mtbUserInfo = db.session.query(OfficersList).filter_by(officer_name=officer_name).all()
-        for _ in mtbUserInfo:
-            id_mtk = _.id_mtk
-        compoud_form_mtk = db.session.query(MasterUser).filter_by(no_kad_pengenalan=id_mtk).first().nama
-        id_mtb = db.session.query(MasterUser).filter_by(nama=officer_name).first().no_kad_pengenalan
         coordinate_data = Coordinates.query.filter_by(parlimen=parlimen).first()
         latitude = coordinate_data.latitude
         longitude = coordinate_data.longitude
-        lokasi_siasatan = str(latitude +', '+ longitude)
         
-        
-        newCompoundList = CompoundList(id_mtk=compoud_form_mtk,id_mtb=id_mtb,officer_name=officer_name,parlimen=parlimen,tarikh=tarikh,inserted_by=id_card_no,inserted_date=today, active=1)
+        newCompoundList = CompoundList(id_mtk='',id_mtb='',officer_name='',no_ic_pegawai=id_pegawai,parlimen=parlimen,tarikh=tarikh,inserted_by=id_card_no,inserted_date=today, active=1)
         db.session.add(newCompoundList)
         db.session.commit()
 
-        newCompoundInfo = CompoundInformation(id_mtb=id_mtb,officer_name=officer_name,id_mtk=compoud_form_mtk,parlimen=parlimen,tarikh=tarikh,masa=waktu,
+        newCompoundInfo = CompoundInformation(id_mtb='',officer_name='',id_mtk='',no_ic_pegawai=id_pegawai,parlimen=parlimen,tarikh=tarikh,masa=waktu,
                                               no_notis_bas=no_notis_bas,inserted_by=id_card_no,inserted_date=today, active=1)
         db.session.add(newCompoundInfo)
         db.session.commit()
         
-        newCompoundForm = CompoundForm(no_notis_bas=no_notis_bas,kepada=kepada,company_no=company_no,alamat=alamat,id_mtb=id_mtb,officer_name=officer_name,id_mtk=compoud_form_mtk,
+        newCompoundForm = CompoundForm(no_notis_bas=no_notis_bas,kepada=kepada,company_no=company_no,alamat=alamat,id_mtb='',officer_name='',id_mtk='', no_ic_pegawai=id_pegawai,
                       parlimen=parlimen,tarikh=tarikh,bulan=bulan,tahun=tahun,waktu=waktu,tempat=tempat,latitude=latitude,longitude=longitude,addSeksyen=addSeksyen,butir_butir_kesalahan=butir_butir_kesalahan,
                       sek82_5=False,sek69=False, sek47_1a=sek47_1a,sek47_1b=False,sek47_1c = sek47_1c,sek47_1d = sek47_1d,sek47_1e = sek47_1e,sek47_1g = sek47_1g,sek47_2a = sek47_2a,sek47_2b = sek47_2b,uuk8 = uuk8,uuk9 = uuk9,uuk3 = uuk3,
                       sek46_1b = sek46_1b,sek46_1c = sek46_1c,sek46_1d = sek46_1d,sek46_1e = sek46_1e,sek46_1f = sek46_1f,sek46_1g = sek46_1g,uuk5_a  = uuk5_a,uuk5_b  = uuk5_b,uuk5_c = uuk5_c,uuk33 = uuk33,uuk34 = uuk34,uuk35 = uuk35,
@@ -3931,10 +4230,12 @@ def getMTBCompoundList():
     if user.role == 'Superadmin':
         try:
             officers_list = []
-            for officer in db.session.query(CompoundList.officer_name,CompoundList.parlimen).distinct(CompoundList.officer_name).filter_by(active=1):
-                if officer.officer_name != 'SuperAdmin':
+            for officer in db.session.query(CompoundList.officer_name,CompoundList.no_ic_pegawai,CompoundList.parlimen).distinct(CompoundList.no_ic_pegawai).filter_by(active=1):
+                if officer.no_ic_pegawai:
+                    pegawai = db.session.query(MasterUser).filter_by(no_kad_pengenalan=officer.no_ic_pegawai,active=1).first()
                     officers_list.append({
-                        'officer_name': officer.officer_name,
+                        'no_ic_pegawai': officer.no_ic_pegawai,
+                        'officer_name': pegawai.nama,
                         'parlimen': officer.parlimen,
                     })
             logger.info("Compound list fetched")
@@ -3950,12 +4251,17 @@ def getMTBCompoundList():
     elif user.role == 'MerinyuMTK':
         try:
             officers_list = []
-            for officer in db.session.query(CompoundList.officer_name,CompoundList.parlimen).distinct(CompoundList.officer_name).filter_by(id_mtk=id_mtk, active=1):
-                if officer.officer_name != 'SuperAdmin':
-                    officers_list.append({
-                        'officer_name': officer.officer_name,
-                        'parlimen': officer.parlimen,
-                    })
+            officer_ids = []
+            for officer in db.session.query(MasterUser.no_kad_pengenalan, MasterUser.nama, MasterUser.parlimen, MasterUser.role).distinct(MasterUser.nama).filter_by(zon=user.zon, active=1):
+                officer_ids.append(officer.no_kad_pengenalan)
+
+            for officer in db.session.query(CompoundList.no_ic_pegawai,CompoundList.parlimen).distinct(CompoundList.no_ic_pegawai).filter(CompoundList.no_ic_pegawai.in_(officer_ids)):
+                pegawai = db.session.query(MasterUser).filter_by(no_kad_pengenalan=officer.no_ic_pegawai).first()
+                officers_list.append({
+                    'no_ic_pegawai': officer.no_ic_pegawai,
+                    'officer_name': pegawai.nama,
+                    'parlimen': officer.parlimen,
+                })
             logger.info("Officers list fetched")
             return jsonify(officers_list)
 
@@ -3988,10 +4294,10 @@ def getMTBCompoundList():
     elif user.role == 'MerinyuMTB':
         try:
             officers_list = []
-            for officer in db.session.query(CompoundList.officer_name,CompoundList.parlimen).distinct(CompoundList.officer_name).filter_by(id_mtb=id_mtk, active=1):
+            for officer in db.session.query(CompoundList.officer_name,CompoundList.parlimen).distinct(CompoundList.officer_name).filter_by(no_ic_pegawai=user.no_kad_pengenalan, active=1):
                 if officer.officer_name != 'SuperAdmin':
                     officers_list.append({
-                        'officer_name': officer.officer_name,
+                        'officer_name': user.nama,
                         'parlimen': officer.parlimen,
                     })
             logger.info("Compound list fetched")
@@ -4017,10 +4323,12 @@ def getMTBCompoundList():
 """ ===============================<< getMTBCompoundsTarikh starts >>=============================== """
 @token_required
 def getMTBCompoundsTarikh(officer_name):
-    user = get_logged_in_user()
+    if not officer_name:
+        user = get_logged_in_user()
+        officer_name = user.no_kad_pengenalan
     try:
         tarikh_list = []
-        for tarikh_data in db.session.query(CompoundList.tarikh).distinct().filter_by(officer_name=officer_name,active=1):
+        for tarikh_data in db.session.query(CompoundList.tarikh).distinct().filter_by(no_ic_pegawai=officer_name,active=1):
             tarikh_list.append(date.strftime(tarikh_data.tarikh, "%Y-%m-%d"))
         logger.info("Compound tarikh fetched")
         return jsonify(tarikh_list)
@@ -4071,12 +4379,13 @@ def getCompoundForm(no_notis_bas):
         try:
             compound_list = []
             for compound_info in CompoundForm.query.filter_by(no_notis_bas=no_notis_bas, active=1):
+                officer = MasterUser.query.filter_by(no_kad_pengenalan=compound_info.no_ic_pegawai).first()
                 compound_list.append({
                     'no_notis_bas': compound_info.no_notis_bas,
                     'kepada': compound_info.kepada,
                     'company_no': compound_info.company_no,
                     'alamat': compound_info.alamat,
-                    'id_mtb': compound_info.officer_name,
+                    'id_mtb': officer.nama,
                     'parlimen': compound_info.parlimen,
                     'lokasi_kompaun': compound_info.lokasi_kompaun,
                     'butir_butir_kesalahan': compound_info.butir_butir_kesalahan,
@@ -4210,27 +4519,19 @@ def sendNotice(data):
     
     Jabatan Kesihatan dan Alam Sekitar
     '''
-    message.attach(MIMEText(MAIL_CONTENT, 'plain'))
-    try:
-        mail_session = smtplib.SMTP('smtp.gmail.com', 587)
-        mail_session.starttls()
-        mail_session.login(SMTP_MAIL, SMTP_PASSWORD)
-        text = message.as_string()
-        mail_session.sendmail(FROM_EMAIL, TO_EMAIL, text)
-        mail_session.quit()
+    if send_email(FROM_EMAIL, TO_EMAIL, 'Notis Pemberitahuan', MAIL_CONTENT):
         logger.info("Notice Sent")
         response_object = {
             "status": "success",
             "message": "notice_sent"
         }
         return response_object
-    except:
-        logger.exception("Notice could not be sent")
-        response_object = {
-            "status": "fail",
-            "message": "notice_not_sent"
-        }
-        return response_object, 400
+    logger.exception("Notice could not be sent")
+    response_object = {
+        "status": "fail",
+        "message": "notice_not_sent"
+    }
+    return response_object, 400
         
 """ ===============================<<Send Notice ends >>=============================== """
 """ ===============================<<Fetch Graf Prestasi Bulanan Starts>>=============================== """
@@ -4652,11 +4953,13 @@ def createOmpBaru(data):
     kadar = data.kadar
     frekuensi = data.frekuensi
 
+    domestic_category = data.domestic_category
     domestic_total = data.domestic_total
-    domestic_freq = data.domestic_total
+    domestic_freq = data.domestic_freq
     domestic_rate = data.domestic_rate
+    pukal_category = data.pukal_category
     pukal_total = data.pukal_total
-    pukal_freq = data.pukal_total
+    pukal_freq = data.pukal_freq
     pukal_rate = data.pukal_rate
 
     sapuan_domestic_unit = data.sapuan_domestic_unit
@@ -4698,6 +5001,7 @@ def createOmpBaru(data):
     cucian_tandas_freq = data.cucian_tandas_freq
     cucian_teksi_rate = data.cucian_teksi_rate
     cucian_teksi_freq = data.cucian_teksi_freq
+    cucian_teksi_total = data.cucian_teksi_total
 
     bersih_lapang_unit = data.bersih_lapang_unit
     bersih_lapang_rate = data.bersih_lapang_rate
@@ -4741,8 +5045,8 @@ def createOmpBaru(data):
                                ukuran_panjang_cucian_longkang=ukuran_panjang_cucian_longkang,
                                ukuran_panjang_potongrumput=ukuran_panjang_potongrumput,
                                ukuran_panjang_sampahkebun=ukuran_panjang_sampahkebun,
-                               domestic_freq=domestic_freq, domestic_rate=domestic_rate, domestic_total=domestic_total,
-                               pukal_total=pukal_total, pukal_freq=pukal_freq, pukal_rate=pukal_rate,
+                               domestic_freq=domestic_freq, domestic_rate=domestic_rate, domestic_total=domestic_total, domestic_category=domestic_category,
+                               pukal_total=pukal_total, pukal_freq=pukal_freq, pukal_rate=pukal_rate, pukal_category=pukal_category,
 
                                sapuan_domestic_unit=sapuan_domestic_unit, sapuan_domestic_rate=sapuan_domestic_rate, sapuan_domestic_freq=sapuan_domestic_freq,
                                sapuan_komersial_unit=sapuan_komersial_unit, sapuan_komersial_rate=sapuan_komersial_rate, sapuan_komersial_freq=sapuan_komersial_freq,
@@ -4757,7 +5061,7 @@ def createOmpBaru(data):
                                cucian_siar_gulam1_unit=cucian_siar_gulam1_unit, cucian_siar_gulam1_rate=cucian_siar_gulam1_rate, cucian_siar_gulam1_freq=cucian_siar_gulam1_freq,
                                cucian_siar_gulam2_unit=cucian_siar_gulam2_unit, cucian_siar_gulam2_rate=cucian_siar_gulam2_rate, cucian_siar_gulam2_freq=cucian_siar_gulam2_freq,
                                cucian_tandas_unit=cucian_tandas_unit, cucian_tandas_rate=cucian_tandas_rate, cucian_tandas_freq=cucian_tandas_freq,
-                               cucian_teksi_rate=cucian_teksi_rate, cucian_teksi_freq=cucian_teksi_freq,
+                               cucian_teksi_rate=cucian_teksi_rate, cucian_teksi_freq=cucian_teksi_freq,cucian_teksi_total=cucian_teksi_total,
                                bersih_lapang_unit=bersih_lapang_unit, bersih_lapang_rate=bersih_lapang_rate, bersih_lapang_freq=bersih_lapang_freq,
                                bersih_tpkk_unit=bersih_tpkk_unit, bersih_tpkk_rate=bersih_tpkk_rate, bersih_tpkk_freq=bersih_tpkk_freq,
                                bersih_penjaja_unit=bersih_penjaja_unit, bersih_penjaja_rate=bersih_penjaja_rate, bersih_penjaja_freq=bersih_penjaja_freq,
