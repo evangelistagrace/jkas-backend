@@ -1,8 +1,10 @@
 """Flask CLI/Application entry point."""
 from datetime import date
 import os
-from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
+# from flask_migrate import Migrate, MigrateCommand
+# from flask_script import Manager
+from flask_migrate import Migrate
+from flask import Flask
 from flask_cors import CORS
 from OpenSSL import SSL
 
@@ -21,9 +23,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(api_bp, url_prefix="/api")
 app.app_context().push()
 
-manager = Manager(app)
+# manager = Manager(app)
 migrate = Migrate(app, db)
-manager.add_command('db', MigrateCommand)
+# manager.add_command('db', MigrateCommand)
 
 
 app.config['SQLALCHEMY_RECORD_QUERIES'] = True
@@ -37,10 +39,10 @@ def after_request(response):
 """
 # dashboard.bind(app)
       
-@manager.command
-def run():
-    context = ('httpd.crt','httpd.key')
-    app.run(host='0.0.0.0', debug=True, ssl_context=context)
+# @manager.command
+# def run():
+#     context = ('httpd.crt','httpd.key')
+#     app.run(host='0.0.0.0', debug=True, ssl_context=context)
 
-if __name__=="__main__":
-    manager.run()
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)

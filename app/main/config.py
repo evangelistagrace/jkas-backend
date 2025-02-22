@@ -18,10 +18,20 @@ MYSQL_DATABASE = os.environ.get('MYSQL_DATABASE')
 # engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 
 # SQLITE_DEV = 'mssql+pyodbc://'+SQL_UID+':'+SQL_PASSWORD+'@'+SQL_SERVER+':'+SQL_PORT+'/'+SQL_DATABASE+'?driver=SQL+Server'
+# SQLITE_DEV = 'mssql+pymssql://'+SQL_UID+':'+SQL_PASSWORD+'@'+SQL_SERVER+':'+SQL_PORT+'/'+SQL_DATABASE+'?charset=utf8'
+# ODBC Driver 17 for SQL Server
+params = urllib.parse.quote_plus(
+    "DRIVER={ODBC Driver 17 for SQL Server};"
+    "SERVER=" + SQL_SERVER + ";"
+    "DATABASE=" + SQL_DATABASE + ";"
+    "UID=" + SQL_UID + ";"
+    "PWD=" + SQL_PASSWORD + ";"
+    "Connection Timeout=30;"
+)
 
-SQLITE_DEV = 'mssql+pymssql://'+SQL_UID+':'+SQL_PASSWORD+'@'+SQL_SERVER+':'+SQL_PORT+'/'+SQL_DATABASE+'?charset=utf8'
-SQLITE_PROD = 'mssql+pymssql://'+SQL_UID+':'+SQL_PASSWORD+'@'+SQL_SERVER+':'+SQL_PORT+'/'+SQL_DATABASE+'?charset=utf8'
-SQLITE_TEST = 'mssql+pymssql://'+SQL_UID+':'+SQL_PASSWORD+'@'+SQL_SERVER+':'+SQL_PORT+'/'+SQL_DATABASE+'?charset=utf8'
+SQLITE_DEV = "mssql+pyodbc:///?odbc_connect=%s" % params
+SQLITE_PROD = "mssql+pyodbc:///?odbc_connect=%s" % params
+SQLITE_TEST = "mssql+pyodbc:///?odbc_connect=%s" % params
 
 # SQLITE_DEV = 'mysql://root@'+MYSQL_HOST+'/'+MYSQL_DATABASE
 # SQLITE_TEST = 'mysql://root@'+MYSQL_HOST+'/'+MYSQL_DATABASE
