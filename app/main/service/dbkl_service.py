@@ -543,7 +543,7 @@ def getJumlahPermis():
 """ ===============================<<Fetch jumlah permis ends >>=============================== """ 
 """ ===============================<<Fetch jumlah pembersihan awam starts >>=============================== """ 
 def getJumlahPembersihanAwam():
-    dummy_value = 118018
+    dummy_value = 11018
     return jsonify(dummy_value)
 """ ===============================<<Fetch jumlah pembersihan awam ends >>=============================== """ 
 """ ===============================<<Fetch jumlah kutipan sampah starts >>=============================== """ 
