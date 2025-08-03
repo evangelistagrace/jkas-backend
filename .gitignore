@@ -76,3 +76,5 @@ coverage.xml
 docs/_build/
 *.log.*
 setting.py
+
+assets
