@@ -45,7 +45,7 @@ def getAnnouncement(language):
     try:
         filter_after = date.today() - timedelta(days = 90)
         public_announcement_list = []
-        for announce in PublicAnnouncement.query.filter(PublicAnnouncement.date >= filter_after, PublicAnnouncement.language == language, PublicAnnouncement.active == 1).order_by(desc(PublicAnnouncement.date)).limit(3):
+        for announce in PublicAnnouncement.query.filter(PublicAnnouncement.language == language, PublicAnnouncement.active == 1).order_by(desc(PublicAnnouncement.date)).limit(3):
             public_announcement_list.append({
                 'announcement_heading': announce.announcement_heading,
                 'announcement_id': announce.announcement_id,
