@@ -27,6 +27,8 @@ params = urllib.parse.quote_plus(
     "UID=" + SQL_UID + ";"
     "PWD=" + SQL_PASSWORD + ";"
     "Connection Timeout=30;"
+    "Command Timeout=60;"
+    "Mars_Connection=yes;"
 )
 
 SQLITE_DEV = "mssql+pyodbc:///?odbc_connect=%s" % params
