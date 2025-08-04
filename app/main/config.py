@@ -31,13 +31,13 @@ params = urllib.parse.quote_plus(
     "Mars_Connection=yes;"
 )
 
-# SQLITE_DEV = "mssql+pyodbc:///?odbc_connect=%s" % params
-# SQLITE_PROD = "mssql+pyodbc:///?odbc_connect=%s" % params
-# SQLITE_TEST = "mssql+pyodbc:///?odbc_connect=%s" % params
+SQLITE_DEV = "mssql+pyodbc:///?odbc_connect=%s" % params
+SQLITE_PROD = "mssql+pyodbc:///?odbc_connect=%s" % params
+SQLITE_TEST = "mssql+pyodbc:///?odbc_connect=%s" % params
 # Replace the pyodbc params block with pymssql connection strings
-SQLITE_DEV = f"mssql+pymssql://{SQL_UID}:{SQL_PASSWORD}@{SQL_SERVER}:{SQL_PORT}/{SQL_DATABASE}"
-SQLITE_PROD = f"mssql+pymssql://{SQL_UID}:{SQL_PASSWORD}@{SQL_SERVER}:{SQL_PORT}/{SQL_DATABASE}"
-SQLITE_TEST = f"mssql+pymssql://{SQL_UID}:{SQL_PASSWORD}@{SQL_SERVER}:{SQL_PORT}/{SQL_DATABASE}"
+# SQLITE_DEV = f"mssql+pymssql://{SQL_UID}:{SQL_PASSWORD}@{SQL_SERVER}:{SQL_PORT}/{SQL_DATABASE}"
+# SQLITE_PROD = f"mssql+pymssql://{SQL_UID}:{SQL_PASSWORD}@{SQL_SERVER}:{SQL_PORT}/{SQL_DATABASE}"
+# SQLITE_TEST = f"mssql+pymssql://{SQL_UID}:{SQL_PASSWORD}@{SQL_SERVER}:{SQL_PORT}/{SQL_DATABASE}"
 
 # SQLITE_DEV = 'mysql://root@'+MYSQL_HOST+'/'+MYSQL_DATABASE
 # SQLITE_TEST = 'mysql://root@'+MYSQL_HOST+'/'+MYSQL_DATABASE
