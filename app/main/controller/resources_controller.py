@@ -43,6 +43,19 @@ class GetPDF(Resource):
         """ Search for PDF """
         pdf_result = getPDF(filename)
         return pdf_result
+
+
+@resources_ns.route("/free/docs/<filename>", endpoint="get_docs")
+class GetDocs(Resource):
+    """  Handles HTTP request to URL: /public/getDocs/ """
+    @resources_ns.response(int(HTTPStatus.OK), "Docs Fetched")
+    @resources_ns.response(int(HTTPStatus.NOT_FOUND), "Docs not found ! Please try again.")
+    @resources_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), "Internal server error.")
+    @resources_ns.produces(["application/pdf"])
+    def get(self, filename):
+        """ Search for PDF """
+        pdf_result = getPDF(filename)
+        return pdf_result
     
 @resources_ns.route("/free/images/<filename>", endpoint="get_image")
 class GetImage(Resource):
