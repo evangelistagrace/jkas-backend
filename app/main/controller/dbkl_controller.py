@@ -20,10 +20,10 @@ from app.main.service.dbkl_service import (
     deleteInventoriPengguna, fetchPublicApplicationDetails, getJobPaymentClaim, getJobPaymentClaimByInbois, updateJobPaymentClaimByInbois, deleteJobPaymentClaim, 
     addComplaintInvestigation, add2ndComplaintInvestigation, add3rdComplaintInvestigation, getComplaintInvestigation, updateComplaintInvestigation, getLogPengguna, 
     getMTBCompoundInformation, getMTBCompoundInfoByMTB, addMTBCompoundForm, getMTBCompoundList, getCompoundForm, getOmpSubArea, getOmpBaru, getSingleOmpBaru, updateOmpBaru, deleteOmpBaru, getFilteredLokasi, getOmpLama, getOmpLamaSubArea,
-    getPublicApplicationList, deletePublicApplicationList, undeletePublicApplicationList, addTextInPublicApplicationList, getSapuanCucianCoordinates,
+    getPublicApplicationList, getPublicApplicationList2, deletePublicApplicationList, undeletePublicApplicationList, addTextInPublicApplicationList, getSapuanCucianCoordinates,
     getMTKList, getMTBOfficersList, listPegawai, getMTBOfficersTarikh, listComplaintDate, getMTBCompoundsTarikh, getMTBOfficerInfo, getDailyMTBInquiryInforByMTK, getDailyMTBInquiryInforByMTB, sendNotice,
     updateDetailedMeeting, updateEMeeting, getInventoriPenggunaById, getInventoriPengguna, deleteInventoriPengguna, updateInventoriPengguna, updateApplicationList,
-    updatePublicApplicationDetails, updateSiteVisitApplicationList, deletelistOfsitevisitInformation, undeletelistOfsitevisitInformation, deleteSitevisitPDF, updateStatusSemakanDokumen, 
+    updatePublicApplicationDetails, updateSiteVisitApplicationList, updateSiteVisitApplicationList2, deletelistOfsitevisitInformation, undeletelistOfsitevisitInformation, deleteSitevisitPDF, updateStatusSemakanDokumen, 
     grafJumlahKutipan, grafJumlahPembersihanAwam, createOmpBaru, getIdPegawai, getLokasi, getLapisanFitur, getKategori, grafPerkhidmatanPusatTong, grafAnalisisDanStatistik, grafPrestasiBulanan,getBorangZon, getBorangParlimen,
     getGoogleAnalyticsReport, dailyViewReport, getMonthlyPerformance, getNamaMTK, fetchMapCoordinates, adminUserAdd, compoundAnalysis, getCompoundCount,
     getParlimen, getNamaTaman, getNamaJalan, getNamaKawasan, getMapLapisanFitur, getPetaKawasan, getJadualKutipan, get2ndPetaKawasan, getJadualPembersihan, randomSearch, getMTB, getMTBOfficer, get_mtk_list
@@ -384,6 +384,16 @@ class GetPublicApplicationList(Resource):
     def get(self):
         return getPublicApplicationList()
 
+@dbkl_ns.route("/getPublicApplicationList2", endpoint="get_public_application_list_2")
+class GetPublicApplicationList2(Resource):
+    """Handles HTTP requests to URL: /dbkl/getPublicApplicationList2."""
+    
+    @dbkl_ns.doc(security="Bearer")
+    @dbkl_ns.response(int(HTTPStatus.OK), "Application list fetched successfully")
+    @dbkl_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+    def get(self):
+        return getPublicApplicationList2()
+
 
 @dbkl_ns.route("/updateApplicationList/<no_siri_permohonan>", endpoint="update_dbkl_application_list")
 class UpdateApplicationList(Resource):
@@ -477,6 +487,19 @@ class UpdateSiteVisitApplicationList(Resource):
 
         request_data = updateSiteVisit_reqparser.parse_args()
         return updateSiteVisitApplicationList(site_id,request_data)
+    
+@dbkl_ns.route("/updateSiteVisitApplicationList2/<int:site_id>", endpoint="update_sitevisit_application_list2")
+class UpdateSiteVisitApplicationList(Resource):
+    """Handles HTTP requests to URL: /dbkl/updateSiteVisitApplicationList/<site_id>."""
+    
+    @dbkl_ns.doc(security="Bearer")
+    @dbkl_ns.expect(updateSiteVisit_reqparser)
+    @dbkl_ns.response(int(HTTPStatus.CREATED), "Site Visit Info Updated.")
+    @dbkl_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+    def put(self,site_id):
+
+        request_data = updateSiteVisit_reqparser.parse_args()
+        return updateSiteVisitApplicationList2(site_id,request_data)
 
 @dbkl_ns.route("/deletelistOfsitevisitInformation", endpoint="delete_list_of_sitevisitInformation")
 class DeletelistOfsitevisitInformation(Resource):

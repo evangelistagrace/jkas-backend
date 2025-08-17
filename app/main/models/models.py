@@ -187,6 +187,8 @@ class PublicApplicationList(db.Model):
     inserted_by = db.Column(db.String(30), nullable=True)
     updated_by = db.Column(db.String(30), nullable=True)
     active = db.Column(db.Boolean, default=1)
+    status_keputusan_permohonan = db.Column(db.String(50))
+    tarikh_keputusan_permohonan = db.Column(db.Date)
        
 class PublicApplicationDetails(db.Model):
     __tablename__="application_details"
@@ -259,7 +261,10 @@ class PublicSiteVisitInfo(db.Model):
     inserted_by = db.Column(db.String(30), nullable=True)
     updated_by = db.Column(db.String(30), nullable=True)
     active = db.Column(db.Boolean, default=1)
-     
+    tarikh_datetime=db.Column(db.DateTime)  
+    tetapan_lawatan_tapak_filename=db.Column(db.String(200))
+
+
     @classmethod
     def find_by_app_srl_no(cls, no_siri_permohonan):
         return cls.query.filter_by(no_siri_permohonan=no_siri_permohonan).first()

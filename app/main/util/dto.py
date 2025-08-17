@@ -873,6 +873,12 @@ updateSiteVisit_reqparser.add_argument(
 updateSiteVisit_reqparser.add_argument(
    name="maklum_balas_ketidakpatuhan", type=str, location="json", required=False, nullable=True 
 )
+updateSiteVisit_reqparser.add_argument('tarikh_datetime', type=str, required=False, help='Date and time for site visit')
+
+updateSiteVisit_reqparser.add_argument(
+   name="tetapan_lawatan_tapak_filename", type=str, location="json", required=False, nullable=True 
+)
+
 deleteSitevisitInformation_reqparser.add_argument(
     name="site_id_list", type=str, location="json", required=False, nullable=True
 )

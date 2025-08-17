@@ -1288,6 +1288,50 @@ def getPublicApplicationList():
 
 
 """ ===============================<< Get Application List Ends >>=============================== """
+""" ===============================<< Get Application List 2 Starts >>=============================== """  
+@token_required
+def getPublicApplicationList2():
+    try:
+        application_list_obj = PublicApplicationList.query.order_by(desc(PublicApplicationList.inserted_date)).all()
+        application_list_res = []
+        for app in application_list_obj:
+            site_visit_info_arr = db.session.query(PublicSiteVisitInfo).filter_by(no_siri_permohonan=app.no_siri_permohonan).all()
+            site_visit_info_obj = {}
+            if site_visit_info_arr != []:
+                for site_info in site_visit_info_arr:
+                    site_visit_info_obj['site_id'] = site_info.site_id
+                    site_visit_info_obj['tarikh'] = site_info.tarikh
+                    site_visit_info_obj['tarikh_datetime'] = site_info.tarikh_datetime
+                    site_visit_info_obj['tarikh_lawatan_tapak'] = site_info.tarikh_lawatan_tapak
+                    site_visit_info_obj['keputusan_lawatan_tapak'] = site_info.keputusan_lawatan_tapak
+                    site_visit_info_obj['maklum_balas_ketidakpatuhan'] = site_info.maklum_balas_ketidakpatuhan
+                    site_visit_info_obj['tetapan_lawatan_tapak_filename'] = site_info.tetapan_lawatan_tapak_filename
+
+            application_list_res.append({
+                "application_id": app.application_id,
+                "no_siri_permohonan": app.no_siri_permohonan,
+                "tarikh_permohonan" : app.tarikh_permohonan,
+                # "dokumen_senarai"   : app.dokumen_senarai,
+                "status_semakan_dokumen": app.status_semakan_dokumen, 
+                "site_visit_info": site_visit_info_obj, 
+                # "surat_penyerahan_kawasan" : app.surat_penyerahan_kawasan,
+                "status_keputusan_permohonan": app.status_keputusan_permohonan,
+                "tarikh_keputusan_permohonan": app.tarikh_keputusan_permohonan,
+                "catatan" : app.text,
+                "active" : app.active,
+            })
+        logger.info("Application list fetched")            
+        return jsonify(application_list_res)
+    except:
+        logger.exception("Application list not fetched")
+        response_object = {
+            'status':'fail',
+            'message':'Application list not fetched.'
+        }
+        return response_object, 409
+
+
+""" ===============================<< Get Application List 2 Ends >>=============================== """
 """ ===============================<< Update Application List Starts >>=============================== """  
 @token_required
 def updateApplicationList(no_siri_permohonan, data):
@@ -1832,6 +1876,72 @@ def updateSiteVisitApplicationList(site_id,data):
         return response_object, 404    
 
 """ ===============================<< update site visit application list Ends >>=============================== """
+""" ===============================<< update site visit application list 2 starts >>=============================== """
+@token_required
+def updateSiteVisitApplicationList2(site_id,data):
+    tarikh_datetime=data.tarikh_datetime
+    # lawatan_tapak=data.lawatan_tapak
+    # tarikh_lawatan_tapak=data.tarikh_lawatan_tapak
+    # keputusan_lawatan_tapak=data.keputusan_lawatan_tapak
+    # makalumat_ketidakpatuhan=data.makalumat_ketidakpatuhan
+    # maklum_balas_ketidakpatuhan=data.maklum_balas_ketidakpatuhan
+    user = get_logged_in_user()
+    id_card_no = user.no_kad_pengenalan
+    today = date.today()
+    now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+    user_type = user.user_type
+    role = user.role
+
+    logger.info(f"Updating site visit information for site_id: {site_id}")
+
+    try:
+        exists = db.session.query(PublicSiteVisitInfo).filter_by(site_id=site_id, active=1)
+    except:
+        logger.exception('Site Visit Information could not be found')
+        response_object = {
+                'status': 'fail',
+                'message': 'Site Visit Information could not be found',
+            }
+        return response_object, 404
+    if exists:
+        try:
+            sitevisit_info_obj = PublicSiteVisitInfo.query.filter_by(site_id=site_id, active=1).first()
+            sitevisit_info_obj.tarikh_datetime = tarikh_datetime
+            # sitevisit_info_obj.lawatan_tapak = lawatan_tapak
+            # sitevisit_info_obj.tarikh_lawatan_tapak = tarikh_lawatan_tapak
+            # sitevisit_info_obj.keputusan_lawatan_tapak = keputusan_lawatan_tapak
+            # # sitevisit_info_obj.makalumat_ketidakpatuhan = makalumat_ketidakpatuhan
+            # sitevisit_info_obj.maklum_balas_ketidakpatuhan = maklum_balas_ketidakpatuhan
+            sitevisit_info_obj.updated_date = today
+            sitevisit_info_obj.updated_by = id_card_no
+            db.session.commit()
+            
+            statement = f"Item maklumat lawatan laman web : {site_id} berjaya dikemas kini."
+            log_info = LogPengguna(id_pengguna=id_card_no, tarikh=now, aktiviti=statement, user_type=user_type, role=role)
+            db.session.add(log_info)
+            db.session.commit()
+
+            logger.info(f"Site visit information item : {site_id} updated successfully")
+            response_object = {
+                'status':'success',
+                'message': f'site_visit_updated'
+            }
+            return response_object, 201
+        except:
+            logger.exception("Site visit information Could not be updated")
+            response_object = {
+                'status':'fail',
+                'message':'site_visit_not_updated'
+            }
+            return response_object, 400
+    else:
+        response_object = {
+            'status': 'fail',
+            'message': 'site_visit_not_updated',
+        }
+        return response_object, 404    
+
+""" ===============================<< update site visit application list 2 Ends >>=============================== """
 """ ===============================<< Delete list of site visit information starts >>=============================== """
 
 @token_required

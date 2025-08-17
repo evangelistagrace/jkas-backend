@@ -1840,7 +1840,7 @@ def mapKawasanPerkhidmatan(data):
 """ ===============================<< Upload File Starts >>===============================  """
 
 PHOTO_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-DOC_EXTENSIONS = set(['pdf'])
+DOC_EXTENSIONS = set(['pdf', 'docx', 'pptx', 'xls', 'xlsx'])
 def allowed_photo(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in PHOTO_EXTENSIONS 
 def allowed_doc(filename):
