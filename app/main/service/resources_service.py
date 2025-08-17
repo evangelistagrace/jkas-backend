@@ -57,7 +57,7 @@ def readImage(imagename):
 def getPDF(pdfname):
     try:
         logger.info("pdf found")
-        response = send_file(os.environ.get('PUBLIC_DOC_FOLDER')+pdfname)
+        response = send_file(os.path.join(os.environ.get('PUBLIC_DOC_FOLDER'), pdfname))
         response.headers.set("Content-Type", "application/pdf")
         return response
     except:
@@ -74,7 +74,7 @@ def getPDF(pdfname):
 def getImage(imagename):
     try:
         logger.info("image found")
-        response = send_file(os.environ.get('PUBLIC_PHOTO_FOLDER')+imagename)
+        response = send_file(os.path.join(os.environ.get('PUBLIC_PHOTO_FOLDER'), imagename))
         response.headers.set("Content-Type", "image/png")
         return response
     except:

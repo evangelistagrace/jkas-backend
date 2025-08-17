@@ -1857,14 +1857,20 @@ def uploadFreeFile(files):
     if files and allowed_photo(files.filename):
         logger.info("Uploading Image")
         try:
-            
             filename = secure_filename(files.filename)
             filename = re.sub('[^a-zA-Z0-9.]', '', filename)
-            files.save(os.path.join(os.environ.get('PUBLIC_PHOTO_FOLDER'), filename))
-            logger.info("Image Upload Successfull")
+            
+            # Ensure the directory exists
+            upload_dir = os.environ.get('PUBLIC_PHOTO_FOLDER')
+            os.makedirs(upload_dir, exist_ok=True)
+            
+            file_path = os.path.join(upload_dir, filename)
+            files.save(file_path)
+            logger.info(f"Image Upload Successful: {file_path}")
             response_object = { 
                 'status': 'success',
                 'message': 'Photo uploaded successfully',
+                'filename': filename
             }
             return response_object, 201         
         except:
