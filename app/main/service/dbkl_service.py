@@ -1879,7 +1879,8 @@ def updateSiteVisitApplicationList(site_id,data):
 """ ===============================<< update site visit application list 2 starts >>=============================== """
 @token_required
 def updateSiteVisitApplicationList2(site_id,data):
-    tarikh_datetime=data.tarikh_datetime
+    if data.tarikh_datetime:
+        tarikh_datetime=data.tarikh_datetime
     # lawatan_tapak=data.lawatan_tapak
     # tarikh_lawatan_tapak=data.tarikh_lawatan_tapak
     # keputusan_lawatan_tapak=data.keputusan_lawatan_tapak
@@ -1891,6 +1892,8 @@ def updateSiteVisitApplicationList2(site_id,data):
     now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
     user_type = user.user_type
     role = user.role
+    if data.tetapan_lawatan_tapak_filename:
+        tetapan_lawatan_tapak_filename = re.sub('[^a-zA-Z0-9.]', '', data.tetapan_lawatan_tapak_filename)
 
     logger.info(f"Updating site visit information for site_id: {site_id}")
 
@@ -1906,7 +1909,8 @@ def updateSiteVisitApplicationList2(site_id,data):
     if exists:
         try:
             sitevisit_info_obj = PublicSiteVisitInfo.query.filter_by(site_id=site_id, active=1).first()
-            sitevisit_info_obj.tarikh_datetime = tarikh_datetime
+            if data.tarikh_datetime:
+                sitevisit_info_obj.tarikh_datetime = tarikh_datetime
             # sitevisit_info_obj.lawatan_tapak = lawatan_tapak
             # sitevisit_info_obj.tarikh_lawatan_tapak = tarikh_lawatan_tapak
             # sitevisit_info_obj.keputusan_lawatan_tapak = keputusan_lawatan_tapak
@@ -1914,6 +1918,8 @@ def updateSiteVisitApplicationList2(site_id,data):
             # sitevisit_info_obj.maklum_balas_ketidakpatuhan = maklum_balas_ketidakpatuhan
             sitevisit_info_obj.updated_date = today
             sitevisit_info_obj.updated_by = id_card_no
+            if data.tetapan_lawatan_tapak_filename: 
+                sitevisit_info_obj.tetapan_lawatan_tapak_filename = tetapan_lawatan_tapak_filename
             db.session.commit()
             
             statement = f"Item maklumat lawatan laman web : {site_id} berjaya dikemas kini."
