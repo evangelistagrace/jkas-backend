@@ -1310,7 +1310,6 @@ def getPublicApplicationList2():
                     site_visit_info_obj['status_maklumbalas_ketidakpatuhan'] = site_info.status_maklumbalas_ketidakpatuhan
                     site_visit_info_obj['maklumbalas_ketidakpatuhan_filename'] = site_info.maklumbalas_ketidakpatuhan_filename
 
-
             application_list_res.append({
                 "application_id": app.application_id,
                 "no_siri_permohonan": app.no_siri_permohonan,
@@ -1321,6 +1320,7 @@ def getPublicApplicationList2():
                 # "surat_penyerahan_kawasan" : app.surat_penyerahan_kawasan,
                 "status_keputusan_permohonan": app.status_keputusan_permohonan,
                 "tarikh_keputusan_permohonan": app.tarikh_keputusan_permohonan,
+                "filename_keputusan_permohonan": app.filename_keputusan_permohonan,
                 "catatan" : app.text,
                 "active" : app.active,
             })
