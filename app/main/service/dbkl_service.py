@@ -1303,10 +1303,13 @@ def getPublicApplicationList2():
                     site_visit_info_obj['tarikh'] = site_info.tarikh
                     site_visit_info_obj['tarikh_datetime'] = site_info.tarikh_datetime
                     site_visit_info_obj['tarikh_lawatan_tapak'] = site_info.tarikh_lawatan_tapak
-                    site_visit_info_obj['keputusan_lawatan_tapak'] = site_info.keputusan_lawatan_tapak,
-                    site_visit_info_obj['keputusan_lawatan_tapak_filename'] = site_info.keputusan_lawatan_tapak_filename,
+                    site_visit_info_obj['keputusan_lawatan_tapak'] = site_info.keputusan_lawatan_tapak
+                    site_visit_info_obj['keputusan_lawatan_tapak_filename'] = site_info.keputusan_lawatan_tapak_filename
                     site_visit_info_obj['maklum_balas_ketidakpatuhan'] = site_info.maklum_balas_ketidakpatuhan
                     site_visit_info_obj['tetapan_lawatan_tapak_filename'] = site_info.tetapan_lawatan_tapak_filename
+                    site_visit_info_obj['status_maklumbalas_ketidakpatuhan'] = site_info.status_maklumbalas_ketidakpatuhan
+                    site_visit_info_obj['maklumbalas_ketidakpatuhan_filename'] = site_info.maklumbalas_ketidakpatuhan_filename
+
 
             application_list_res.append({
                 "application_id": app.application_id,
@@ -1899,6 +1902,10 @@ def updateSiteVisitApplicationList2(site_id,data):
         keputusan_lawatan_tapak = data.keputusan_lawatan_tapak
     if data.keputusan_lawatan_tapak_filename:
         keputusan_lawatan_tapak_filename = re.sub('[^a-zA-Z0-9.]', '', data.keputusan_lawatan_tapak_filename)
+    if data.status_maklumbalas_ketidakpatuhan:
+        status_maklumbalas_ketidakpatuhan = data.status_maklumbalas_ketidakpatuhan
+    if data.maklumbalas_ketidakpatuhan_filename:
+        maklumbalas_ketidakpatuhan_filename = re.sub('[^a-zA-Z0-9.]', '', data.maklumbalas_ketidakpatuhan_filename)
 
     logger.info(f"Updating site visit information for site_id: {site_id}")
     logger.info(f"Data received: {data}")
@@ -1930,6 +1937,10 @@ def updateSiteVisitApplicationList2(site_id,data):
                 sitevisit_info_obj.keputusan_lawatan_tapak = keputusan_lawatan_tapak
             if data.keputusan_lawatan_tapak_filename:
                 sitevisit_info_obj.keputusan_lawatan_tapak_filename = keputusan_lawatan_tapak_filename
+            if data.status_maklumbalas_ketidakpatuhan:
+                sitevisit_info_obj.status_maklumbalas_ketidakpatuhan = status_maklumbalas_ketidakpatuhan
+            if data.maklumbalas_ketidakpatuhan_filename:
+                sitevisit_info_obj.maklumbalas_ketidakpatuhan_filename = maklumbalas_ketidakpatuhan_filename
             db.session.commit()
             
             statement = f"Item maklumat lawatan laman web : {site_id} berjaya dikemas kini."
