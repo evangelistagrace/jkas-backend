@@ -879,6 +879,18 @@ updateSiteVisit_reqparser.add_argument(
    name="tetapan_lawatan_tapak_filename", type=str, location="json", required=False, nullable=True 
 )
 
+updateSiteVisit_reqparser.add_argument(
+   name="keputusan_lawatan_tapak_filename", type=str, location="json", required=False, nullable=True 
+)
+
+updateSiteVisit_reqparser.add_argument(
+   name="status_maklumbalas_ketidakpatuhan", type=str, location="json", required=False, nullable=True 
+)
+
+updateSiteVisit_reqparser.add_argument(
+   name="maklumbalas_ketidakpatuhan_filename", type=str, location="json", required=False, nullable=True 
+)
+
 deleteSitevisitInformation_reqparser.add_argument(
     name="site_id_list", type=str, location="json", required=False, nullable=True
 )

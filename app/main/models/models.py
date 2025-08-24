@@ -263,6 +263,9 @@ class PublicSiteVisitInfo(db.Model):
     active = db.Column(db.Boolean, default=1)
     tarikh_datetime=db.Column(db.DateTime)  
     tetapan_lawatan_tapak_filename=db.Column(db.String(200))
+    keputusan_lawatan_tapak_filename=db.Column(db.String(200))
+    status_maklumbalas_ketidakpatuhan=db.Column(db.String(50))
+    maklumbalas_ketidakpatuhan_filename=db.Column(db.String(200))
 
 
     @classmethod
