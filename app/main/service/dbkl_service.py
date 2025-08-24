@@ -1391,6 +1391,72 @@ def updateApplicationList(no_siri_permohonan, data):
 
 
 """ ===============================<< Update Application List Ends >>=============================== """
+""" ===============================<< Update Application List 2 Starts >>=============================== """  
+@token_required
+def updateApplicationList2(no_siri_permohonan, data):
+    user = get_logged_in_user()
+    id_card_no = user.no_kad_pengenalan
+    today = datetime.now(tz)  # Use datetime with timezone instead of date
+    now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+    user_type = user.user_type 
+    role = user.role
+    
+    # status_semakan_dokumen = data.status_semakan_dokumen
+    # catatan = data.catatan
+
+    if data.status_keputusan_permohonan:
+        status_keputusan_permohonan = data.status_keputusan_permohonan
+    if data.tarikh_keputusan_permohonan:
+        tarikh_keputusan_permohonan = data.tarikh_keputusan_permohonan
+    if data.filename_keputusan_permohonan:
+        filename_keputusan_permohonan = data.filename_keputusan_permohonan
+    if data.catatan:
+        catatan = data.catatan
+
+    if user.user_type == 'SuperAdmin':
+        try:
+            app_list_info = db.session.query(PublicApplicationList).filter_by(no_siri_permohonan=no_siri_permohonan).first()
+
+            if data.status_keputusan_permohonan:
+                app_list_info.status_keputusan_permohonan = status_keputusan_permohonan
+            if data.tarikh_keputusan_permohonan:
+                app_list_info.tarikh_keputusan_permohonan = tarikh_keputusan_permohonan
+            if data.filename_keputusan_permohonan:
+                app_list_info.filename_keputusan_permohonan = filename_keputusan_permohonan
+            if data.catatan:
+                app_list_info.text = catatan
+
+            app_list_info.updated_by = id_card_no
+            app_list_info.updated_date = today
+            db.session.commit()
+            logger.info("Application list updated.")   
+            
+            statement = f"Permohonan : {no_siri_permohonan} berjaya dikemas kini."
+            log_info = LogPengguna(id_pengguna=id_card_no, tarikh=now, aktiviti=statement, user_type=user_type, role=role)
+            db.session.add(log_info)
+            db.session.commit()
+              
+            response_object = {
+                'status':'sucess',
+                'message':'application_list_updated'
+            }       
+            return response_object, 200
+        except:
+            logger.exception("Application list could not be updated")
+            response_object = {
+                'status':'fail',
+                'message':'application_list_not_updated'
+            }
+            return response_object, 409
+    else:
+        response_object = {
+            'status':'fail',
+            'message':'not_authorized'
+        }
+        return response_object, 401
+
+
+""" ===============================<< Update Application List 2 Ends >>=============================== """
 """ ===============================<< Update Application Status Details Starts >>=============================== """
 @token_required
 def updatePublicApplicationDetails(no_siri_permohonan,data):

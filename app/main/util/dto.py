@@ -761,6 +761,27 @@ updateApplicationList_reqparser.add_argument(
    name="catatan", type=str, location="json", required=False, nullable=True,
 )
 
+updateApplicationList_reqparser.add_argument(
+   name="status_semakan_dokumen", type=str, location="json", required=False, nullable=True,
+)
+
+updateApplicationList_reqparser.add_argument(
+   name="status_keputusan_permohonan", type=str, location="json", required=False, nullable=True,
+)
+
+
+updateApplicationList_reqparser.add_argument(
+   name="tarikh_keputusan_permohonan", type=inputs.date_from_iso8601, location="json", required=False, nullable=True,
+)
+
+updateApplicationList_reqparser.add_argument(
+   name="filename_keputusan_permohonan", type=str, location="json", required=False, nullable=True,
+)
+
+updateApplicationList_reqparser.add_argument(
+   name="catatan", type=str, location="json", required=False, nullable=True,
+)
+
 updateApplication_reqparser.add_argument(
    name="kutipan_sampah", type=bool, location="json", required=False, nullable=True 
 )

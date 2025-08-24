@@ -22,7 +22,7 @@ from app.main.service.dbkl_service import (
     getMTBCompoundInformation, getMTBCompoundInfoByMTB, addMTBCompoundForm, getMTBCompoundList, getCompoundForm, getOmpSubArea, getOmpBaru, getSingleOmpBaru, updateOmpBaru, deleteOmpBaru, getFilteredLokasi, getOmpLama, getOmpLamaSubArea,
     getPublicApplicationList, getPublicApplicationList2, deletePublicApplicationList, undeletePublicApplicationList, addTextInPublicApplicationList, getSapuanCucianCoordinates,
     getMTKList, getMTBOfficersList, listPegawai, getMTBOfficersTarikh, listComplaintDate, getMTBCompoundsTarikh, getMTBOfficerInfo, getDailyMTBInquiryInforByMTK, getDailyMTBInquiryInforByMTB, sendNotice,
-    updateDetailedMeeting, updateEMeeting, getInventoriPenggunaById, getInventoriPengguna, deleteInventoriPengguna, updateInventoriPengguna, updateApplicationList,
+    updateDetailedMeeting, updateEMeeting, getInventoriPenggunaById, getInventoriPengguna, deleteInventoriPengguna, updateInventoriPengguna, updateApplicationList, updateApplicationList2,
     updatePublicApplicationDetails, updateSiteVisitApplicationList, updateSiteVisitApplicationList2, deletelistOfsitevisitInformation, undeletelistOfsitevisitInformation, deleteSitevisitPDF, updateStatusSemakanDokumen, 
     grafJumlahKutipan, grafJumlahPembersihanAwam, createOmpBaru, getIdPegawai, getLokasi, getLapisanFitur, getKategori, grafPerkhidmatanPusatTong, grafAnalisisDanStatistik, grafPrestasiBulanan,getBorangZon, getBorangParlimen,
     getGoogleAnalyticsReport, dailyViewReport, getMonthlyPerformance, getNamaMTK, fetchMapCoordinates, adminUserAdd, compoundAnalysis, getCompoundCount,
@@ -406,6 +406,18 @@ class UpdateApplicationList(Resource):
     def put(self,no_siri_permohonan):
         request_data = updateApplicationList_reqparser.parse_args()
         return updateApplicationList(no_siri_permohonan,request_data)
+    
+@dbkl_ns.route("/updateApplicationList2/<no_siri_permohonan>", endpoint="update_dbkl_application_list2")
+class UpdateApplicationList(Resource):
+    """Handles HTTP requests to URL: /dbkl/updateApplicationList2/<no_siri_permohonan>."""
+    
+    @dbkl_ns.doc(security="Bearer")
+    @dbkl_ns.expect(updateApplicationList_reqparser)
+    @dbkl_ns.response(int(HTTPStatus.OK), "Application List Updated.")
+    @dbkl_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+    def put(self,no_siri_permohonan):
+        request_data = updateApplicationList_reqparser.parse_args()
+        return updateApplicationList2(no_siri_permohonan,request_data)
     
 @dbkl_ns.route("/updatePublicApplicationDetails/<no_siri_permohonan>", endpoint="update_public_application_details")
 class UpdatePublicApplicationDetails(Resource):
