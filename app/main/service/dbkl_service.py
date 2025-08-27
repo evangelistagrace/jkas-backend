@@ -1324,6 +1324,12 @@ def getPublicApplicationList2():
                 "emesy_bil_no": app.emesy_bil_no,
                 "emesy_tarikh": app.emesy_tarikh,
                 "emesy_filename": app.emesy_filename,
+                "senarai_kwsn_bil_no": app.senarai_kwsn_bil_no,
+                "senarai_kwsn_tarikh": app.senarai_kwsn_tarikh,
+                "senarai_kwsn_tempat": app.senarai_kwsn_tempat,
+                "senarai_kwsn_filename": app.senarai_kwsn_filename,
+                "senarai_kwsn_minit_msyrt_tarikh": app.senarai_kwsn_minit_msyrt_tarikh,
+                "senarai_kwsn_minit_msyrt_filename": app.senarai_kwsn_minit_msyrt_filename,
                 "catatan" : app.text,
                 "active" : app.active,
             })
@@ -1421,6 +1427,18 @@ def updateApplicationList2(no_siri_permohonan, data):
         emesy_tarikh = data.emesy_tarikh
     if data.emesy_filename:
         emesy_filename = data.emesy_filename
+    if data.senarai_kwsn_bil_no:
+        senarai_kwsn_bil_no = data.senarai_kwsn_bil_no
+    if data.senarai_kwsn_tarikh:
+        senarai_kwsn_tarikh = data.senarai_kwsn_tarikh
+    if data.senarai_kwsn_tempat:
+        senarai_kwsn_tempat = data.senarai_kwsn_tempat
+    if data.senarai_kwsn_filename:
+        senarai_kwsn_filename = data.senarai_kwsn_filename
+    if data.senarai_kwsn_minit_msyrt_tarikh:
+        senarai_kwsn_minit_msyrt_tarikh = data.senarai_kwsn_minit_msyrt_tarikh
+    if data.senarai_kwsn_minit_msyrt_filename:
+        senarai_kwsn_minit_msyrt_filename = data.senarai_kwsn_minit_msyrt_filename
 
     if user.user_type == 'SuperAdmin':
         try:
@@ -1441,6 +1459,19 @@ def updateApplicationList2(no_siri_permohonan, data):
                 app_list_info.emesy_tarikh = emesy_tarikh
             if data.emesy_filename:
                 app_list_info.emesy_filename = emesy_filename
+
+            if data.senarai_kwsn_bil_no:
+                app_list_info.senarai_kwsn_bil_no = senarai_kwsn_bil_no
+            if data.senarai_kwsn_tarikh:
+                app_list_info.senarai_kwsn_tarikh = senarai_kwsn_tarikh
+            if data.senarai_kwsn_tempat:
+                app_list_info.senarai_kwsn_tempat = senarai_kwsn_tempat
+            if data.senarai_kwsn_filename:
+                app_list_info.senarai_kwsn_filename = senarai_kwsn_filename
+            if data.senarai_kwsn_minit_msyrt_tarikh:
+                app_list_info.senarai_kwsn_minit_msyrt_tarikh = senarai_kwsn_minit_msyrt_tarikh
+            if data.senarai_kwsn_minit_msyrt_filename:
+                app_list_info.senarai_kwsn_minit_msyrt_filename = senarai_kwsn_minit_msyrt_filename
 
             app_list_info.updated_by = id_card_no
             app_list_info.updated_date = today

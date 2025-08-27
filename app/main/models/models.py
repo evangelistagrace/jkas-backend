@@ -193,6 +193,13 @@ class PublicApplicationList(db.Model):
     emesy_bil_no = db.Column(db.String(50))
     emesy_tarikh = db.Column(db.Date)
     emesy_filename = db.Column(db.String(200))
+    senarai_kwsn_bil_no = db.Column(db.String(50))
+    senarai_kwsn_tarikh = db.Column(db.Date)
+    senarai_kwsn_tempat = db.Column(db.String(200))
+    senarai_kwsn_filename = db.Column(db.String(200))
+    senarai_kwsn_minit_msyrt_tarikh = db.Column(db.Date)
+    senarai_kwsn_minit_msyrt_filename = db.Column(db.String(200))
+
 
 class PublicApplicationDetails(db.Model):
     __tablename__="application_details"
