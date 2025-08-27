@@ -1021,7 +1021,8 @@ def viewApplicationList2():
                     'surat_penyerahan_kawasan': app.surat_penyerahan_kawasan,
                     "tarikh_keputusan_permohonan": app.tarikh_keputusan_permohonan,
                     "filename_keputusan_permohonan": app.filename_keputusan_permohonan,
-                    "site_visit_info": site_visit_info_obj
+                    "site_visit_info": site_visit_info_obj,
+                    "catatan": app.text
                 })
             logger.info("Application list fetched.")
             return jsonify(application_list)
