@@ -190,6 +190,9 @@ class PublicApplicationList(db.Model):
     status_keputusan_permohonan = db.Column(db.String(50))
     tarikh_keputusan_permohonan = db.Column(db.Date)
     filename_keputusan_permohonan = db.Column(db.String(200))
+    emesy_bil_no = db.Column(db.String(50))
+    emesy_tarikh = db.Column(db.Date)
+    emesy_filename = db.Column(db.String(200))
 
 class PublicApplicationDetails(db.Model):
     __tablename__="application_details"

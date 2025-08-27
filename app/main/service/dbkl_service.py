@@ -1321,6 +1321,9 @@ def getPublicApplicationList2():
                 "status_keputusan_permohonan": app.status_keputusan_permohonan,
                 "tarikh_keputusan_permohonan": app.tarikh_keputusan_permohonan,
                 "filename_keputusan_permohonan": app.filename_keputusan_permohonan,
+                "emesy_bil_no": app.emesy_bil_no,
+                "emesy_tarikh": app.emesy_tarikh,
+                "emesy_filename": app.emesy_filename,
                 "catatan" : app.text,
                 "active" : app.active,
             })
@@ -1412,6 +1415,12 @@ def updateApplicationList2(no_siri_permohonan, data):
         filename_keputusan_permohonan = data.filename_keputusan_permohonan
     if data.catatan:
         catatan = data.catatan
+    if data.emesy_bil_no:
+        emesy_bil_no = data.emesy_bil_no
+    if data.emesy_tarikh:
+        emesy_tarikh = data.emesy_tarikh
+    if data.emesy_filename:
+        emesy_filename = data.emesy_filename
 
     if user.user_type == 'SuperAdmin':
         try:
@@ -1425,6 +1434,13 @@ def updateApplicationList2(no_siri_permohonan, data):
                 app_list_info.filename_keputusan_permohonan = filename_keputusan_permohonan
             if data.catatan:
                 app_list_info.text = catatan
+
+            if data.emesy_bil_no:
+                app_list_info.emesy_bil_no = emesy_bil_no
+            if data.emesy_tarikh:
+                app_list_info.emesy_tarikh = emesy_tarikh
+            if data.emesy_filename:
+                app_list_info.emesy_filename = emesy_filename
 
             app_list_info.updated_by = id_card_no
             app_list_info.updated_date = today

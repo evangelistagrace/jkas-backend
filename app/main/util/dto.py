@@ -782,6 +782,18 @@ updateApplicationList_reqparser.add_argument(
    name="catatan", type=str, location="json", required=False, nullable=True,
 )
 
+updateApplicationList_reqparser.add_argument(
+   name="emesy_bil_no", type=str, location="json", required=False, nullable=True,
+)
+
+updateApplicationList_reqparser.add_argument(
+   name="emesy_tarikh", type=inputs.date_from_iso8601, location="json", required=False, nullable=True,
+)
+
+updateApplicationList_reqparser.add_argument(
+   name="emesy_filename", type=str, location="json", required=False, nullable=True,
+)
+
 updateApplication_reqparser.add_argument(
    name="kutipan_sampah", type=bool, location="json", required=False, nullable=True 
 )
