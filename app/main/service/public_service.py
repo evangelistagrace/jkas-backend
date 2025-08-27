@@ -2058,7 +2058,7 @@ def uploadFreeFile(files):
 def getPublicUSerInfo():
     try:
         user = get_logged_in_user()
-        user_info = dict(id_card_no = user.no_kad_pengenalan,username = user.nama,email= user.alamat_emel, password= user.kata_laluan)
+        user_info = dict(id_card_no = user.no_kad_pengenalan,username = user.nama,email= user.alamat_emel, password= user.kata_laluan, no_tel_mobile = user.no_tel_mobile, no_tel_office = user.no_tel_office, nama_syarikat = user.nama_syarikat)
         logger.info(f"{user.no_kad_pengenalan} : User Info Fetched")
         return user_info
     except:
@@ -2088,6 +2088,32 @@ def updatePublicUserInfo(data):
         user.nama = username
         user.alamat_emel = email
         user.kata_laluan = password
+
+        db.session.commit()
+        logger.info("Public User Info Updated")
+        response_object = dict(status='success',message='Public User Info Updated')
+        return response_object, 200
+    except:
+        logger.exception("Public User Info Could Not Be Updated")
+        response_object = dict(status='fail',message='Public User Info Could Not Be Updated')
+        return response_object, 400
+
+def updatePublicUserInfo2(data):
+    user = get_logged_in_user()
+    if data.no_tel_mobile:
+        no_tel_mobile = data.no_tel_mobile
+    if data.no_tel_office:
+        no_tel_office = data.no_tel_office
+    if data.nama_syarikat:
+        nama_syarikat = data.nama_syarikat
+    
+    try:
+        if data.no_tel_mobile:
+            user.no_tel_mobile = no_tel_mobile
+        if data.no_tel_office:
+            user.no_tel_office = no_tel_office
+        if data.nama_syarikat:
+            user.nama_syarikat = nama_syarikat
 
         db.session.commit()
         logger.info("Public User Info Updated")

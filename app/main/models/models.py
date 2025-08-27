@@ -40,6 +40,9 @@ class MasterUser(db.Model):
     status_tindakan=db.Column(db.String(100), nullable= True)
     reset_password_token = db.Column(db.String(50), nullable= True)
     active = db.Column(db.Boolean, default=1)
+    no_tel_mobile = db.Column(db.String(20), nullable=True)
+    no_tel_office = db.Column(db.String(20), nullable=True)
+    nama_syarikat = db.Column(db.String(100), nullable=True)
     
     
     def __repr__(self):

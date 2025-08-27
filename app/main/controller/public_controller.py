@@ -11,7 +11,7 @@ from app.main.service.public_service import (
     getAnnouncement, createAnnouncement, updateAnnouncement, deleteAnnouncement, getManual, createManual, updateManual, deleteManual, getGalleryPhoto, addGalleryPhoto, deleteGalleryPhoto,
     triggerRegistration, completeRegistration, login, getProfileInformation, changePassword, logout, forgotPassword, resetPassword, viewApplicationList, viewApplicationList2, updateApplicationList, deleteApplicationList,
     submitApplication, viewApplicationDetails, sitevisitInformation, updateSiteVisitInformation, updateSiteVisitInformation2, deleteSiteVisitInformation, addNonComplianceForm, getNonComplianceForm, updateNonComplianceForm, 
-    submitRating, uploadFile, getCoordinates, mapKawasanPerkhidmatan, uploadFreeFile,getPublicUSerInfo, updatePublicUserInfo)
+    submitRating, uploadFile, getCoordinates, mapKawasanPerkhidmatan, uploadFreeFile,getPublicUSerInfo, updatePublicUserInfo, updatePublicUserInfo2)
 
 public_ns = Namespace(name="public", validate=True)
 public_ns.models[masterUser_model.name] = masterUser_model
@@ -520,4 +520,12 @@ class UpdatePublicUserInfo(Resource):
     def post(self):
         request_data = updateUserInfo_reqparser.parse_args()
         return updatePublicUserInfo(request_data)
+
+@public_ns.route("/updatePublicUserInfo2", endpoint="updatePublicUserInfo2")
+class UpdatePublicUserInfo(Resource):
+    @public_ns.doc(security="Bearer")
+    @public_ns.expect(updateUserInfo_reqparser)
+    def post(self):
+        request_data = updateUserInfo_reqparser.parse_args()
+        return updatePublicUserInfo2(request_data)
 

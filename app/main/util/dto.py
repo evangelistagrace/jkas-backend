@@ -445,6 +445,16 @@ updateUserInfo_reqparser.add_argument(
 updateUserInfo_reqparser.add_argument(
     name="password", type=str, location="json", required=True, nullable=False
 )
+updateUserInfo_reqparser.add_argument(
+    name="no_tel_mobile", type=str, location="json", required=False, nullable=True
+)
+updateUserInfo_reqparser.add_argument(
+    name="no_tel_office", type=str, location="json", required=False, nullable=True
+)
+updateUserInfo_reqparser.add_argument(
+    name="nama_syarikat", type=str, location="json", required=False, nullable=True
+)
+
 
 """ ============================= AGENSI reqparser ============================= """
 
