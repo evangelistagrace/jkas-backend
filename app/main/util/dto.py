@@ -307,6 +307,9 @@ updatesiteVisitInformation_reqparser.add_argument(
 updatesiteVisitInformation_reqparser.add_argument(
     name="maklum_balas_ketidakpatuhan", type=str, location="json", required=False, nullable=False
 )
+updatesiteVisitInformation_reqparser.add_argument(
+    name="maklumbalas_ketidakpatuhan_filename", type=str, location="json", required=False, nullable=False
+)
 deleteSiteVisitInformation_reqparser.add_argument(
     name="site_visit_id_list", type=str, location="json", required=False, nullable=False
 )

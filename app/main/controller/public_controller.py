@@ -9,8 +9,8 @@ from app.main.util.dto import (
     submitRating_reqparser, uploadFile_reqparser, getCoordinates_reqparser, mapKawasanPerkhidmatan_reqparser, updateUserInfo_reqparser)
 from app.main.service.public_service import (
     getAnnouncement, createAnnouncement, updateAnnouncement, deleteAnnouncement, getManual, createManual, updateManual, deleteManual, getGalleryPhoto, addGalleryPhoto, deleteGalleryPhoto,
-    triggerRegistration, completeRegistration, login, getProfileInformation, changePassword, logout, forgotPassword, resetPassword, viewApplicationList, updateApplicationList, deleteApplicationList,
-    submitApplication, viewApplicationDetails, sitevisitInformation, updateSiteVisitInformation, deleteSiteVisitInformation, addNonComplianceForm, getNonComplianceForm, updateNonComplianceForm, 
+    triggerRegistration, completeRegistration, login, getProfileInformation, changePassword, logout, forgotPassword, resetPassword, viewApplicationList, viewApplicationList2, updateApplicationList, deleteApplicationList,
+    submitApplication, viewApplicationDetails, sitevisitInformation, updateSiteVisitInformation, updateSiteVisitInformation2, deleteSiteVisitInformation, addNonComplianceForm, getNonComplianceForm, updateNonComplianceForm, 
     submitRating, uploadFile, getCoordinates, mapKawasanPerkhidmatan, uploadFreeFile,getPublicUSerInfo, updatePublicUserInfo)
 
 public_ns = Namespace(name="public", validate=True)
@@ -278,6 +278,19 @@ class ViewApplicationList(Resource):
         """ Reutrn list of Applications."""
         return viewApplicationList()
     
+@public_ns.route("/viewApplicationList2", endpoint="view_application_list2")
+class ViewApplicationList(Resource):
+    """ Handles HTTP requests to URL: /public/listApplication. """
+
+    @public_ns.doc(security="Bearer")
+    @public_ns.response(int(HTTPStatus.OK), "List of Application Fetched Successfully")
+    @public_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+    @public_ns.response(int(HTTPStatus.UNAUTHORIZED), "Token is invalid or expired.")
+    @public_ns.response(int(HTTPStatus.INTERNAL_SERVER_ERROR), "Internal server error.")
+    def get(self):
+        """ Reutrn list of Applications."""
+        return viewApplicationList2()
+    
 @public_ns.route("/updateApplicationList/<no_siri_permohonan>", endpoint="update_public_application_list")
 class UpdateApplicationList(Resource):
     """Handles HTTP requests to URL: /public/updateApplicationList/<no_siri_permohonan>."""
@@ -358,6 +371,20 @@ class UpdateSiteVisitInformation(Resource):
         """ Update Site Visit Information."""
         request_data = updatesiteVisitInformation_reqparser.parse_args()
         return updateSiteVisitInformation(site_id,request_data)
+
+@public_ns.route("/updateSiteVisitInformation2/<int:site_id>", endpoint="update_site_visit_information2")
+class UpdateSiteVisitInformation(Resource):
+    """Handles HTTP requests to URL: /public/updatesiteVisitInformation2/<site_id>."""
+    
+    @public_ns.doc(security="Bearer")
+    @public_ns.expect(updatesiteVisitInformation_reqparser)
+    @public_ns.response(int(HTTPStatus.OK), "Detailed Meeting Form Updated.")
+    @public_ns.response(int(HTTPStatus.BAD_REQUEST), "Validation error.")
+    def put(self,site_id):
+        """ Update Site Visit Information."""
+        request_data = updatesiteVisitInformation_reqparser.parse_args()
+        return updateSiteVisitInformation2(site_id,request_data)
+
 
 @public_ns.route("/deleteSiteVisitInformation", endpoint="delete_site_visit_information")
 class DeleteSiteVisitInformation(Resource):

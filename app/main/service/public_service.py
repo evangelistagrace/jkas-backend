@@ -983,6 +983,83 @@ def viewApplicationList():
             return response_object, 400
 
 """ ===============================<< view Application List ends >>===============================  """
+""" ===============================<< List Application 2 starts >>===============================  """
+
+@token_required
+def viewApplicationList2():
+    user = get_logged_in_user()
+    id_card_no = user.no_kad_pengenalan
+    if user.user_type == 'public':
+        try:
+            application_list = []
+            for app in PublicApplicationList.query.filter_by(no_kad_pengenalan=id_card_no,active=1).order_by(desc(PublicApplicationList.inserted_date)):
+                # status_lawatan_tapak = db.session.query(PublicSiteVisitInfo).filter_by(no_siri_permohonan=app.no_siri_permohonan).first().keputusan_lawatan_tapak
+                site_visit_info_arr = db.session.query(PublicSiteVisitInfo).filter_by(no_siri_permohonan=app.no_siri_permohonan).all()
+                site_visit_info_obj = {}
+                if site_visit_info_arr != []:
+                    for site_info in site_visit_info_arr:
+                        site_visit_info_obj['site_id'] = site_info.site_id
+                        site_visit_info_obj['tarikh'] = site_info.tarikh
+                        site_visit_info_obj['tarikh_datetime'] = site_info.tarikh_datetime
+                        site_visit_info_obj['tarikh_lawatan_tapak'] = site_info.tarikh_lawatan_tapak
+                        site_visit_info_obj['keputusan_lawatan_tapak'] = site_info.keputusan_lawatan_tapak
+                        site_visit_info_obj['keputusan_lawatan_tapak_filename'] = site_info.keputusan_lawatan_tapak_filename
+                        site_visit_info_obj['maklum_balas_ketidakpatuhan'] = site_info.maklum_balas_ketidakpatuhan
+                        site_visit_info_obj['tetapan_lawatan_tapak_filename'] = site_info.tetapan_lawatan_tapak_filename
+                        site_visit_info_obj['status_maklumbalas_ketidakpatuhan'] = site_info.status_maklumbalas_ketidakpatuhan
+                        site_visit_info_obj['maklumbalas_ketidakpatuhan_filename'] = site_info.maklumbalas_ketidakpatuhan_filename
+                application_list.append({
+                    'application_id': app.application_id,
+                    'no_siri_permohonan': app.no_siri_permohonan,
+                    'tarikh_permohonan': date.strftime(app.tarikh_permohonan, "%Y-%m-%d"),
+                    'dokumen_senarai': app.dokumen_senarai,
+                    'status_semakan_dokumen': app.status_semakan_dokumen,
+                    'mesyuarat_permohanan_serahan_kawasan': app.mesyuarat_permohanan_serahan_kawasan,
+                    'maklumat_lawatan_tapak_id': app.maklumat_lawatan_tapak_id,
+                    # 'status_Lawatan_Tapak': status_lawatan_tapak,
+                    "status_keputusan_permohonan": app.status_keputusan_permohonan,
+                    'surat_penyerahan_kawasan': app.surat_penyerahan_kawasan,
+                    "tarikh_keputusan_permohonan": app.tarikh_keputusan_permohonan,
+                    "filename_keputusan_permohonan": app.filename_keputusan_permohonan,
+                    "site_visit_info": site_visit_info_obj
+                })
+            logger.info("Application list fetched.")
+            return jsonify(application_list)
+        except:
+            logger.exception('Application list could not be fetched.')
+            response_object = {
+                'status': 'fail',
+                'message': 'Application list could not be fetched.',
+            }
+            return response_object, 400
+    if user.user_type == 'SuperAdmin':
+        try:
+            application_list = []
+            for app in db.session.query(PublicApplicationList).order_by(desc(PublicApplicationList.inserted_date)):
+                status_lawatan_tapak = db.session.query(PublicSiteVisitInfo).filter_by(no_siri_permohonan=app.no_siri_permohonan).first().keputusan_lawatan_tapak
+                application_list.append({
+                    'application_id': app.application_id,
+                    'no_siri_permohonan': app.no_siri_permohonan,
+                    'tarikh_permohonan': date.strftime(app.tarikh_permohonan,"%Y-%m-%d"),
+                    'dokumen_senarai': app.dokumen_senarai,
+                    'status_semakan_dokumen': app.status_semakan_dokumen,
+                    'mesyuarat_permohanan_serahan_kawasan': app.mesyuarat_permohanan_serahan_kawasan,
+                    'maklumat_lawatan_tapak_id': app.maklumat_lawatan_tapak_id,
+                    'status_Lawatan_Tapak': status_lawatan_tapak,
+                    'surat_penyerahan_kawasan': app.surat_penyerahan_kawasan,
+                    'active': app.active,
+                })
+            logger.info("Application list fetched.")
+            return jsonify(application_list)
+        except:
+            logger.exception('Application list could not be fetched.')
+            response_object = {
+                'status': 'fail',
+                'message': 'Application list could not be fetched.',
+            }
+            return response_object, 400
+
+""" ===============================<< view Application List 2 ends >>===============================  """
 """ ===============================<< update Application List ends >>===============================  """
 @token_required
 def updateApplicationList(no_siri_permohonan, data):
@@ -1452,6 +1529,76 @@ def updateSiteVisitInformation(site_id,data):
         return response_object, 404
    
 """ ===============================<< Update Site Visit Information ends >>===============================  """
+""" ===============================<< Update Site Visit Information 2 starts >>===============================  """
+
+@token_required
+def updateSiteVisitInformation2(site_id,data):
+
+    if data.maklumbalas_ketidakpatuhan_filename:
+        maklumbalas_ketidakpatuhan_filename = re.sub('[^a-zA-Z0-9.]', '', data.maklumbalas_ketidakpatuhan_filename)
+
+    logger.info(f"Updating site visit information for site_id: {site_id}")
+    logger.info(f"Data received: {data}")
+
+    try:
+        site_visit = db.session.query(PublicSiteVisitInfo).filter_by(site_id=site_id, active=1).one()
+    except:
+        logger.exception('Site Visit Info not found with site_id')
+        response_object = {
+                'status': 'fail',
+                'message': 'Site Visit Info not found with site_id',
+            }
+        return response_object, 404
+    if site_visit:
+        try:
+            user = get_logged_in_user()
+            id_card_no = user.no_kad_pengenalan
+            today = date.today()
+            now = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
+            user_type = user.user_type
+            role = user.role
+            site_visit.tarikh = data.tarikh
+            site_visit.lawatan_tapak = data.lawatan_tapak
+            site_visit.keputusan_lawatan_tapak = data.keputusan_lawatan_tapak
+            # maklum_balas_ketidakpatuhan = data.maklum_balas_ketidakpatuhan
+            # makalumat_ketidakpatuhan = data.makalumat_ketidakpatuhan
+            # if maklum_balas_ketidakpatuhan:
+            #     maklum_balas_ketidakpatuhan = re.sub('[^a-zA-Z0-9.]', '', maklum_balas_ketidakpatuhan)
+            # if makalumat_ketidakpatuhan:
+            #     makalumat_ketidakpatuhan = re.sub('[^a-zA-Z0-9.]', '', makalumat_ketidakpatuhan)
+            # site_visit.maklum_balas_ketidakpatuhan = maklum_balas_ketidakpatuhan
+            # site_visit.makalumat_ketidakpatuhan = makalumat_ketidakpatuhan
+            if data.maklumbalas_ketidakpatuhan_filename:
+                site_visit.maklumbalas_ketidakpatuhan_filename = maklumbalas_ketidakpatuhan_filename
+            site_visit.updated_by = id_card_no
+            site_visit.updated_date = today
+            db.session.commit()
+            
+            statement = f"Item maklumat lawatan laman web {site_id} berjaya dikemas kini."
+            log_info = LogPengguna(id_pengguna=id_card_no, tarikh=now, aktiviti=statement, user_type=user_type, role=role)
+            db.session.add(log_info)
+            db.session.commit()
+            logger.info(f"Site visit information item {site_id} updated successfully.")
+            response_object = {
+                'status': 'success',
+                'message': 'site_visit_updated',
+            }
+            return response_object, 201
+        except:
+            logger.exception("Site Visit Info could not be updated")
+            response_object = {
+                'status': 'fail',
+                'message': 'site_visit_not_updated',
+            }
+            return response_object, 404
+    else:
+        response_object = {
+                'status': 'fail',
+                'message': 'site_visit_not_updated',
+            }
+        return response_object, 404
+   
+""" ===============================<< Update Site Visit Information 2 ends >>===============================  """
 """ ===============================<< Delete Site Visit Information starts >>===============================  """
 
 @token_required
