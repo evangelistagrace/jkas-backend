@@ -6,7 +6,7 @@ from app.main.util.dto import (
     masterUser_model, createAnnouncement_reqparser, updateAnnouncement_reqparser, deleteAnnouncement_reqparser, createManual_reqparser, updateManual_reqparser, deleteManual_reqparser, addGalleryPhoto_reqparser, deleteGalleryPhoto_reqparser,
     public_register_reqparser, public_otp_reqparser, public_login_reqparser, changePassword_reqparser, forgot_reqparser, newPassword_reqparser,
     submitApplication_reqparser, updatePublicApplicationList_reqparser, deleteApplication_reqparser, updatesiteVisitInformation_reqparser, deleteSiteVisitInformation_reqparser, addNonComplianceForm_reqparser, updateNonComplianceForm_reqparser, 
-    submitRating_reqparser, uploadFile_reqparser, getCoordinates_reqparser, mapKawasanPerkhidmatan_reqparser, updateUserInfo_reqparser)
+    submitRating_reqparser, uploadFile_reqparser, getCoordinates_reqparser, mapKawasanPerkhidmatan_reqparser, updateUserInfo_reqparser, updateUserInfo_reqparser2)
 from app.main.service.public_service import (
     getAnnouncement, createAnnouncement, updateAnnouncement, deleteAnnouncement, getManual, createManual, updateManual, deleteManual, getGalleryPhoto, addGalleryPhoto, deleteGalleryPhoto,
     triggerRegistration, completeRegistration, login, getProfileInformation, changePassword, logout, forgotPassword, resetPassword, viewApplicationList, viewApplicationList2, updateApplicationList, deleteApplicationList,
@@ -524,8 +524,8 @@ class UpdatePublicUserInfo(Resource):
 @public_ns.route("/updatePublicUserInfo2", endpoint="updatePublicUserInfo2")
 class UpdatePublicUserInfo(Resource):
     @public_ns.doc(security="Bearer")
-    @public_ns.expect(updateUserInfo_reqparser)
+    @public_ns.expect(updateUserInfo_reqparser2)
     def post(self):
-        request_data = updateUserInfo_reqparser.parse_args()
+        request_data = updateUserInfo_reqparser2.parse_args()
         return updatePublicUserInfo2(request_data)
 

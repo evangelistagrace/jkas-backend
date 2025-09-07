@@ -38,6 +38,8 @@ uploadFile_reqparser = RequestParser(bundle_errors=True)
 getCoordinates_reqparser = RequestParser(bundle_errors=True)
 mapKawasanPerkhidmatan_reqparser = RequestParser(bundle_errors=True)
 updateUserInfo_reqparser = RequestParser(bundle_errors=True)
+updateUserInfo_reqparser2 = RequestParser(bundle_errors=True)
+
 
 createFeedback_reqparser = RequestParser(bundle_errors=True)
 deleteFeedbackList_reqparser = RequestParser(bundle_errors=True)
@@ -445,13 +447,13 @@ updateUserInfo_reqparser.add_argument(
 updateUserInfo_reqparser.add_argument(
     name="password", type=str, location="json", required=True, nullable=False
 )
-updateUserInfo_reqparser.add_argument(
+updateUserInfo_reqparser2.add_argument(
     name="no_tel_mobile", type=str, location="json", required=False, nullable=True
 )
-updateUserInfo_reqparser.add_argument(
+updateUserInfo_reqparser2.add_argument(
     name="no_tel_office", type=str, location="json", required=False, nullable=True
 )
-updateUserInfo_reqparser.add_argument(
+updateUserInfo_reqparser2.add_argument(
     name="nama_syarikat", type=str, location="json", required=False, nullable=True
 )
 
